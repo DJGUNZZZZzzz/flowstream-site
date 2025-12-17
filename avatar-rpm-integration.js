@@ -66,6 +66,7 @@ const RPMIntegration = {
         window.addEventListener('message', (event) => {
             const json = this.parseMessage(event);
 
+
             if (json?.source !== 'readyplayerme') {
                 return;
             }
@@ -80,7 +81,11 @@ const RPMIntegration = {
                     break;
 
                 case 'v1.user.set':
-                    console.log('User ID:', json.data.id);
+                    console.log('User set with ID:', json.data.id);
+                    // When user selects existing avatar, fetch it
+                    if (json.data.id) {
+                        this.fetchUserAvatar(json.data.id);
+                    }
                     break;
 
                 case 'v1.frame.ready':
@@ -88,6 +93,19 @@ const RPMIntegration = {
                     break;
             }
         });
+    },
+
+    // Fetch user's selected avatar
+    fetchUserAvatar: function (userId) {
+        console.log('🔍 Fetching avatar for user:', userId);
+        // The avatar URL format for Ready Player Me
+        const avatarUrl = `https://models.readyplayer.me/${userId}.glb`;
+        console.log('📥 Avatar URL:', avatarUrl);
+
+        // Save and display the avatar
+        setTimeout(() => {
+            this.handleAvatarExported(avatarUrl);
+        }, 500); // Small delay to ensure avatar is ready
     },
 
     // Parse postMessage
