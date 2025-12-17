@@ -19,12 +19,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .avatar-preview-3d img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-preview-3d img.loading {
+    opacity: 0.5;
+}
+
+.avatar-preview-3d::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+    pointer-events: none;
 }
 
 /* Futuristic Neon Blue Avatar Button */
