@@ -67,6 +67,10 @@ const RPMIntegration = {
 
     // Listen for avatar creation
     setupMessageListener: function () {
+        // Prevent adding multiple listeners
+        if (this.listenerAdded) return;
+        this.listenerAdded = true;
+
         window.addEventListener('message', (event) => {
             const json = this.parseMessage(event);
 
@@ -74,9 +78,12 @@ const RPMIntegration = {
                 return;
             }
 
+            console.log('Ready Player Me Event:', json.eventName, json);
+
             // Handle different events
             switch (json.eventName) {
                 case 'v1.avatar.exported':
+                    console.log('Avatar exported:', json.data.url);
                     this.handleAvatarExported(json.data.url);
                     break;
 
