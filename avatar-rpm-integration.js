@@ -23,7 +23,9 @@ const RPMIntegration = {
         const params = new URLSearchParams({
             frameApi: 'true',
             bodyType: 'fullbody',
-            clearCache: 'false'
+            clearCache: 'false',
+            quickStart: 'false',
+            language: 'en'
         });
 
         return `${baseUrl}?${params.toString()}`;
