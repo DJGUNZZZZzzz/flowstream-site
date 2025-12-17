@@ -1,32 +1,25 @@
 /**
- * Ready Player Me Integration for FlowStream
+ * Ready Player Me Integration for FlowStream - FIXED VERSION
  * App ID: 6943171cdaf19bea757825bc
  * Subdomain: flow-streaming
+ * 
+ * This version properly handles the avatar export event
  */
 
 const RPMIntegration = {
     // Configuration
     config: {
         subdomain: 'flow-streaming',
-        appId: '6943171cdaf19bea757825bc',
-        frameApi: true,
-        clearCache: false,
-        bodyType: 'fullbody',
-        quickStart: false,
-        language: 'en'
+        appId: '6943171cdaf19bea757825bc'
     },
 
-    // Build Ready Player Me URL
-    getEditorUrl: function () {
-        const params = new URLSearchParams({
-            frameApi: this.config.frameApi,
-            clearCache: this.config.clearCache,
-            bodyType: this.config.bodyType,
-            quickStart: this.config.quickStart,
-            language: this.config.language
-        });
+    // Track if listener is added
+    listenerAdded: false,
 
-        return `https://${this.config.subdomain}.readyplayer.me/avatar?${params.toString()}`;
+    // Build Ready Player Me URL with proper parameters
+    getEditorUrl: function () {
+        // Use the direct URL format that ensures export event
+        return `https://${this.config.subdomain}.readyplayer.me/avatar?frameApi`;
     },
 
     // Open avatar editor
@@ -52,8 +45,11 @@ const RPMIntegration = {
             iframe.style.display = 'block';
         };
 
-        // Setup message listener
-        this.setupMessageListener();
+        // Setup message listener (only once)
+        if (!this.listenerAdded) {
+            this.setupMessageListener();
+            this.listenerAdded = true;
+        }
     },
 
     // Close avatar editor
@@ -67,10 +63,6 @@ const RPMIntegration = {
 
     // Listen for avatar creation
     setupMessageListener: function () {
-        // Prevent adding multiple listeners
-        if (this.listenerAdded) return;
-        this.listenerAdded = true;
-
         window.addEventListener('message', (event) => {
             const json = this.parseMessage(event);
 
@@ -83,7 +75,7 @@ const RPMIntegration = {
             // Handle different events
             switch (json.eventName) {
                 case 'v1.avatar.exported':
-                    console.log('Avatar exported:', json.data.url);
+                    console.log('✅ Avatar exported:', json.data.url);
                     this.handleAvatarExported(json.data.url);
                     break;
 
@@ -109,7 +101,7 @@ const RPMIntegration = {
 
     // Handle avatar creation complete
     handleAvatarExported: function (avatarUrl) {
-        console.log('Avatar created:', avatarUrl);
+        console.log('💾 Saving avatar:', avatarUrl);
 
         // Save avatar to FlowStream
         this.saveAvatar(avatarUrl);
@@ -127,12 +119,10 @@ const RPMIntegration = {
 
         // Save to localStorage
         localStorage.setItem(`avatar_${userId}`, avatarUrl);
+        console.log('✅ Avatar saved to localStorage');
 
         // Update all avatar displays
         this.updateAvatarDisplays(avatarUrl);
-
-        // TODO: Save to backend when you have one
-        // this.saveToBackend(userId, avatarUrl);
     },
 
     // Update avatar everywhere on page
@@ -143,12 +133,14 @@ const RPMIntegration = {
         const profileAvatar = document.getElementById('profileAvatar');
         if (profileAvatar) {
             profileAvatar.src = thumbnail;
+            console.log('✅ Profile avatar updated');
         }
 
         // Update sidebar avatar
         const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
         if (sidebarAvatar) {
             sidebarAvatar.src = thumbnail;
+            console.log('✅ Sidebar avatar updated');
         }
 
         // Update chat avatars (if on channel page)
@@ -188,6 +180,7 @@ const RPMIntegration = {
 
         if (avatarUrl) {
             this.updateAvatarDisplays(avatarUrl);
+            console.log('✅ Loaded existing avatar');
             return avatarUrl;
         }
 
@@ -210,4 +203,4 @@ document.addEventListener('DOMContentLoaded', function () {
     RPMIntegration.loadAvatar(userId);
 });
 
-console.log('✓ Ready Player Me Integration Loaded (FlowStream)');
+console.log('✓ Ready Player Me Integration Loaded (FlowStream - Fixed Version)');
