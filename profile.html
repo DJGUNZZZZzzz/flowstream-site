@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="reset-modal.css">
     <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="avatar-rpm-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
@@ -172,6 +173,24 @@
                         </div>
                     </div>
 
+                    <!-- Ready Player Me Avatar Customization -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: 3D_AVATAR_MATRIX</div>
+                        <div class="avatar-showcase-rpm">
+                            <div class="avatar-preview-3d">
+                                <img id="profileAvatar" src="https://via.placeholder.com/200?text=Create+Avatar"
+                                    alt="Avatar">
+                            </div>
+                            <button class="cyber-btn" onclick="openAvatarEditor()"
+                                style="width: 100%; margin-top: 10px;">
+                                <i class="fa-solid fa-user-astronaut"></i> CUSTOMIZE_3D_AVATAR
+                            </button>
+                            <p class="avatar-info">
+                                Powered by Ready Player Me
+                            </p>
+                        </div>
+                    </div>
+
                     <!-- Bio Module -->
                     <div class="cyber-module">
                         <div class="module-header">:: BIOGRAPHICAL_DATA</div>
@@ -263,6 +282,22 @@
     <script src="integration-fixes.js"></script>
     <script src="credit-system-ui.js"></script>
     <script src="profile-sync.js"></script>
+
+    <!-- Ready Player Me Integration -->
+    <script src="avatar-rpm-integration.js"></script>
+
+    <!-- Avatar Editor Modal Container -->
+    <div id="rpm-container" class="rpm-container">
+        <div class="rpm-modal">
+            <div class="rpm-header">
+                <div class="rpm-title">:: AVATAR_CUSTOMIZATION_MATRIX</div>
+                <button class="rpm-close" onclick="closeAvatarEditor()">CLOSE</button>
+            </div>
+            <div class="rpm-loading" id="rpm-loading">INITIALIZING AVATAR MATRIX...</div>
+            <iframe id="rpm-iframe" class="rpm-iframe" allow="camera *; microphone *" style="display: none;">
+            </iframe>
+        </div>
+    </div>
 </body>
 
 </html>

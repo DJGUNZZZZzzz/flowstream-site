@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Creator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .rpm-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rpm-container.active {
+            display: flex;
+        }
+
+        .rpm-modal {
+            width: 90%;
+            max-width: 1200px;
+            height: 90%;
+            background: #0a0a0a;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .rpm-header {
+            background: linear-gradient(90deg, #0ff, #ff0055);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rpm-title {
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .rpm-close {
+            background: #000;
+            color: #0ff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .rpm-close:hover {
+            background: #0ff;
+            color: #000;
+        }
+
+        .rpm-iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
+        }
+
+        .rpm-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0ff;
+            font-size: 24px;
+            text-align: center;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="rpm-container" class="rpm-container">
+        <div class="rpm-modal">
+            <div class="rpm-header">
+                <div class="rpm-title">:: AVATAR_CUSTOMIZATION_MATRIX</div>
+                <button class="rpm-close" onclick="closeAvatarEditor()">CLOSE</button>
+            </div>
+            <div class="rpm-loading" id="rpm-loading">INITIALIZING AVATAR MATRIX...</div>
+            <iframe id="rpm-iframe" class="rpm-iframe" allow="camera *; microphone *" style="display: none;">
+            </iframe>
+        </div>
+    </div>
+
+    <script src="avatar-rpm-integration.js"></script>
+</body>
+
+</html>
