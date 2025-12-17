@@ -18,8 +18,15 @@ const RPMIntegration = {
 
     // Build Ready Player Me URL with proper parameters
     getEditorUrl: function () {
-        // Use the direct URL format that ensures export event
-        return `https://${this.config.subdomain}.readyplayer.me/avatar?frameApi`;
+        // Full URL with parameters to enable face selection and export
+        const baseUrl = `https://${this.config.subdomain}.readyplayer.me/avatar`;
+        const params = new URLSearchParams({
+            frameApi: 'true',
+            bodyType: 'fullbody',
+            clearCache: 'false'
+        });
+
+        return `${baseUrl}?${params.toString()}`;
     },
 
     // Open avatar editor
@@ -213,6 +220,24 @@ function openAvatarEditor() {
 
 function closeAvatarEditor() {
     RPMIntegration.closeEditor();
+}
+
+function clearAvatar() {
+    if (confirm('Are you sure you want to remove your avatar from FlowStream?\n\nNote: This only removes it from FlowStream. Your avatar will still exist in Ready Player Me.')) {
+        const userId = RPMIntegration.getCurrentUserId();
+        localStorage.removeItem(`avatar_${userId}`);
+
+        // Reset to default image
+        const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23000' width='200' height='200'/%3E%3Cpath fill='%2300ffff' d='M100 50c-16.5 0-30 13.5-30 30s13.5 30 30 30 30-13.5 30-30-13.5-30-30-30zm0 120c-33.1 0-60-26.9-60-60h120c0 33.1-26.9 60-60 60z'/%3E%3Ctext x='100' y='190' text-anchor='middle' fill='%2300ffff' font-family='Orbitron' font-size='12'%3ENo Avatar%3C/text%3E%3C/svg%3E";
+
+        const profileAvatar = document.getElementById('profileAvatar');
+        if (profileAvatar) profileAvatar.src = defaultAvatar;
+
+        const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
+        if (sidebarAvatar) sidebarAvatar.src = defaultAvatar;
+
+        alert('✅ Avatar cleared from FlowStream!');
+    }
 }
 
 // Load avatar on page load
