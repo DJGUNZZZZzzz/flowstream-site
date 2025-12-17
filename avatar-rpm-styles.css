@@ -27,12 +27,78 @@
     object-fit: cover;
 }
 
-.avatar-info {
-    color: #0ff;
-    font-size: 12px;
-    opacity: 0.7;
-    margin: 0;
+/* Futuristic Neon Blue Avatar Button */
+.avatar-customize-btn {
+    width: 100%;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 0 20px rgba(0, 212, 255, 0.5),
+        0 0 40px rgba(0, 212, 255, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
+
+.avatar-customize-btn:hover {
+    background: linear-gradient(135deg, #00ffff 0%, #00ccff 100%);
+    box-shadow:
+        0 0 30px rgba(0, 255, 255, 0.8),
+        0 0 60px rgba(0, 255, 255, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.avatar-customize-btn:active {
+    transform: translateY(0);
+    box-shadow:
+        0 0 15px rgba(0, 212, 255, 0.6),
+        0 0 30px rgba(0, 212, 255, 0.4);
+}
+
+.avatar-customize-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -50%;
+    }
+
+    50% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
+
+.avatar-customize-btn i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
 
 /* Avatar Editor Modal */
 .rpm-container {
