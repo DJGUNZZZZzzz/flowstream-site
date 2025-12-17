@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | Create Account</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+
+    <!-- BACKGROUND EFFECTS -->
+    <div class="auth-bg">
+        <div class="auth-orb auth-orb-1"></div>
+        <div class="auth-orb auth-orb-2"></div>
+        <div class="auth-orb auth-orb-3"></div>
+        <div class="auth-code-bg" id="auth-hacking-bg"></div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="auth-container">
+        
+        <!-- LOGO -->
+        <a href="index.html" class="auth-logo">
+            <span id="logo-text"></span><span class="cursor">|</span>
+        </a>
+
+        <!-- GLASS CARD (Split Layout) -->
+        <div class="auth-card auth-card-wide">
+            
+            <!-- LEFT SIDE: FORM -->
+            <div class="auth-form-section">
+                
+                <div class="auth-header">
+                    <h1><span id="auth-title-text"></span><span class="cursor">|</span></h1>
+                    <p class="auth-subtitle">Initialize your neural link to the network</p>
+                </div>
+
+                <form class="auth-form" id="signup-form">
+                    
+                    <div class="input-group" data-field="username">
+                        <label for="username">USERNAME</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="username" placeholder="Choose your identity..." required>
+                            <span class="field-check"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group" data-field="email">
+                        <label for="email">EMAIL</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="email" placeholder="your@email.com" required>
+                            <span class="field-check"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group" data-field="password">
+                        <label for="password">PASSWORD</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="password" placeholder="Minimum 8 characters..." required>
+                            <span class="field-check"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group" data-field="confirm">
+                        <label for="confirm-password">CONFIRM PASSWORD</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-shield"></i>
+                            <input type="password" id="confirm-password" placeholder="Repeat password..." required>
+                            <span class="field-check"><i class="fa-solid fa-check"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="terms-check">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+
+                    <button type="submit" class="auth-submit-btn" id="submit-btn">
+                        <span class="btn-text">INITIALIZE ACCOUNT</span>
+                        <span class="btn-loading" style="display:none;">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> CREATING NEURAL LINK...
+                        </span>
+                    </button>
+
+                </form>
+
+                <div class="auth-footer">
+                    <p>Already connected? <a href="signin.html">Sign In</a></p>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE: STATUS PANEL (Node Canvas) -->
+            <div class="auth-status-panel" id="status-panel">
+                <canvas id="node-canvas"></canvas>
+                <div class="status-list" id="status-list">
+                    <div class="status-header">SYSTEM STATUS</div>
+                    <div class="status-item" id="status-username"><span class="status-label">IDENTITY MODULE</span><span class="status-value offline">OFFLINE</span></div>
+                    <div class="status-item" id="status-email"><span class="status-label">COMM LINK</span><span class="status-value offline">OFFLINE</span></div>
+                    <div class="status-item" id="status-password"><span class="status-label">ENCRYPTION KEY</span><span class="status-value offline">OFFLINE</span></div>
+                    <div class="status-item" id="status-confirm"><span class="status-label">KEY VERIFICATION</span><span class="status-value offline">OFFLINE</span></div>
+                    <div class="status-divider"></div>
+                    <div class="status-item status-main" id="status-neural"><span class="status-label">NEURAL LINK</span><span class="status-value offline">STANDBY</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="security-badge">
+            <i class="fa-solid fa-shield-halved"></i> 256-BIT ENCRYPTED CONNECTION
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

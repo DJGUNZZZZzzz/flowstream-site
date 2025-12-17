@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | FLOW STREAMING</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .careers-container {
+            max-width: 1000px;
+            margin: 120px auto 50px;
+            padding: 40px;
+        }
+
+        .careers-hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .careers-hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            font-size: 56px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+        }
+
+        .careers-hero .tagline {
+            font-size: 24px;
+            color: #ff0055;
+            margin-bottom: 30px;
+        }
+
+        .careers-hero p {
+            color: #aaa;
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .careers-section {
+            margin-bottom: 60px;
+            padding: 40px;
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid #0ff;
+            border-radius: 10px;
+        }
+
+        .careers-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff0055;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .careers-section p,
+        .careers-section li {
+            color: #ddd;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .careers-section ul {
+            margin-left: 30px;
+        }
+
+        .job-listing {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #0ff;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .job-listing:hover {
+            border-color: #ff0055;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .job-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .job-meta {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .job-meta span {
+            margin-right: 20px;
+        }
+
+        .job-description {
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #0ff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .apply-btn:hover {
+            background: #ff0055;
+            color: #fff;
+        }
+
+        .perks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .perk-box {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid #ff0055;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .perk-icon {
+            font-size: 36px;
+            color: #0ff;
+            margin-bottom: 15px;
+        }
+
+        .perk-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .perk-desc {
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none;">
+                <h1 class="logo"><span id="logo-text"></span><span class="cursor">|</span></h1>
+            </a>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" placeholder="Search streamers, categories and more...">
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">HOME</a>
+            <a href="browse.html" class="nav-item">BROWSE</a>
+            <a href="signin.html" class="nav-item login-btn">SIGN IN</a>
+            <a href="signup.html" class="nav-item signup-btn">SIGN UP</a>
+        </div>
+    </nav>
+
+    <div class="careers-container">
+        <div class="careers-hero">
+            <h1>JOIN THE TEAM</h1>
+            <p class="tagline">BUILD THE FUTURE OF STREAMING</p>
+            <p>We're looking for talented, passionate individuals to help us revolutionize live streaming. If you're
+                excited about cutting-edge technology, Web3, and creating the next generation of digital entertainment,
+                we want to hear from you.</p>
+        </div>
+
+        <div class="careers-section">
+            <h2>WHY WORK AT FLOW STREAMING?</h2>
+            <p>We're a fast-growing startup at the intersection of streaming, gaming, education, and Web3. You'll have
+                the opportunity to:</p>
+            <ul>
+                <li>Work on groundbreaking technology that millions will use</li>
+                <li>Shape the product and company culture from the ground up</li>
+                <li>Collaborate with a talented, passionate team</li>
+                <li>Solve complex technical challenges at scale</li>
+                <li>Make a real impact on the creator economy</li>
+            </ul>
+        </div>
+
+        <div class="careers-section">
+            <h2>PERKS & BENEFITS</h2>
+            <div class="perks-grid">
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="perk-title">Competitive Salary</div>
+                    <div class="perk-desc">Top-tier compensation + equity</div>
+                </div>
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-house-laptop"></i></div>
+                    <div class="perk-title">Remote-First</div>
+                    <div class="perk-desc">Work from anywhere</div>
+                </div>
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="perk-title">Health Insurance</div>
+                    <div class="perk-desc">Medical, dental, vision</div>
+                </div>
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-plane"></i></div>
+                    <div class="perk-title">Unlimited PTO</div>
+                    <div class="perk-desc">Take time when you need it</div>
+                </div>
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                    <div class="perk-title">Latest Tech</div>
+                    <div class="perk-desc">Top-of-the-line equipment</div>
+                </div>
+                <div class="perk-box">
+                    <div class="perk-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="perk-title">Learning Budget</div>
+                    <div class="perk-desc">Courses, conferences, books</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="careers-section">
+            <h2>OPEN POSITIONS</h2>
+            <div class="job-listing">
+                <div class="job-title">Positions Coming Soon</div>
+                <div class="job-description">
+                    <p>We're currently in the early stages of building FLOW STREAMING. As we grow and secure funding,
+                        we'll be opening positions across engineering, design, marketing, and operations.</p>
+                    <p>Check back soon for opportunities to join our team and help build the future of streaming!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="careers-section">
+            <h2>INTERESTED IN JOINING?</h2>
+            <p>Even though we're not actively hiring yet, we'd love to hear from talented individuals who are passionate
+                about streaming, Web3, and building innovative products.</p>
+            <p style="margin-top: 30px;">
+                <a href="mailto:careers@flowstreaming.io?subject=Future Opportunities" class="apply-btn">EXPRESS YOUR
+                    INTEREST</a>
+            </p>
+        </div>
+
+        <div class="careers-section">
+            <h2>OUR HIRING PROCESS</h2>
+            <ul>
+                <li><strong>1. Application Review</strong> - We review your resume and portfolio (1-2 days)</li>
+                <li><strong>2. Initial Call</strong> - 30-minute chat with our team (30 mins)</li>
+                <li><strong>3. Technical Interview</strong> - Coding challenge or design exercise (1-2 hours)</li>
+                <li><strong>4. Team Interviews</strong> - Meet the team you'll work with (2-3 hours)</li>
+                <li><strong>5. Offer</strong> - We move fast! Offers within 1 week of final interview</li>
+            </ul>
+        </div>
+
+        <div class="careers-section">
+            <h2>CONTACT</h2>
+            <p>Questions about careers at FLOW STREAMING?</p>
+            <p style="margin-top: 20px;">
+                <strong>Email:</strong> careers@flowstreaming.io<br>
+                <strong>Follow us:</strong>
+                <a href="#" style="color: #0ff; margin-left: 10px;"><i class="fa-brands fa-twitter"></i> Twitter</a>
+                <a href="#" style="color: #0ff; margin-left: 10px;"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="heartbeat-line">
+            <svg viewBox="0 0 600 50" preserveAspectRatio="none">
+                <path class="heartbeat-path"
+                    d="M0,25 L100,25 L120,25 L130,10 L140,40 L150,15 L160,35 L170,25 L200,25 L600,25" />
+            </svg>
+        </div>
+
+        <div class="footer-binary-bg" id="footer-binary"></div>
+
+        <div class="footer-content">
+            <div class="footer-section footer-nav">
+                <h4 class="footer-heading">> NAVIGATION</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html"><span class="cmd">cd</span> /home</a></li>
+                    <li><a href="browse.html"><span class="cmd">cd</span> /browse</a></li>
+                    <li><a href="about.html"><span class="cmd">cat</span> about.txt</a></li>
+                    <li><a href="careers.html"><span class="cmd">cat</span> careers.txt</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-legal">
+                <h4 class="footer-heading">> LEGAL_DOCS</h4>
+                <ul class="footer-links">
+                    <li><a href="terms-of-service.html"><span class="cmd">cat</span> terms_of_service.txt</a></li>
+                    <li><a href="privacy-policy.html"><span class="cmd">cat</span> privacy_policy.txt</a></li>
+                    <li><a href="cookie-policy.html"><span class="cmd">cat</span> cookie_policy.txt</a></li>
+                    <li><a href="dmca-policy.html"><span class="cmd">cat</span> dmca.txt</a></li>
+                    <li><a href="community-guidelines.html"><span class="cmd">cat</span> community_guidelines.txt</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-brand">
+                <div class="footer-logo">&lt;FLOW<span class="cursor">|</span></div>
+                <p class="footer-tagline">STREAM THE FUTURE</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                <p class="copyright">© 2026 FLOW STREAMING<br>ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="server-status">
+                <span class="status-dot online"></span>
+                <span>ALL SYSTEMS OPERATIONAL</span>
+            </div>
+            <div class="encryption-badge">
+                <i class="fa-solid fa-lock"></i>
+                <span>AES-256 ENCRYPTED CONNECTION</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

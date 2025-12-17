@@ -1,0 +1,181 @@
+/* Chat Room - Fixed container (NO SCROLL) */
+.chat-room {
+    position: fixed !important;
+    top: 70px !important;
+    right: 0;
+    width: 350px;
+    height: calc(100vh - 70px) !important;
+    max-height: calc(100vh - 70px) !important;
+    overflow: visible !important;
+    /* Changed to visible to allow emote directory to appear */
+    z-index: 100;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure chat header is visible and doesn't shake */
+.chat-header {
+    position: relative !important;
+    flex-shrink: 0;
+    z-index: 10 !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Chat messages - THIS is the scrollable container */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    transform: translate3d(0, 0, 0);
+    will-change: scroll-position;
+    backface-visibility: hidden;
+    scroll-behavior: smooth;
+    /* iPhone-like smooth scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* GPU acceleration for buttery smooth scrolling */
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    /* Optimize rendering */
+    contain: layout style paint;
+    content-visibility: auto;
+}
+
+/* Custom scrollbar for chat messages */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 255, 0.5);
+}
+
+/* Optimize individual messages for smooth scrolling */
+.chat-messages .message {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Optimize animated background layers for smooth scrolling */
+.chat-code-layer,
+.chat-ember-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Chat content layer */
+.chat-header,
+.chat-messages {
+    position: relative;
+    z-index: 1;
+    /* Lowered to allow emote directory to appear above */
+}
+
+.chat-input-wrapper-column {
+    position: relative;
+    z-index: 100000;
+    /* Keep high for emote directory */
+}
+
+/* Fix emote picker and input wrapper */
+.emote-picker,
+.chat-input-wrapper,
+.chat-input-wrapper-column {
+    flex-shrink: 0;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    overflow-x: hidden !important;
+}
+
+/* Scroll Pause Button */
+.chat-scroll-pause-btn {
+    position: relative;
+    width: calc(100% - 20px);
+    margin: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #ff0055, #ff4081);
+    border: 2px solid #ff0055;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.chat-scroll-pause-btn:hover {
+    background: linear-gradient(135deg, #ff4081, #ff0055);
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.8);
+    transform: translateY(-2px);
+}
+
+.chat-scroll-pause-btn i {
+    font-size: 16px;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.chat-scroll-pause-btn.hidden {
+    display: none;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(255, 0, 85, 0.8);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Ensure chat doesn't move on scroll */
+body.is-dragging-playlist .chat-room {
+    position: fixed !important;
+    top: 70px !important;
+}

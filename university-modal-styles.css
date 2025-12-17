@@ -1,0 +1,1183 @@
+/* ================================================
+   NETRUNNER UNIVERSITY - FUTURISTIC REDESIGN
+   ================================================ */
+
+/* Enhanced Modal Panels with Holographic Effect */
+.lesson-panel,
+.practice-panel,
+.test-panel {
+    background: linear-gradient(135deg, rgba(0, 20, 10, 0.95), rgba(0, 40, 20, 0.98));
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 15px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    animation: panelGlow 3s ease-in-out infinite;
+}
+
+/* Animated border glow */
+.lesson-panel::before,
+.practice-panel::before,
+.test-panel::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff88, #0ff, #00ff88, #0ff);
+    background-size: 400% 400%;
+    border-radius: 15px;
+    z-index: -1;
+    animation: borderFlow 4s ease infinite;
+}
+
+@keyframes borderFlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes panelGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.4), inset 0 0 20px rgba(0, 255, 136, 0.1);
+    }
+}
+
+/* Scan line effect */
+.lesson-panel::after,
+.practice-panel::after,
+.test-panel::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    animation: scanLine 3s linear infinite;
+    box-shadow: 0 0 10px #00ff88;
+}
+
+@keyframes scanLine {
+    0% {
+        top: -10%;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 110%;
+        opacity: 0;
+    }
+}
+
+/* Scenario boxes with holographic effect */
+.lesson-scenario,
+.test-scenario {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    color: #fff;
+    margin-bottom: 25px;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 255, 0.05));
+    border-left: 4px solid #00ff88;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.lesson-scenario::before,
+.test-scenario::before {
+    content: '▶';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00ff88;
+    font-size: 12px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Lesson content with fade-in */
+.lesson-content {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    color: #ddd;
+    line-height: 2;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Futuristic Buttons */
+.lesson-continue-btn,
+.check-answer-btn,
+.hint-btn,
+.next-problem-btn,
+.submit-test-btn,
+.return-to-challenges-btn {
+    background: linear-gradient(135deg, #00ff88, #00cc70);
+    color: #000;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lesson-continue-btn {
+    display: block;
+    margin: 0 auto;
+    animation: buttonPulse 2s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 6px 25px rgba(0, 255, 136, 0.6);
+    }
+}
+
+/* Button hover effect */
+.lesson-continue-btn:hover,
+.check-answer-btn:hover,
+.submit-test-btn:hover,
+.return-to-challenges-btn:hover {
+    background: linear-gradient(135deg, #fff, #e0ffe0);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
+}
+
+/* Button click effect */
+.lesson-continue-btn:active,
+.check-answer-btn:active,
+.submit-test-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+}
+
+/* Ripple effect on button click */
+.lesson-continue-btn::after,
+.check-answer-btn::after,
+.submit-test-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.lesson-continue-btn:active::after,
+.check-answer-btn:active::after,
+.submit-test-btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+.next-problem-btn.visible,
+.hint-btn.visible {
+    display: inline-block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Practice/Test sections */
+.practice-problem,
+.test-question {
+    margin-bottom: 25px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.problem-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: #00ff88;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+.problem-question,
+.test-question-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Futuristic Code Input */
+.code-input-area {
+    margin: 25px 0;
+    position: relative;
+}
+
+.code-input-area::before {
+    content: '< CODE INPUT />';
+    position: absolute;
+    top: -25px;
+    left: 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #00ff88;
+    letter-spacing: 2px;
+}
+
+.code-input-area textarea {
+    width: 100%;
+    min-height: 220px;
+    background: #000;
+    border: 2px solid #00ff88;
+    border-radius: 8px;
+    padding: 20px;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.code-input-area textarea:focus {
+    border-color: #0ff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(0, 255, 136, 0.2);
+    background: linear-gradient(135deg, #000 0%, #001a0d 100%);
+}
+
+/* Action buttons container */
+.practice-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.check-answer-btn,
+.submit-test-btn {
+    display: inline-block;
+}
+
+/* Hint button - yellow theme */
+.hint-btn {
+    background: linear-gradient(135deg, rgba(255, 200, 0, 0.3), rgba(255, 200, 0, 0.2));
+    color: #ffc800;
+    border: 2px solid #ffc800;
+}
+
+.hint-btn:hover {
+    background: linear-gradient(135deg, #ffc800, #ffaa00);
+    color: #000;
+    box-shadow: 0 6px 25px rgba(255, 200, 0, 0.5);
+}
+
+/* Hint display with glow */
+.hint-display {
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 200, 0, 0.15), rgba(255, 200, 0, 0.05));
+    border-left: 4px solid #ffc800;
+    border-radius: 8px;
+    color: #ffc800;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    display: none;
+    animation: slideInRight 0.5s ease-out;
+    box-shadow: 0 0 15px rgba(255, 200, 0, 0.2);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.hint-display.visible {
+    display: block;
+}
+
+.hint-display::before {
+    content: '💡';
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/* Feedback messages with animations */
+.feedback-message {
+    margin-top: 20px;
+    padding: 20px 25px;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    display: none;
+    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.feedback-message.visible {
+    display: block;
+}
+
+.feedback-message.success {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.feedback-message.success::before {
+    content: '✓ ';
+    font-size: 20px;
+}
+
+.feedback-message.error {
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.2), rgba(255, 0, 85, 0.1));
+    border: 2px solid #ff0055;
+    color: #ff0055;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+}
+
+.feedback-message.error::before {
+    content: '✗ ';
+    font-size: 20px;
+}
+
+/* Futuristic Timer Display */
+.timer-display {
+    text-align: center;
+    margin: 30px 0;
+    padding: 30px;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+    border-radius: 15px;
+    position: relative;
+}
+
+.timer-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.timer-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 64px;
+    color: #00ff88;
+    font-weight: bold;
+    text-shadow: 0 0 30px rgba(0, 255, 136, 0.8), 0 0 60px rgba(0, 255, 136, 0.4);
+    animation: timerPulse 1s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.timer-value.warning {
+    color: #ffc800;
+    text-shadow: 0 0 30px rgba(255, 200, 0, 0.8), 0 0 60px rgba(255, 200, 0, 0.4);
+    animation: warningFlash 0.5s ease-in-out infinite;
+}
+
+@keyframes warningFlash {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.timer-value.critical {
+    color: #ff0055;
+    text-shadow: 0 0 30px rgba(255, 0, 85, 0.8), 0 0 60px rgba(255, 0, 85, 0.4);
+    animation: criticalShake 0.2s ease-in-out infinite;
+}
+
+@keyframes criticalShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Test Result Display */
+.test-result {
+    margin-top: 40px;
+    text-align: center;
+    padding: 50px;
+    border-radius: 15px;
+    display: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.test-result.visible {
+    display: block;
+    animation: resultReveal 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes resultReveal {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.test-result.success {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.05));
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.4), inset 0 0 40px rgba(0, 255, 136, 0.1);
+}
+
+.test-result.failure {
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.2), rgba(255, 0, 85, 0.05));
+    border: 3px solid #ff0055;
+    box-shadow: 0 0 40px rgba(255, 0, 85, 0.4), inset 0 0 40px rgba(255, 0, 85, 0.1);
+}
+
+.result-icon {
+    font-size: 80px;
+    margin-bottom: 25px;
+    animation: iconBounce 0.6s ease-out 0.3s both;
+}
+
+@keyframes iconBounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.test-result.success .result-icon {
+    color: #00ff88;
+    text-shadow: 0 0 30px #00ff88;
+}
+
+.test-result.failure .result-icon {
+    color: #ff0055;
+    text-shadow: 0 0 30px #ff0055;
+}
+
+.result-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    animation: titleGlow 2s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px currentColor;
+    }
+
+    50% {
+        text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+    }
+}
+
+.test-result.success .result-title {
+    color: #00ff88;
+}
+
+.test-result.failure .result-title {
+    color: #ff0055;
+}
+
+.result-message {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 35px;
+    line-height: 1.6;
+}
+
+.return-to-challenges-btn {
+    display: inline-block;
+    animation: fadeIn 0.6s ease-out 0.8s both;
+}
+/* ================================================
+   HOLOGRAPHIC CHALLENGE LIST SCREEN
+   ================================================ */
+
+/* Floating particle background */
+.challenge-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    position: relative;
+}
+
+.challenge-list::before {
+    content: '''';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(0deg, transparent 24%, rgba(0, 255, 136, 0.05) 25%, rgba(0, 255, 136, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 136, 0.05) 75%, rgba(0, 255, 136, 0.05) 76%, transparent 77%, transparent),
+        linear-gradient(90deg, transparent 24%, rgba(0, 255, 136, 0.05) 25%, rgba(0, 255, 136, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 136, 0.05) 75%, rgba(0, 255, 136, 0.05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+/* Holographic Challenge Cards */
+.challenge-card {
+    background: linear-gradient(135deg, rgba(0, 40, 20, 0.9), rgba(0, 20, 10, 0.95));
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    z-index: 1;
+}
+
+/* Holographic border effect */
+.challenge-card::before {
+    content: '''';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff88, #0ff, #00ff88, #0ff, #00ff88);
+    background-size: 400% 400%;
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: holoBorder 3s ease infinite;
+}
+
+.challenge-card:hover::before {
+    opacity: 1;
+}
+
+@keyframes holoBorder {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Shimmer effect */
+.challenge-card::after {
+    content: '''';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(0, 255, 255, 0.1) 50%,
+        transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* 3D Hover Effect */
+.challenge-card:hover {
+    transform: translateY(-10px) rotateX(5deg) scale(1.02);
+    box-shadow: 
+        0 20px 60px rgba(0, 255, 136, 0.4),
+        0 0 40px rgba(0, 255, 136, 0.2),
+        inset 0 0 30px rgba(0, 255, 136, 0.1);
+}
+
+/* Glitch effect on hover */
+.challenge-card:hover .challenge-title {
+    animation: glitch 0.3s ease-in-out;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+}
+
+/* Enhanced Card Header */
+.challenge-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.challenge-title {
+    font-family: '''Orbitron'''', sans-serif;
+    font-size: 18px;
+    color: #fff;
+    flex: 1;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Animated Token Display */
+.challenge-tokens {
+    font-family: '''Orbitron'''', sans-serif;
+    font-size: 16px;
+    color: #00ff88;
+    font-weight: bold;
+    padding: 5px 12px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid #00ff88;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    animation: tokenPulse 2s ease-in-out infinite;
+}
+
+@keyframes tokenPulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
+    50% { box-shadow: 0 0 25px rgba(0, 255, 136, 0.6); }
+}
+
+/* Category with icon */
+.challenge-category {
+    font-size: 13px;
+    color: #0ff;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+}
+
+.challenge-category::before {
+    content: '''?'''';
+    margin-right: 8px;
+    color: #00ff88;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Enhanced Difficulty Badges */
+.challenge-difficulty {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.challenge-difficulty.easy {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 136, 0.2));
+    color: #00ff88;
+    border: 1px solid #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+.challenge-difficulty.medium {
+    background: linear-gradient(135deg, rgba(255, 200, 0, 0.3), rgba(255, 200, 0, 0.2));
+    color: #ffc800;
+    border: 1px solid #ffc800;
+    text-shadow: 0 0 10px #ffc800;
+}
+
+.challenge-difficulty.hard {
+    background: linear-gradient(135deg, rgba(255, 0, 85, 0.3), rgba(255, 0, 85, 0.2));
+    color: #ff0055;
+    border: 1px solid #ff0055;
+    text-shadow: 0 0 10px #ff0055;
+}
+
+/* Scan line effect on cards */
+.challenge-card .scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff88, transparent);
+    animation: cardScan 2s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes cardScan {
+    0% { top: 0%; opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* ================================================
+   LEVEL PROGRESSION SYSTEM
+   ================================================ */
+
+/* Level Tabs Container */
+.level-tabs-container {
+    margin-bottom: 40px;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, rgba(0, 20, 10, 0.5), rgba(0, 40, 20, 0.3));
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated background grid */
+.level-tabs-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(0deg, transparent 24%, rgba(0, 255, 136, 0.03) 25%, rgba(0, 255, 136, 0.03) 26%, transparent 27%),
+        linear-gradient(90deg, transparent 24%, rgba(0, 255, 136, 0.03) 25%, rgba(0, 255, 136, 0.03) 26%, transparent 27%);
+    background-size: 30px 30px;
+    animation: gridSlide 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes gridSlide {
+    0% { background-position: 0 0; }
+    100% { background-position: 30px 30px; }
+}
+
+/* Level Tabs Row */
+.level-tabs {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Individual Level Tab */
+.level-tab {
+    flex: 1;
+    max-width: 180px;
+    padding: 20px 15px;
+    background: linear-gradient(135deg, rgba(0, 20, 10, 0.8), rgba(0, 40, 20, 0.6));
+    border: 2px solid rgba(0, 255, 136, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Hover glow effect */
+.level-tab::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ff88, #0ff, #00ff88);
+    background-size: 400% 400%;
+    border-radius: 12px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: borderFlow 3s ease infinite;
+}
+
+.level-tab:hover::before {
+    opacity: 0.5;
+}
+
+/* Level Number */
+.level-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+/* Level Icon */
+.level-icon {
+    font-size: 32px;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+}
+
+/* Level Status Text */
+.level-status {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 8px;
+}
+
+/* ===== COMPLETED STATE ===== */
+.level-tab.completed {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05));
+    border-color: rgba(0, 255, 136, 0.5);
+    cursor: default;
+    opacity: 0.7;
+}
+
+.level-tab.completed .level-number {
+    color: #00ff88;
+}
+
+.level-tab.completed .level-icon {
+    color: #00ff88;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+    animation: checkmarkPulse 2s ease-in-out infinite;
+}
+
+@keyframes checkmarkPulse {
+    0%, 100% { 
+        transform: scale(1);
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+    }
+    50% { 
+        transform: scale(1.1);
+        text-shadow: 0 0 25px rgba(0, 255, 136, 0.8);
+    }
+}
+
+.level-tab.completed .level-status {
+    color: #00ff88;
+}
+
+/* ===== CURRENT/ACTIVE STATE ===== */
+.level-tab.current {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 255, 136, 0.15));
+    border-color: #0ff;
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.4),
+        0 0 60px rgba(0, 255, 255, 0.2),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    animation: currentLevelGlow 2s ease-in-out infinite;
+}
+
+@keyframes currentLevelGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 30px rgba(0, 255, 255, 0.4),
+            0 0 60px rgba(0, 255, 255, 0.2),
+            inset 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px rgba(0, 255, 255, 0.6),
+            0 0 80px rgba(0, 255, 255, 0.3),
+            inset 0 0 30px rgba(0, 255, 255, 0.15);
+    }
+}
+
+.level-tab.current .level-number {
+    color: #0ff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.level-tab.current .level-icon {
+    color: #0ff;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    animation: currentIconPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes currentIconPulse {
+    0%, 100% { 
+        transform: scale(1) rotate(0deg);
+    }
+    50% { 
+        transform: scale(1.15) rotate(5deg);
+    }
+}
+
+.level-tab.current .level-status {
+    color: #0ff;
+    font-weight: bold;
+}
+
+/* ===== LOCKED STATE ===== */
+.level-tab.locked {
+    background: linear-gradient(135deg, rgba(20, 20, 30, 0.6), rgba(10, 10, 20, 0.8));
+    border-color: rgba(100, 100, 120, 0.3);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.level-tab.locked .level-number {
+    color: #444;
+}
+
+.level-tab.locked .level-icon {
+    color: #555;
+    animation: lockShake 3s ease-in-out infinite;
+}
+
+@keyframes lockShake {
+    0%, 90%, 100% { transform: rotate(0deg); }
+    92%, 96% { transform: rotate(-5deg); }
+    94%, 98% { transform: rotate(5deg); }
+}
+
+.level-tab.locked .level-status {
+    color: #555;
+}
+
+/* Hover effects for clickable tabs */
+.level-tab.current:hover,
+.level-tab:not(.completed):not(.locked):hover {
+    transform: translateY(-5px) scale(1.08);
+    box-shadow: 
+        0 10px 40px rgba(0, 255, 136, 0.5),
+        0 0 50px rgba(0, 255, 136, 0.3);
+}
+
+/* Click effect */
+.level-tab:active {
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* Scan line effect on current level */
+.level-tab.current::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #0ff, transparent);
+    animation: levelScanLine 2s linear infinite;
+    box-shadow: 0 0 10px #0ff;
+}
+
+@keyframes levelScanLine {
+    0% {
+        top: -10%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        opacity: 0;
+    }
+}
+
+/* Progress indicator */
+.level-progress-bar {
+    margin-top: 25px;
+    height: 4px;
+    background: rgba(0, 255, 136, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.level-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #0ff);
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+    position: relative;
+}
+
+.level-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShimmer 2s linear infinite;
+}
+
+@keyframes progressShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Level info text */
+.level-info-text {
+    margin-top: 15px;
+    text-align: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    color: #888;
+}
+
+.level-info-text strong {
+    color: #0ff;
+    font-weight: bold;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | SUBSCRIPTIONS & FEEDS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="subscriptions-styles.css">
+    <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="profile-layout">
+
+    <!-- SIDEBAR NAVIGATION (Minimized) -->
+    <nav class="cyber-sidebar">
+        <a href="index.html" class="cyber-nav-btn home-btn" title="RETURN TO GRID"><i
+                class="fa-solid fa-house-signal"></i></a>
+        <div class="nav-divider"></div>
+
+        <!-- User Avatar -->
+        <img src="https://via.placeholder.com/50" alt="User" class="sidebar-user-avatar" title="User Profile">
+
+        <!-- Netrunner University Icon -->
+        <button id="university-btn" class="cyber-nav-btn university-icon" title="Netrunner University">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="flowcard-badge" id="university-badge">0</span>
+            </div>
+        </button>
+
+        <!-- FLOW CARD Icon -->
+        <button id="flowcard-btn" class="cyber-nav-btn flowcard-icon" title="FLOWBANK">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-credit-card"></i>
+                <span class="flowcard-badge" id="flowcard-badge">0</span>
+            </div>
+        </button>
+
+        <a href="profile.html" class="cyber-nav-btn" title="OPERATOR DOSSIER"><i class="fa-solid fa-id-card"></i></a>
+        <button class="cyber-nav-btn active" title="SUBSCRIPTIONS & FEEDS"><i class="fa-solid fa-users"></i></button>
+        <a href="settings.html" class="cyber-nav-btn" title="OPERATOR SETTINGS"><i class="fa-solid fa-gear"></i></a>
+        <a href="terminal.html" class="cyber-nav-btn" title="OPERATOR TERMINAL"><i class="fa-solid fa-terminal"></i></a>
+        <a href="channel.html" class="cyber-nav-btn" title="BROADCAST FEED"><i
+                class="fa-solid fa-broadcast-tower"></i></a>
+        <div class="nav-spacer"></div>
+        <button class="cyber-nav-btn save-btn" id="global-save-btn" title="SAVE DATA"><i
+                class="fa-solid fa-floppy-disk"></i></button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="mainframe-grid">
+        <section class="subscriptions-container">
+            <!-- Header -->
+            <div class="subscriptions-header">
+                <h1><i class="fa-solid fa-users"></i> SUBSCRIPTIONS & FEEDS</h1>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-value" id="feeds-count">0</span>
+                        <span class="stat-label">FEEDS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="feeders-count">0</span>
+                        <span class="stat-label">FEEDERS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="subs-count">0</span>
+                        <span class="stat-label">SUBSCRIPTIONS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="subscribers-count">0</span>
+                        <span class="stat-label">SUBSCRIBERS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="subscriptions-tabs">
+                <button class="sub-tab active" data-tab="feeds">
+                    <i class="fa-solid fa-rss"></i> FEEDS
+                </button>
+                <button class="sub-tab" data-tab="feeders">
+                    <i class="fa-solid fa-user-group"></i> FEEDERS
+                </button>
+                <button class="sub-tab" data-tab="subscriptions">
+                    <i class="fa-solid fa-star"></i> SUBSCRIPTIONS
+                </button>
+                <button class="sub-tab" data-tab="subscribers">
+                    <i class="fa-solid fa-crown"></i> SUBSCRIBERS
+                </button>
+            </div>
+
+            <!-- Content Panels -->
+            <div class="subscriptions-content">
+                <!-- Feeds Panel -->
+                <div id="feeds-panel" class="sub-panel active">
+                    <div class="panel-header">
+                        <h2>Your Feeds</h2>
+                        <p class="panel-desc">Channels you follow</p>
+                    </div>
+                    <div id="feeds-list" class="user-list"></div>
+                </div>
+
+                <!-- Feeders Panel -->
+                <div id="feeders-panel" class="sub-panel">
+                    <div class="panel-header">
+                        <h2>Your Feeders</h2>
+                        <p class="panel-desc">Users following you</p>
+                    </div>
+                    <div id="feeders-list" class="user-list"></div>
+                </div>
+
+                <!-- Subscriptions Panel -->
+                <div id="subscriptions-panel" class="sub-panel">
+                    <div class="panel-header">
+                        <h2>Your Subscriptions</h2>
+                        <p class="panel-desc">Channels you subscribe to</p>
+                    </div>
+                    <div id="subscriptions-list" class="user-list"></div>
+                </div>
+
+                <!-- Subscribers Panel -->
+                <div id="subscribers-panel" class="sub-panel">
+                    <div class="panel-header">
+                        <h2>Your Subscribers</h2>
+                        <p class="panel-desc">Users subscribed to you</p>
+                    </div>
+                    <div id="subscribers-list" class="user-list"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="flowbank-system.js"></script>
+    <script src="points-system.js"></script>
+    <script src="netrunner-university.js"></script>
+    <script src="subscriptions-manager.js"></script>
+    <script src="credit-system-ui.js"></script>
+    <script src="integration-fixes.js"></script>
+    <script src="subscriptions-ui.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | Watching SkateGamer_OG</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="video-player-styles.css">
+    <link rel="stylesheet" href="panel-styles.css">
+    <link rel="stylesheet" href="chat-lock-fix.css">
+    <link rel="stylesheet" href="layout-container-fix.css">
+    <link rel="stylesheet" href="cyberpunk-volume-controls.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CRITICAL: Mute Button Override Styles -->
+    <style>
+        /* Ultra-high specificity for mute button */
+        .video-controls .control-btn#mute-btn.muted {
+            background: rgba(255, 0, 85, 0.2) !important;
+            border-radius: 5px !important;
+        }
+
+        .video-controls .control-btn#mute-btn.muted i {
+            color: #ff0055 !important;
+            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055 !important;
+        }
+
+        .video-controls .control-btn#mute-btn.muted::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 4px;
+            height: 35px;
+            background: #ff0055;
+            box-shadow:
+                0 0 15px #ff0055,
+                0 0 30px #ff0055,
+                0 0 45px #ff0055;
+            z-index: 100;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none;">
+                <h1 class="logo"><span id="logo-text"></span><span class="cursor">|</span></h1>
+            </a>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" placeholder="Search streamers...">
+            </div>
+        </div>
+        <div class="nav-links">
+            <!-- NEW: BROWSE BUTTON (Links to browse.html) -->
+            <a href="browse.html" class="nav-item icon-btn" title="Browse Channels">
+                <i class="fa-solid fa-border-all"></i>
+            </a>
+
+            <!-- PLAYLIST MODE TOGGLE -->
+            <button id="playlist-btn" class="nav-item icon-btn" title="Playlist Mode">
+                <i class="fa-solid fa-layer-group"></i>
+            </button>
+
+            <!-- THEATER MODE TOGGLE -->
+            <button id="theater-btn" class="nav-item icon-btn" title="Theater Mode">
+                <i class="fa-solid fa-lightbulb"></i>
+            </button>
+
+            <!-- Netrunner University Icon (Hidden by default, shows in Netrunner Mode) -->
+            <button id="university-btn" class="icon-btn university-icon" title="Netrunner University"
+                style="display: none;">
+                <div class="flowcard-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span class="flowcard-badge" id="university-badge">0</span>
+                </div>
+            </button>
+
+            <!-- FLOW CARD Icon -->
+            <button id="flowcard-btn" class="icon-btn flowcard-icon" title="FLOWBANK">
+                <div class="flowcard-icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span class="flowcard-badge" id="flowcard-badge">0</span>
+                </div>
+            </button>
+
+            <!-- User Avatar (At end like index.html) -->
+            <div class="user-avatar">
+                <img src="https://ui-avatars.com/api/?name=User&background=0ff&color=000&size=50" alt="User Profile">
+                <div class="dropdown-menu">
+                    <a href="channel.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">BROADCAST FEED</span>
+                            <span class="item-desc">>> Connect to live channel stream</span>
+                        </div>
+                    </a>
+                    <a href="terminal.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR TERMINAL</span>
+                            <span class="item-desc">>> Stream dashboard & parameters</span>
+                        </div>
+                    </a>
+                    <a href="subscriptions.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">SUBSCRIPTIONS & FEEDS</span>
+                            <span class="item-desc">>> Network connections & followers</span>
+                        </div>
+                    </a>
+                    <a href="profile.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR DOSSIER</span>
+                            <span class="item-desc">>> View operative profile data</span>
+                        </div>
+                    </a>
+                    <a href="settings.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR SETTINGS</span>
+                            <span class="item-desc">>> System config & preferences</span>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" class="dropdown-item kill-signal" id="sign-out-btn-channel">
+                        <div class="item-content">
+                            <span class="item-title">KILL SIGNAL</span>
+                            <span class="item-desc">>> Terminate Session & Erasure</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- THEATER LAYOUT -->
+    <div class="theater-layout">
+
+        <!-- LEFT: VIDEO PLAYER & STREAM INFO -->
+        <main class="stream-stage">
+
+            <!-- MODIFIED VIDEO CONTAINER FOR SLIDING -->
+            <div class="video-container" id="main-video-container">
+                <!-- The Track moves left/right -->
+                <div class="stream-slider-track" id="stream-track">
+
+                    <!-- SLIDE 1 (Current Stream) -->
+                    <div class="stream-slide active" data-streamer="SkateGamer_OG" data-game="ARC RAIDERS">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop"
+                            class="video-feed" alt="Live Stream">
+                        <div class="video-ui-top">
+                            <span class="live-indicator">🔴 LIVE</span>
+                            <span class="viewers-count"><i class="fa-solid fa-eye"></i> 12,403</span>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2 (Playlist Stream) -->
+                    <div class="stream-slide" data-streamer="Neon_Valkyrie" data-game="CYBERPUNK 2077">
+                        <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=2574&auto=format&fit=crop"
+                            class="video-feed" alt="Next Stream">
+                        <div class="video-ui-top">
+                            <span class="live-indicator">🔴 LIVE</span>
+                            <span class="viewers-count"><i class="fa-solid fa-eye"></i> 8,900</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- UI OVERLAY (Stays on top of slides) -->
+                <div class="video-controls">
+                    <div class="control-btn"><i class="fa-solid fa-pause"></i></div>
+                    <div class="volume-slider">
+                        <div class="volume-level"></div>
+                    </div>
+                    <div class="control-btn" id="mute-btn"><i class="fa-solid fa-volume-high"></i></div>
+
+                    <!-- QUALITY SELECTOR -->
+                    <div class="stream-quality" id="quality-btn">
+                        <span>1080p 60</span>
+                        <div class="quality-menu" id="quality-menu">
+                            <div class="q-item active">1080p 60 (Source)</div>
+                            <div class="q-item">720p 60</div>
+                            <div class="q-item">480p</div>
+                            <div class="q-item">160p (Data Saver)</div>
+                        </div>
+                    </div>
+
+                    <!-- FULLSCREEN TOGGLE -->
+                    <div class="control-btn" id="fs-btn"><i class="fa-solid fa-expand"></i></div>
+                </div>
+            </div>
+
+            <!-- STREAM DETAILS -->
+            <div class="stream-details">
+                <div class="stream-header-row">
+                    <div class="streamer-profile">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop"
+                            class="big-avatar">
+                        <div class="streamer-text">
+                            <h1 class="stream-title">Ranked Competitive Matches | Drop Enabled [EN]</h1>
+                            <p class="streamer-name">SkateGamer_OG <i class="fa-solid fa-circle-check"
+                                    style="color:#0ff;"></i></p>
+                            <p class="stream-category">Playing <span style="color:#0ff;">ARC RAIDERS</span></p>
+                        </div>
+                    </div>
+
+                    <div class="stream-actions">
+                        <button class="action-btn sub-btn"><i class="fa-solid fa-star"></i> SUBSCRIBE</button>
+                        <button class="action-btn follow-btn"><i class="fa-solid fa-heart"></i> FOLLOW</button>
+                        <button class="action-btn share-btn"><i class="fa-solid fa-share-nodes"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE DISPLAY SECTION -->
+            <div class="profile-display-section" id="profile-display-section" style="margin-top: 30px;">
+                <!-- Profile iframe will be injected here by JS -->
+            </div>
+
+            <!-- PANELS SECTION -->
+            <div class="panels-section">
+                <div class="panels-section-header">
+                    :: STREAMER PANELS
+                    <button class="panels-edit-btn" id="panels-edit-btn">
+                        <i class="fa-solid fa-pen-to-square"></i> EDIT PANELS
+                    </button>
+                </div>
+                <div id="panels-display">
+                    <!-- Panels will be rendered here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT: CYBERPUNK CHAT -->
+        <aside class="chat-room">
+
+            <!-- LAYER 1: Hacking Code Background -->
+            <div class="chat-code-layer" id="chat-hacking-bg"></div>
+
+            <!-- LAYER 2: Ember Particles Container -->
+            <div class="chat-ember-layer" id="chat-ember-container"></div>
+
+            <!-- LAYER 3: Content -->
+            <div class="chat-header">
+                <h3><span id="chat-header-text"></span><span class="cursor">|</span></h3>
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div class="chat-messages" id="chat-feed">
+                <div class="message"><span class="user" style="color:#0ff">NeonDemon:</span> <span class="text">Lets
+                        goooo!</span></div>
+                <div class="message"><span class="user" style="color:#ff0055">CyberKate:</span> <span class="text">Is
+                        this the new update?</span></div>
+                <div class="message"><span class="user" style="color:#00ff88">GlitchMob:</span> <span
+                        class="text">POGGERS</span></div>
+                <div class="message"><span class="user" style="color:#aaa">Guest99:</span> <span class="text">What
+                        sensitivity do you use?</span></div>
+                <div class="message"><span class="user" style="color:#0ff">NeonDemon:</span> <span class="text">That aim
+                        is snappy!</span></div>
+                <div class="message"><span class="user" style="color:#ff0055">CyberKate:</span> <span class="text">First
+                        time chat here.</span></div>
+            </div>
+
+            <!-- CHAT INPUT AREA (RESTRUCTURED) -->
+            <div class="chat-input-wrapper-column">
+
+                <!-- ADVANCED EMOTE PICKER (Replaces old popup) -->
+                <div class="emote-directory" id="emote-picker">
+
+                    <!-- Search -->
+                    <div class="emote-search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="emote-search" placeholder="Search emotes...">
+                    </div>
+
+                    <!-- Horizontal Nav (Channels) -->
+                    <div class="emote-nav-scroll">
+                        <div class="emote-nav-item active" data-target="global">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <!-- Mock Followed Channels -->
+                        <div class="emote-nav-item" data-target="skate">
+                            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=50" alt="SkateGamer">
+                        </div>
+                        <div class="emote-nav-item" data-target="neon">
+                            <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?w=50" alt="NeonVal">
+                        </div>
+                        <div class="emote-nav-item" data-target="dev">
+                            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=50" alt="DevGuru">
+                        </div>
+                    </div>
+
+                    <!-- Emote Content (Scrollable Sections) -->
+                    <div class="emote-directory-content">
+
+                        <!-- Global Section -->
+                        <div class="emote-section" id="sec-global">
+                            <div class="sec-title">GLOBAL FLOW</div>
+                            <div class="emote-grid-large">
+                                <span>🤖</span><span>👽</span><span>👾</span><span>🦾</span>
+                                <span>🧠</span><span>👁️</span><span>💿</span><span>💾</span>
+                                <span>🔋</span><span>💊</span><span>🧬</span><span>🦠</span>
+                                <span>🟢</span><span>🔴</span><span>🟣</span><span>🔵</span>
+                            </div>
+                        </div>
+
+                        <!-- Channel A -->
+                        <div class="emote-section" id="sec-skate">
+                            <div class="sec-title">SKATEGAMER_OG</div>
+                            <div class="emote-grid-large">
+                                <span>🛹</span><span>🔥</span><span>💯</span><span>😤</span>
+                                <span>🧗</span><span>🏆</span><span>🥇</span><span>🎮</span>
+                            </div>
+                        </div>
+
+                        <!-- Channel B -->
+                        <div class="emote-section" id="sec-neon">
+                            <div class="sec-title">NEON_VALKYRIE</div>
+                            <div class="emote-grid-large">
+                                <span>🗡️</span><span>🏮</span><span>🏯</span><span>👘</span>
+                                <span>🐉</span><span>👺</span><span>👹</span><span>🔮</span>
+                            </div>
+                        </div>
+
+                        <!-- Channel C -->
+                        <div class="emote-section" id="sec-dev">
+                            <div class="sec-title">DEVGURU</div>
+                            <div class="emote-grid-large">
+                                <span>💻</span><span>⌨️</span><span>🖱️</span><span>🐛</span>
+                                <span>🔧</span><span>☕</span><span>🛠️</span><span>📡</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 1. QUICK ACCESS BAR (Top 8) -->
+                <div class="quick-emote-bar" id="quick-bar">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- 2. INPUT ROW -->
+                <div class="chat-input-area">
+                    <div class="input-controls-left">
+                        <button id="emote-btn" class="icon-btn" title="Open Emote Directory">
+                            <i class="fa-solid fa-face-smile"></i>
+                        </button>
+                        <button id="type-sound-toggle" class="icon-btn" title="Typing Sound: ON">
+                            <i class="fa-solid fa-keyboard"></i>
+                        </button>
+                    </div>
+
+                    <input type="text" placeholder="Send transmission..." class="chat-input" id="chat-input-field">
+                    <button class="send-btn">SEND</button>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div id="confirmation-modal" class="cyber-modal-overlay">
+        <div class="cyber-modal-box">
+            <div class="modal-header">WARNING: CONNECTION TERMINATION</div>
+            <div class="modal-body">
+                <p id="modal-text">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="modal-btn cancel">ABORT</button>
+                <button id="modal-confirm" class="modal-btn confirm">PROCEED</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script File -->
+    <!-- Mock API Layer (MUST load first) -->
+    <script src="mock-data.js"></script>
+    <script src="mock-api.js"></script>
+    <script src="video-player.js"></script>
+    <script src="mock-api-integration.js"></script>
+    <script src="chat-scroll-manager.js"></script>
+    <script src="chat-simulator.js"></script>
+
+    <!-- Panel System -->
+    <script src="panel-system.js"></script>
+    <script src="panel-display-ui.js"></script>
+    <script src="panel-editor-ui.js"></script>
+    <script src="channel-profile-display.js"></script>
+
+    <!-- Main Script (MUST load first) -->
+    <script src="script.js"></script>
+
+    <!-- Credit System Scripts (load in dependency order) -->
+    <script src="flowbank-system.js"></script>
+    <script src="bounty-watch-system.js"></script>
+    <script src="netrunner-university.js"></script>
+    <script src="points-system.js"></script>
+    <script src="credit-system-ui.js"></script>
+    <script src="integration-fixes.js"></script>
+</body>
+
+</html>
+```

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Test | FLOW STREAMING</title>
+    <style>
+        body {
+            background: #0a0a0f;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #0ff;
+        }
+
+        .test-links {
+            margin-top: 30px;
+        }
+
+        a {
+            display: block;
+            color: #0ff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #0ff;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background: #0ff;
+            color: #000;
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>FLOW STREAMING - Link Test Page</h1>
+
+    <div class="status">
+        <h2>Current Page Info:</h2>
+        <p><strong>URL:</strong> <span id="current-url"></span></p>
+        <p><strong>Protocol:</strong> <span id="protocol"></span></p>
+    </div>
+
+    <div class="test-links">
+        <h2>Test These Links:</h2>
+        <a href="index.html">→ index.html</a>
+        <a href="browse.html">→ browse.html</a>
+        <a href="about.html">→ about.html</a>
+        <a href="careers.html">→ careers.html</a>
+        <a href="terms-of-service.html">→ terms-of-service.html</a>
+        <a href="privacy-policy.html">→ privacy-policy.html</a>
+        <a href="cookie-policy.html">→ cookie-policy.html</a>
+        <a href="dmca-policy.html">→ dmca-policy.html</a>
+        <a href="community-guidelines.html">→ community-guidelines.html</a>
+    </div>
+
+    <div class="status" style="margin-top: 30px;">
+        <h2>Instructions:</h2>
+        <p><strong>If links don't work, you MUST run a local server:</strong></p>
+        <ol style="line-height: 2;">
+            <li>Open PowerShell in this folder</li>
+            <li>Run: <code style="background: #000; padding: 5px;">python -m http.server 8000</code></li>
+            <li>Open browser to: <code
+                    style="background: #000; padding: 5px;">http://localhost:8000/link-test.html</code></li>
+        </ol>
+        <p><strong>Alternative (if no Python):</strong></p>
+        <ol style="line-height: 2;">
+            <li>Install Live Server extension in VS Code</li>
+            <li>Right-click link-test.html → "Open with Live Server"</li>
+        </ol>
+    </div>
+
+    <script>
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+
+        if (window.location.protocol === 'file:') {
+            document.body.innerHTML += '<div class="status" style="background: rgba(255,0,85,0.2); border-color: #ff0055; margin-top: 20px;"><h2 style="color: #ff0055;">⚠️ WARNING: Using file:// protocol</h2><p>Links may not work properly. Please run a local server as instructed above!</p></div>';
+        }
+    </script>
+</body>
+
+</html>

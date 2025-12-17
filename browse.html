@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | Browse Channels</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration:none;">
+                <h1 class="logo"><span id="logo-text"></span><span class="cursor">|</span></h1>
+            </a>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" placeholder="Search streamers, categories and more...">
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">HOME</a>
+            <a href="browse.html" class="nav-item active">BROWSE</a>
+
+            <!-- Netrunner University Icon (Hidden by default) -->
+            <button id="university-btn" class="icon-btn university-icon" title="Netrunner University"
+                style="display: none;">
+                <div class="flowcard-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span class="flowcard-badge" id="university-badge">0</span>
+                </div>
+            </button>
+
+            <!-- FLOW CARD Icon -->
+            <button id="flowcard-btn" class="icon-btn flowcard-icon" title="FLOWBANK">
+                <div class="flowcard-icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span class="flowcard-badge" id="flowcard-badge">0</span>
+                </div>
+            </button>
+
+            <button id="sound-toggle" class="icon-btn" title="Sound Toggle">
+                <i class="fa-solid fa-volume-up"></i>
+            </button>
+
+            <a href="signin.html" class="nav-item login-btn">SIGN IN</a>
+            <a href="signup.html" class="nav-item signup-btn">SIGN UP</a>
+            <div class="user-avatar" style="display: none;">
+                <img src="https://via.placeholder.com/50" alt="User Profile">
+                <div class="dropdown-menu">
+                    <a href="channel.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">BROADCAST FEED</span>
+                            <span class="item-desc">>> Connect to live channel stream</span>
+                        </div>
+                    </a>
+                    <a href="terminal.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR TERMINAL</span>
+                            <span class="item-desc">>> Stream dashboard & parameters</span>
+                        </div>
+                    </a>
+                    <a href="profile.html" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR DOSSIER</span>
+                            <span class="item-desc">>> View operative profile data</span>
+                        </div>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <div class="item-content">
+                            <span class="item-title">OPERATOR SETTINGS</span>
+                            <span class="item-desc">>> System config & light/dark mode</span>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" class="dropdown-item kill-signal" id="sign-out-btn">
+                        <div class="item-content">
+                            <span class="item-title">KILL SIGNAL</span>
+                            <span class="item-desc">>> Terminate Session & Erasure</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- APP LAYOUT -->
+    <div class="app-layout">
+
+        <!-- SIDEBAR (Reused Structure) -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h4 class="sidebar-title glitch-loop" data-text="HACKED FEEDS">HACKED FEEDS</h4>
+                <ul class="user-list" id="hacked-feeds"></ul>
+            </div>
+            <div class="sidebar-section">
+                <h4 class="sidebar-title breathe-text">LIVE FLOW</h4>
+                <ul class="user-list" id="live-flow"></ul>
+            </div>
+            <div class="sidebar-section">
+                <h4 class="sidebar-title" style="color: #ff0055;">SUGGESTED</h4>
+                <ul class="user-list" id="suggested-feeds"></ul>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- BROWSE HEADER -->
+            <section class="browse-header-section">
+                <h1 class="browse-title">BROWSE <span class="highlight">NETWORK</span></h1>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar" id="browse-filters">
+                    <button class="filter-chip active" data-filter="all"><i class="fa-solid fa-layer-group"></i>
+                        ALL</button>
+                    <button class="filter-chip" data-filter="fps"><i class="fa-solid fa-crosshairs"></i>
+                        SHOOTERS</button>
+                    <button class="filter-chip" data-filter="rpg"><i class="fa-solid fa-dragon"></i> RPG</button>
+                    <button class="filter-chip" data-filter="irl"><i class="fa-solid fa-camera"></i> IRL</button>
+                    <button class="filter-chip" data-filter="music"><i class="fa-solid fa-music"></i> MUSIC</button>
+                    <button class="filter-chip" data-filter="dev"><i class="fa-solid fa-code"></i> DEV</button>
+                    <button class="filter-chip" data-filter="crypto"><i class="fa-brands fa-bitcoin"></i>
+                        CRYPTO</button>
+                </div>
+
+                <!-- Sort Bar -->
+                <div class="sort-bar">
+                    <span>SORT BY:</span>
+                    <select class="cyber-select">
+                        <option>RECOMMENDED</option>
+                        <option>VIEWERS (HIGH TO LOW)</option>
+                        <option>VIEWERS (LOW TO HIGH)</option>
+                        <option>RECENTLY STARTED</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- BROWSE GRID (Massive List) -->
+            <section class="live-feed-section">
+                <div class="video-grid" id="browse-grid">
+                    <!-- JS will populate this with many items -->
+                </div>
+            </section>
+
+            <!-- FOOTER (System Diagnostic) -->
+            <footer class="site-footer">
+
+                <!-- HEARTBEAT LINE -->
+                <div class="heartbeat-line">
+                    <svg viewBox="0 0 600 50" preserveAspectRatio="none">
+                        <path class="heartbeat-path"
+                            d="M0,25 L100,25 L120,25 L130,10 L140,40 L150,15 L160,35 L170,25 L200,25 L600,25" />
+                    </svg>
+                </div>
+
+                <!-- BINARY BACKGROUND -->
+                <div class="footer-binary-bg" id="footer-binary"></div>
+
+                <!-- FOOTER CONTENT -->
+                <div class="footer-content">
+
+                    <!-- SYSTEM STATUS -->
+                    <div class="footer-section footer-status">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">SYSTEM_DIAGNOSTIC.exe</span>
+                        </div>
+                        <div class="terminal-body" id="footer-terminal">
+                            <!-- JS will populate this -->
+                        </div>
+                    </div>
+
+                    <!-- NAVIGATION -->
+                    <div class="footer-section footer-nav">
+                        <h4 class="footer-heading">> NAVIGATION</h4>
+                        <ul class="footer-links">
+                            <li><a href="index.html"><span class="cmd">cd</span> /home</a></li>
+                            <li><a href="browse.html"><span class="cmd">cd</span> /browse</a></li>
+                            <li><a href="about.html"><span class="cmd">cat</span> about.txt</a></li>
+                            <li><a href="careers.html"><span class="cmd">cat</span> careers.txt</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- LEGAL -->
+                    <div class="footer-section footer-legal">
+                        <h4 class="footer-heading">> LEGAL_DOCS</h4>
+                        <ul class="footer-links">
+                            <li><a href="terms-of-service.html"><span class="cmd">cat</span> terms_of_service.txt</a>
+                            </li>
+                            <li><a href="privacy-policy.html"><span class="cmd">cat</span> privacy_policy.txt</a></li>
+                            <li><a href="cookie-policy.html"><span class="cmd">cat</span> cookie_policy.txt</a></li>
+                            <li><a href="dmca-policy.html"><span class="cmd">cat</span> dmca.txt</a></li>
+                            <li><a href="community-guidelines.html"><span class="cmd">cat</span>
+                                    community_guidelines.txt</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- SOCIAL & BRAND -->
+                    <div class="footer-section footer-brand">
+                        <div class="footer-logo">&lt;FLOW<span class="cursor">|</span></div>
+                        <p class="footer-tagline">STREAM THE FUTURE</p>
+
+                        <div class="social-icons">
+                            <a href="#" class="social-icon"><i class="fa-brands fa-discord"></i></a>
+                            <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+                        </div>
+
+                        <p class="copyright">© 2026 FLOW NETWORKS INC.<br>ALL RIGHTS RESERVED.</p>
+                    </div>
+
+                </div>
+
+                <!-- BOTTOM BAR -->
+                <div class="footer-bottom">
+                    <div class="server-status">
+                        <span class="status-dot online"></span>
+                        <span>ALL SYSTEMS OPERATIONAL</span>
+                    </div>
+                    <div class="encryption-badge">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>AES-256 ENCRYPTED CONNECTION</span>
+                    </div>
+                    <div class="ping-display">
+                        <span>PING: </span>
+                        <span id="ping-value">12ms</span>
+                    </div>
+                </div>
+
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    <script src="flowbank-system.js"></script>
+    <script src="netrunner-university.js"></script>
+    <script src="bounty-watch-system.js"></script>
+    <script src="integration-fixes.js"></script>
+    <script src="credit-system-ui.js"></script>
+</body>
+
+</html>

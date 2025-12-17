@@ -1,0 +1,173 @@
+/* 
+   ================================================
+   VIDEO PLAYER ENHANCEMENTS
+   ================================================
+   Additional CSS for video player functionality
+*/
+
+/* Video element styling */
+video.video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+}
+
+/* Ensure video loads smoothly */
+video.video-feed[poster] {
+    background-size: cover;
+    background-position: center;
+}
+
+/* Quality menu active state */
+.quality-menu.active {
+    display: block !important;
+}
+
+/* Video loading state */
+video.video-feed:not([src]) {
+    background: linear-gradient(135deg, #0a1420 0%, #1a2430 100%);
+}
+
+/* Smooth transitions for video controls */
+.video-controls {
+    transition: opacity 0.3s ease;
+}
+
+.video-container:hover .video-controls {
+    opacity: 1;
+}
+
+/* Volume slider enhancement */
+.volume-slider {
+    cursor: pointer;
+    position: relative;
+}
+
+.volume-level {
+    pointer-events: none;
+    transition: width 0.2s ease;
+}
+
+/* Fullscreen video adjustments */
+.video-container:fullscreen video.video-feed,
+.video-container:-webkit-full-screen video.video-feed,
+.video-container:-moz-full-screen video.video-feed {
+    object-fit: contain;
+}
+
+/* Loading spinner for videos */
+@keyframes videoLoading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+video.video-feed:not([src])::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border: 3px solid rgba(0, 255, 136, 0.2);
+    border-top-color: #00ff88;
+    border-radius: 50%;
+    animation: videoLoading 1s linear infinite;
+}
+
+/* Viewer count animation */
+.viewers-count {
+    transition: all 0.3s ease;
+}
+
+.viewers-count.updating {
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Play/pause button states */
+.control-btn i.fa-play,
+.control-btn i.fa-pause {
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover i {
+    transform: scale(1.2);
+}
+
+/* Quality selector highlight */
+.q-item.active {
+    background: rgba(0, 255, 136, 0.2);
+    color: #00ff88;
+    font-weight: bold;
+}
+
+/* Stream slide transitions */
+.stream-slide {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stream-slide:not(.active) {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.stream-slide.active {
+    opacity: 1;
+}
+
+/* Video error state */
+video.video-feed[error]+img.video-feed {
+    display: block !important;
+}
+
+/* Responsive video controls */
+@media (max-width: 768px) {
+    .video-controls {
+        padding: 8px;
+    }
+
+    .control-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .stream-quality span {
+        font-size: 12px;
+    }
+}
+
+/* Keyboard focus states */
+.control-btn:focus,
+.stream-quality:focus {
+    outline: 2px solid #00ff88;
+    outline-offset: 2px;
+}
+
+/* Smooth video start */
+video.video-feed {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+video.video-feed[data-loaded="true"] {
+    opacity: 1;
+}

@@ -1,0 +1,162 @@
+/* ================================================
+   CYBERPUNK HACKER-THEMED VOLUME CONTROLS - FIXED
+   ================================================ */
+
+/* Volume Slider - Cyberpunk Style */
+.volume-slider {
+    position: relative;
+    width: 100px;
+    height: 6px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 10px 0;
+    transition: all 0.3s ease;
+}
+
+.volume-slider:hover {
+    background: rgba(0, 255, 255, 0.3);
+    border-color: #0ff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.volume-level {
+    height: 100%;
+    background: linear-gradient(90deg, #0ff, #00ff88);
+    border-radius: 2px;
+    width: 50%;
+    transition: width 0.1s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+    position: relative;
+}
+
+.volume-level::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #0ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #0ff;
+}
+
+/* Mute Button - STRONG RED VISUAL FEEDBACK */
+.control-btn#mute-btn {
+    position: relative;
+    transition: all 0.3s ease;
+    color: #fff !important;
+}
+
+/* MUTED STATE - RED BACKGROUND AND ICON */
+.control-btn#mute-btn.muted {
+    background: rgba(255, 0, 85, 0.2) !important;
+    border-radius: 5px !important;
+}
+
+.control-btn#mute-btn.muted i {
+    color: #ff0055 !important;
+    text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055 !important;
+}
+
+/* DIAGONAL CROSSOUT SLASH - VERY VISIBLE */
+.control-btn#mute-btn.muted::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 4px;
+    height: 35px;
+    background: #ff0055;
+    box-shadow:
+        0 0 15px #ff0055,
+        0 0 30px #ff0055,
+        0 0 45px #ff0055;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.control-btn#mute-btn i {
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.control-btn#mute-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn#mute-btn:not(.muted):hover {
+    color: #0ff !important;
+    text-shadow: 0 0 10px #0ff;
+}
+
+/* Play/Pause Button - Cyberpunk Style */
+.control-btn {
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    color: #0ff !important;
+    text-shadow: 0 0 10px #0ff;
+    transform: scale(1.1);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Fullscreen Button - Cyberpunk Style */
+#fs-btn:hover {
+    color: #00ff88 !important;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+/* Quality Button - Cyberpunk Style */
+#quality-btn:hover {
+    border-color: #0ff !important;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Add glitch effect on volume change */
+@keyframes volumeGlitch {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+.volume-level.changing {
+    animation: volumeGlitch 0.2s ease;
+}
+
+/* Cyberpunk grid pattern overlay for volume slider */
+.volume-slider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 255, 0.1) 2px,
+            rgba(0, 255, 255, 0.1) 4px);
+    pointer-events: none;
+    border-radius: 3px;
+}

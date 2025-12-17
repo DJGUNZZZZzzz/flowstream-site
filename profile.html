@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | NETRUNNER TERMINAL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset-modal.css">
+    <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="profile-layout">
+
+    <!-- SIDEBAR NAVIGATION (Minimized) -->
+    <nav class="cyber-sidebar">
+        <a href="index.html" class="cyber-nav-btn home-btn" title="RETURN TO GRID"><i
+                class="fa-solid fa-house-signal"></i></a>
+        <div class="nav-divider"></div>
+
+        <!-- User Avatar -->
+        <img src="https://via.placeholder.com/50" alt="User" class="sidebar-user-avatar" title="User Profile">
+
+        <!-- Netrunner University Icon -->
+        <button id="university-btn" class="cyber-nav-btn university-icon" title="Netrunner University">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="flowcard-badge" id="university-badge">0</span>
+            </div>
+        </button>
+
+        <!-- FLOW CARD Icon -->
+        <button id="flowcard-btn" class="cyber-nav-btn flowcard-icon" title="FLOWBANK">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-credit-card"></i>
+                <span class="flowcard-badge" id="flowcard-badge">0</span>
+            </div>
+        </button>
+
+        <button class="cyber-nav-btn active" title="OPERATOR DOSSIER"><i class="fa-solid fa-id-card"></i></button>
+        <a href="subscriptions.html" class="cyber-nav-btn" title="SUBSCRIPTIONS & FEEDS"><i
+                class="fa-solid fa-users"></i></a>
+        <a href="settings.html" class="cyber-nav-btn" title="OPERATOR SETTINGS"><i class="fa-solid fa-gear"></i></a>
+        <a href="terminal.html" class="cyber-nav-btn" title="OPERATOR TERMINAL"><i class="fa-solid fa-terminal"></i></a>
+        <a href="channel.html" class="cyber-nav-btn" title="BROADCAST FEED"><i
+                class="fa-solid fa-broadcast-tower"></i></a>
+        <div class="nav-spacer"></div>
+        <button class="cyber-nav-btn save-btn" id="global-save-btn" title="SAVE DATA"><i
+                class="fa-solid fa-floppy-disk"></i></button>
+    </nav>
+
+    <!-- MAIN GRID CONTAINER -->
+    <main class="mainframe-grid">
+
+        <!-- LEFT: HOLO-DECK PREVIEW -->
+        <section class="holo-deck">
+            <div class="holo-header">
+                <i class="fa-solid fa-eye"></i> <span>PUBLIC_FEED_PREVIEW</span>
+                <div class="live-indicator">LIVE</div>
+            </div>
+            <div class="holo-viewport">
+                <!-- Glitch Overlay -->
+                <div class="scanline-overlay"></div>
+                <!-- The Iframe -->
+                <iframe id="dossier-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+            <div class="holo-footer">
+                <span class="sys-msg">RENDERING: OK</span>
+                <span class="sys-msg">CONNECTION: SECURE</span>
+            </div>
+        </section>
+
+        <!-- RIGHT: MAINFRAME EDITOR -->
+        <section class="mainframe-terminal">
+
+            <!-- Terminal Header -->
+            <div class="terminal-header">
+                <div class="term-title">
+                    <i class="fa-solid fa-terminal"></i> <span>ROOT_ACCESS // EDIT_PROFILE</span>
+                </div>
+                <div class="term-controls">
+                    <button id="mode-visual" class="term-tab active">VISUAL_EDITOR</button>
+                    <button id="mode-code" class="term-tab">SOURCE_CODE</button>
+                </div>
+            </div>
+
+            <!-- VISUAL EDITOR PANEL -->
+            <div id="panel-visual" class="terminal-panel active">
+                <div class="panel-scroll">
+
+                    <!-- Identity Module -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: IDENTITY_MATRIX</div>
+                        <div class="input-grid-2">
+                            <div class="cyber-input-group">
+                                <label>CODENAME</label>
+                                <input type="text" id="reg-username" class="cyber-input" placeholder="ENTER NAME">
+                            </div>
+                            <div class="cyber-input-group">
+                                <label>CLEARANCE_LEVEL</label>
+                                <input type="text" id="reg-level" class="cyber-input short" placeholder="LVL" readonly
+                                    style="cursor: not-allowed; opacity: 0.7;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Achievement Tracker Module -->
+                    <div class="cyber-module achievement-tracker" id="achievement-tracker">
+                        <div class="module-header">:: ACHIEVEMENT_TRACKER <span class="expand-hint">CLICK TO
+                                EXPAND</span></div>
+                        <div class="stats-readout">
+                            <div class="stat-line" data-tier="affiliate">
+                                <span class="stat-name" id="affiliate-label" style="color:#fff;">AFFILIATE</span>
+                                <div class="stat-track">
+                                    <div class="stat-fill" id="affiliate-bar" style="width:0%; background:#0ff;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-line" data-tier="verified">
+                                <span class="stat-name" id="verified-label" style="color:#fff;">VERIFIED</span>
+                                <div class="stat-track">
+                                    <div class="stat-fill" id="verified-bar" style="width:0%; background:#ff0055;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-line" data-tier="partner">
+                                <span class="stat-name" id="partner-label" style="color:#fff;">PARTNER</span>
+                                <div class="stat-track">
+                                    <div class="stat-fill" id="partner-bar" style="width:0%; background:#00ff88;"></div>
+                                </div>
+                            </div>
+                            <div class="stat-line">
+                                <span class="stat-name" style="color:#fff;">CHATTER</span>
+                                <div class="stat-track">
+                                    <div class="stat-fill" id="chatter-fill"
+                                        style="width:0%; background:#ffff00; transition: width 0.3s ease;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Expand Arrow -->
+                        <div class="tracker-expand-arrow" id="tracker-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+
+                        <!-- Expandable Dropdown Panel -->
+                        <div class="achievement-dropdown" id="achievement-dropdown">
+                            <div class="achievement-content" id="achievement-content">
+                                <!-- Content populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interface Theme Module -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: INTERFACE_COLOR</div>
+                        <div class="color-selector">
+                            <input type="color" id="reg-color" class="cyber-color-input">
+                            <span id="color-val-display">#00FFFF</span>
+                        </div>
+                    </div>
+
+                    <!-- Avatar Source -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: AVATAR_SOURCE</div>
+                        <div class="input-group-row">
+                            <input type="text" id="reg-avatar" class="cyber-input" placeholder="IMAGE_URL_OR_PATH">
+                            <label for="file-upload" class="cyber-btn-icon"><i class="fa-solid fa-upload"></i></label>
+                            <input type="file" id="file-upload" hidden>
+                        </div>
+                    </div>
+
+                    <!-- Bio Module -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: BIOGRAPHICAL_DATA</div>
+                        <textarea id="reg-bio" class="cyber-textarea" rows="4" maxlength="250"
+                            placeholder="ENTER_HISTORY..."></textarea>
+                    </div>
+
+                    <!-- Social Links Module -->
+                    <div class="cyber-module">
+                        <div class="module-header">:: UPLINKS</div>
+                        <div class="social-inputs">
+                            <input type="text" id="reg-soc-x" class="cyber-input" placeholder="X_UPLINK">
+                            <input type="text" id="reg-soc-insta" class="cyber-input" placeholder="INSTA_UPLINK">
+                            <input type="text" id="reg-soc-tiktok" class="cyber-input" placeholder="TIKTOK_UPLINK">
+                            <input type="text" id="reg-soc-snap" class="cyber-input" placeholder="SNAP_UPLINK">
+                            <input type="text" id="reg-soc-yt" class="cyber-input" placeholder="YT_UPLINK">
+                            <input type="text" id="reg-soc-discord" class="cyber-input" placeholder="DISCORD_UPLINK">
+                        </div>
+                        <div class="module-header sub">:: CUSTOM_PROTOCOLS</div>
+                        <div class="social-inputs">
+                            <input type="text" id="reg-custom-1" class="cyber-input" placeholder="CUSTOM_LINK_1">
+                            <input type="text" id="reg-custom-2" class="cyber-input" placeholder="CUSTOM_LINK_2">
+                            <input type="text" id="reg-custom-3" class="cyber-input" placeholder="CUSTOM_LINK_3">
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <button type="button" id="reset-template-btn" class="cyber-btn danger">
+                            <i class="fa-solid fa-triangle-exclamation"></i> SYSTEM_RESET
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CODE EDITOR PANEL (Hidden) -->
+            <div id="panel-code" class="terminal-panel">
+                <div class="code-tabs">
+                    <button class="code-tab active" data-target="editor-html">HTML</button>
+                    <button class="code-tab" data-target="editor-css">CSS</button>
+                    <button class="code-tab" data-target="editor-js">JS</button>
+                    <button class="code-tab" data-target="editor-data">DATA</button>
+                    <div class="spacer"></div>
+                    <button id="compile-btn" class="code-action"><i class="fa-solid fa-play"></i> EXECUTE</button>
+                </div>
+
+                <div class="code-viewport">
+                    <div id="editor-html" class="code-box active"><textarea spellcheck="false"></textarea></div>
+                    <div id="editor-css" class="code-box"><textarea spellcheck="false"></textarea></div>
+                    <div id="editor-js" class="code-box"><textarea spellcheck="false"></textarea></div>
+                    <div id="editor-data" class="code-box"><textarea spellcheck="false"></textarea></div>
+                    <!-- config hidden for now simplicity -->
+                    <div id="editor-configs" style="display:none;"><textarea></textarea></div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Custom Reset Confirmation Modal -->
+    <div id="reset-modal-overlay" class="reset-modal-overlay">
+        <div class="reset-modal">
+            <div class="reset-modal-title">⚠️ SYSTEM RESET</div>
+            <div class="reset-modal-message">
+                This will restore the default template and erase all custom code.<br>
+                This action cannot be undone.<br><br>
+                <strong>Continue?</strong>
+            </div>
+            <div class="reset-modal-buttons">
+                <button id="reset-modal-confirm" class="reset-modal-btn reset-modal-confirm">
+                    CONFIRM RESET
+                </button>
+                <button id="reset-modal-cancel" class="reset-modal-btn reset-modal-cancel">
+                    CANCEL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Script (MUST load first) -->
+    <script src="script.js"></script>
+
+    <!-- Credit System Scripts (load after main script) -->
+    <script src="points-system.js"></script>
+    <script src="flowbank-system.js"></script>
+    <script src="netrunner-university.js"></script>
+    <script src="bounty-watch-system.js"></script>
+    <script src="integration-fixes.js"></script>
+    <script src="credit-system-ui.js"></script>
+    <script src="profile-sync.js"></script>
+</body>
+
+</html>

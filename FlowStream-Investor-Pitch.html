@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowStream - Investor Pitch Deck</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            page-break-after: always;
+            position: relative;
+            border-bottom: 2px solid #0ff;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 72px;
+            color: #0ff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            letter-spacing: 4px;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            color: #0ff;
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: #ff0055;
+            margin-bottom: 20px;
+        }
+
+        p,
+        li {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .tagline {
+            font-size: 32px;
+            color: #aaa;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: #0ff;
+            font-weight: 700;
+        }
+
+        .metric {
+            display: inline-block;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #0ff;
+            padding: 20px 40px;
+            margin: 20px 20px 20px 0;
+            border-radius: 10px;
+        }
+
+        .metric-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            color: #0ff;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 18px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 40px;
+        }
+
+        li::before {
+            content: '▸';
+            color: #0ff;
+            font-weight: bold;
+            display: inline-block;
+            width: 30px;
+            margin-left: -30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #0ff;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 96px;
+            color: #0ff;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            right: 60px;
+            font-size: 18px;
+            color: #555;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide">
+        <div class="content">
+            <div class="logo">FLOWSTREAM</div>
+            <h1>The Future of Live Streaming</h1>
+            <p class="tagline">Multi-Stream Viewing • Gamified Learning • Web3 Integration</p>
+            <p style="font-size: 28px; margin-top: 60px;">Investor Pitch Deck</p>
+            <p style="font-size: 20px; color: #666;">December 2025</p>
+        </div>
+        <div class="footer">Slide 1</div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: THE PROBLEM</h2>
+            <h3>Current Streaming Platforms Are Broken</h3>
+            <ul>
+                <li><strong>Single-Stream Limitation:</strong> Users can only watch one stream at a time, missing out on
+                    simultaneous events</li>
+                <li><strong>Passive Consumption:</strong> No meaningful engagement or skill development while watching
+                </li>
+                <li><strong>Creator Monetization Gaps:</strong> Limited revenue streams beyond subscriptions and ads
+                </li>
+                <li><strong>Fragmented Experience:</strong> Users juggle multiple tabs/windows to watch multiple
+                    streamers</li>
+                <li><strong>No Learning Pathway:</strong> Gaming content doesn't translate to real-world skills</li>
+            </ul>
+            <p style="margin-top: 40px; font-size: 28px; color: #ff0055;">
+                <strong>Result:</strong> Viewers miss content, creators struggle to monetize, and platforms fail to
+                innovate.
+            </p>
+        </div>
+        <div class="footer">Slide 2</div>
+    </div>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: THE SOLUTION</h2>
+            <h3>FlowStream: Next-Gen Streaming Platform</h3>
+            <div class="grid-2">
+                <div class="feature-box">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">🎬 Multi-Stream Viewing</h3>
+                    <p style="font-size: 20px;">Watch multiple streams simultaneously with independent audio mixing and
+                        seamless playlist mode</p>
+                </div>
+                <div class="feature-box">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">🎓 Netrunner University</h3>
+                    <p style="font-size: 20px;">Gamified coding education with daily challenges and Flow Token rewards
+                    </p>
+                </div>
+                <div class="feature-box">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">💰 Creator Earnings Engine</h3>
+                    <p style="font-size: 20px;">Instant payouts, transparent revenue splits, and viewer rewards powered
+                        by modern financial infrastructure</p>
+                </div>
+                <div class="feature-box">
+                    <h3 style="font-size: 24px; margin-bottom: 15px;">🎯 Viewer Rewards System</h3>
+                    <p style="font-size: 20px;">Watch-to-earn mechanics with Flow Credits (like Twitch Bits) for tips
+                        and subscriptions</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Slide 3</div>
+    </div>
+
+    <!-- SLIDE 4: MARKET OPPORTUNITY -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: MARKET OPPORTUNITY</h2>
+            <div class="metric">
+                <span class="metric-value">$99.8B</span>
+                <span class="metric-label">Global Streaming Market (2024)</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">$345B</span>
+                <span class="metric-label">Projected by 2030</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">240M</span>
+                <span class="metric-label">Twitch Monthly Active Users</span>
+            </div>
+            <h3 style="margin-top: 60px;">Target Segments</h3>
+            <ul>
+                <li><strong>Gaming Enthusiasts:</strong> 3.32B gamers worldwide seeking multi-stream tournament viewing
+                </li>
+                <li><strong>Aspiring Developers:</strong> 28.7M developers globally, 69K bootcamp graduates annually
+                </li>
+                <li><strong>Content Creators:</strong> 207M creators globally (45M professionals)</li>
+                <li><strong>Web3 Early Adopters:</strong> 568M crypto users globally (+13% in 2024)</li>
+            </ul>
+        </div>
+        <div class="footer">Slide 4</div>
+    </div>
+
+    <!-- SLIDE 5: UNIQUE VALUE PROPOSITION -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: WHAT MAKES US DIFFERENT</h2>
+            <h3>Competitive Advantages</h3>
+            <ul style="font-size: 26px;">
+                <li><strong>Multi-Stream Technology:</strong> Only platform with true simultaneous viewing and audio
+                    mixing</li>
+                <li><strong>Monetizable Education:</strong> First streaming platform to integrate coding education with
+                    real career value</li>
+                <li><strong>Premium UX:</strong> Web2-quality interface that rivals Twitch, not crypto jank
+                </li>
+                <li><strong>Modern Infrastructure:</strong> Instant payouts and transparent revenue splits using modern
+                    financial rails</li>
+                <li><strong>Creator-First Economy:</strong> 70/30 split, better than Twitch (50/50), sustainable unlike
+                    Kick (95/5)</li>
+            </ul>
+            <p style="margin-top: 60px; font-size: 28px; border-left: 4px solid #0ff; padding-left: 30px;">
+                <strong>We're not a Twitch replacement.</strong><br>
+                We're the infrastructure layer that creators use to stream everywhere, earn transparently, and protect
+                their communities.
+            </p>
+        </div>
+        <div class="footer">Slide 5</div>
+    </div>
+
+    <!-- SLIDE 5.5: WHY WE'RE DIFFERENT FROM FAILED WEB3 PLATFORMS -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: WHY WE'RE DIFFERENT</h2>
+            <h3>Learning from Failed Web3 Streaming Platforms</h3>
+            <div class="grid-2" style="margin-top: 40px;">
+                <div>
+                    <h3 style="font-size: 24px; color: #ff0055; margin-bottom: 20px;">❌ Failed Web3 Platforms</h3>
+                    <ul style="font-size: 20px;">
+                        <li>Led with crypto/tokens</li>
+                        <li>Required wallets</li>
+                        <li>Volatile token payouts</li>
+                        <li>Walled garden approach</li>
+                        <li>Weak moderation</li>
+                        <li>Forced exclusivity</li>
+                        <li>Crypto-native UX</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 24px; color: #0ff; margin-bottom: 20px;">✅ FlowStream Approach</h3>
+                    <ul style="font-size: 20px;">
+                        <li>Lead with creator value</li>
+                        <li>Email/OAuth onboarding</li>
+                        <li>Stable USD payouts</li>
+                        <li>Multi-platform distribution</li>
+                        <li>AI-powered trust & safety</li>
+                        <li>Integration layer</li>
+                        <li>Web2 quality standard</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 60px; font-size: 24px; color: #0ff; text-align: center;">
+                <strong>Positioning:</strong> "The Stripe + OBS + Trust Layer for Live Streaming"<br>
+                <span style="font-size: 18px; color: #aaa;">Infrastructure, not identity</span>
+            </p>
+        </div>
+        <div class="footer">Slide 5.5</div>
+    </div>
+
+    <!-- SLIDE 6: REVENUE MODEL -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: REVENUE STREAMS</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Primary Revenue</h3>
+                    <ul>
+                        <li><strong>Subscriptions:</strong> Premium tiers with enhanced features ($9.99-$24.99/mo)</li>
+                        <li><strong>Creator Credits & Tips:</strong> Internal currency for tips, subscriptions, and
+                            rewards (like Twitch Bits)</li>
+                        <li><strong>Transaction Fees:</strong> 30% platform fee on creator earnings (industry standard)
+                        </li>
+                        <li><strong>Advertising:</strong> Non-intrusive, targeted ads for free tier users</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Secondary Revenue</h3>
+                    <ul>
+                        <li><strong>Enterprise API:</strong> Multi-stream embedding for esports organizations</li>
+                        <li><strong>Educational Partnerships:</strong> Netrunner University licensing to bootcamps</li>
+                        <li><strong>NFT Marketplace:</strong> Creator badges, emotes, and exclusive content</li>
+                        <li><strong>Data Analytics:</strong> Viewer insights and engagement metrics for brands</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="metric" style="margin-top: 40px;">
+                <span class="metric-value">$300</span>
+                <span class="metric-label">Projected LTV per Paid User (Year 3)</span>
+            </div>
+            <p style="margin-top: 20px; font-size: 18px; color: #aaa;">
+                Based on $15/mo avg subscription × 18-month lifespan + $30 additional revenue<br>
+                LTV:CAC ratio of 2.5:1 (industry benchmark: 3:1)
+            </p>
+        </div>
+        <div class="footer">Slide 6</div>
+    </div>
+
+    <!-- SLIDE 7: TRACTION & ROADMAP -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: CURRENT STATUS & ROADMAP</h2>
+            <h3>✅ Completed (MVP)</h3>
+            <ul>
+                <li>Multi-stream playlist mode with independent audio control</li>
+                <li>Cyberpunk UI/UX with premium animations</li>
+                <li>Netrunner University framework (20 coding challenges)</li>
+                <li>Flow Credits system and creator earnings dashboard</li>
+                <li>Viewer rewards mechanics (watch-to-earn)</li>
+                <li>Creator panel system and profile customization</li>
+            </ul>
+            <h3 style="margin-top: 40px;">🚀 Next 6 Months</h3>
+            <ul>
+                <li>Beta launch with 1,000 invited creators</li>
+                <li>Fiat payment integration (Stripe/PayPal) + optional crypto payouts</li>
+                <li>Mobile apps (iOS/Android)</li>
+                <li>Live streaming infrastructure (WebRTC)</li>
+                <li>Creator onboarding and monetization tools</li>
+            </ul>
+        </div>
+        <div class="footer">Slide 7</div>
+    </div>
+
+    <!-- SLIDE 8: THE ASK -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: THE ASK</h2>
+            <div class="metric">
+                <span class="metric-value">$2.5M</span>
+                <span class="metric-label">Seed Round Target</span>
+            </div>
+            <h3 style="margin-top: 60px;">Use of Funds</h3>
+            <ul style="font-size: 26px;">
+                <li><strong>40% - Engineering:</strong> Backend infrastructure, mobile apps, blockchain integration</li>
+                <li><strong>25% - Creator Acquisition:</strong> Onboarding top streamers, marketing campaigns</li>
+                <li><strong>20% - Product Development:</strong> AI features, analytics, content moderation</li>
+                <li><strong>10% - Operations:</strong> Legal, compliance, team expansion</li>
+                <li><strong>5% - Reserve:</strong> Runway extension and contingency</li>
+            </ul>
+            <p style="margin-top: 60px; font-size: 28px; color: #0ff;">
+                <strong>18-month runway to Series A with projected 100K MAU</strong>
+            </p>
+        </div>
+        <div class="footer">Slide 8</div>
+    </div>
+
+    <!-- SLIDE 9: TEAM & CONTACT -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: LET'S BUILD THE FUTURE</h2>
+            <p style="font-size: 32px; margin-bottom: 60px;">
+                FlowStream is positioned to capture the next wave of streaming innovation by combining multi-stream
+                technology, gamified learning, and Web3 economics.
+            </p>
+            <h3>Why Now?</h3>
+            <ul style="font-size: 26px;">
+                <li>Streaming market growing 23% annually ($99.8B → $345B by 2030)</li>
+                <li>Modern infrastructure enables instant global payouts and transparent revenue sharing</li>
+                <li>Creator economy booming ($156B market, 207M creators seeking better monetization)</li>
+                <li>Proven model: Kick reached 50M users in 2 years with superior creator economics (95/5 split)</li>
+                <li>Failed Web3 platforms validated demand but proved technology-first approach doesn't work</li>
+            </ul>
+            <div
+                style="margin-top: 80px; padding: 40px; background: rgba(0, 255, 255, 0.1); border: 2px solid #0ff; border-radius: 10px;">
+                <h3 style="margin-bottom: 20px;">Contact</h3>
+                <p style="font-size: 24px;">
+                    <strong>Email:</strong> invest@flowstream.io<br>
+                    <strong>Website:</strong> www.flowstream.io<br>
+                    <strong>Demo:</strong> Available upon request
+                </p>
+            </div>
+        </div>
+        <div class="footer">Slide 9</div>
+    </div>
+
+    <!-- SLIDE 10: SOURCES -->
+    <div class="slide">
+        <div class="content">
+            <h2>:: DATA SOURCES</h2>
+            <p style="font-size: 20px; margin-bottom: 40px; color: #aaa;">All statistics verified from reputable
+                industry sources</p>
+            <div class="grid-2">
+                <div>
+                    <h3 style="font-size: 24px;">Market Data</h3>
+                    <ul style="font-size: 18px;">
+                        <li>Live Streaming Market: Grand View Research, 2024</li>
+                        <li>Gaming Industry: Newzoo, 2024</li>
+                        <li>Creator Economy: Grand View Research, Tapereal, 2024</li>
+                        <li>Web3 Adoption: Crypto.com, Binance, 2024</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 24px;">Platform Benchmarks</h3>
+                    <ul style="font-size: 18px;">
+                        <li>Twitch Statistics: Business of Apps, DemandSage, 2024</li>
+                        <li>Kick Growth: Dexerto, StreamsCharts, 2024</li>
+                        <li>CAC/LTV: Spyro-Soft, Vena Solutions, 2024</li>
+                        <li>Churn Rates: Parks Associates, 2024-2025</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 60px; font-size: 18px; color: #666; font-style: italic;">
+                Financial projections based on conservative assumptions and comparable platform analysis (Kick, Mixer,
+                Caffeine).<br>
+                Full methodology available in FlowStream Financial Projections document.
+            </p>
+        </div>
+        <div class="footer">Slide 10</div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOW | OPERATOR SETTINGS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="subscriptions-styles.css">
+    <link rel="stylesheet" href="settings-styles.css">
+    <link rel="stylesheet" href="university-modal-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="profile-layout">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="cyber-sidebar">
+        <a href="index.html" class="cyber-nav-btn home-btn" title="RETURN TO GRID"><i
+                class="fa-solid fa-house-signal"></i></a>
+        <div class="nav-divider"></div>
+
+        <img src="https://via.placeholder.com/50" alt="User" class="sidebar-user-avatar" title="User Profile">
+
+        <button id="university-btn" class="cyber-nav-btn university-icon" title="Netrunner University">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="flowcard-badge" id="university-badge">0</span>
+            </div>
+        </button>
+
+        <button id="flowcard-btn" class="cyber-nav-btn flowcard-icon" title="FLOWBANK">
+            <div class="flowcard-icon">
+                <i class="fa-solid fa-credit-card"></i>
+                <span class="flowcard-badge" id="flowcard-badge">0</span>
+            </div>
+        </button>
+
+        <a href="profile.html" class="cyber-nav-btn" title="OPERATOR DOSSIER"><i class="fa-solid fa-id-card"></i></a>
+        <a href="subscriptions.html" class="cyber-nav-btn" title="SUBSCRIPTIONS & FEEDS"><i
+                class="fa-solid fa-users"></i></a>
+        <button class="cyber-nav-btn active" title="OPERATOR SETTINGS"><i class="fa-solid fa-gear"></i></button>
+        <a href="terminal.html" class="cyber-nav-btn" title="OPERATOR TERMINAL"><i class="fa-solid fa-terminal"></i></a>
+        <a href="channel.html" class="cyber-nav-btn" title="BROADCAST FEED"><i
+                class="fa-solid fa-broadcast-tower"></i></a>
+        <div class="nav-spacer"></div>
+        <button class="cyber-nav-btn save-btn" id="global-save-btn" title="SAVE DATA"><i
+                class="fa-solid fa-floppy-disk"></i></button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="mainframe-grid">
+        <section class="subscriptions-container">
+            <div class="subscriptions-header">
+                <h1><i class="fa-solid fa-gear"></i> OPERATOR SETTINGS</h1>
+                <p style="color: rgba(255,255,255,0.6); margin-top: 10px;">Configure your system preferences</p>
+            </div>
+
+            <!-- Settings Form -->
+            <div class="settings-form">
+
+                <!-- Account Settings -->
+                <div class="settings-section">
+                    <h2 class="section-title"><i class="fa-solid fa-user"></i> Account Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label>Username</label>
+                            <input type="text" id="setting-username" class="cyber-input" value="TestUser" readonly>
+                            <small>Username cannot be changed</small>
+                        </div>
+                        <div class="setting-item">
+                            <label>Email</label>
+                            <input type="email" id="setting-email" class="cyber-input" placeholder="your@email.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="settings-section">
+                    <h2 class="section-title"><i class="fa-solid fa-bell"></i> Notifications</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-email-notif" checked>
+                                <span>Email Notifications</span>
+                            </label>
+                            <small>Receive updates via email</small>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-sound-effects" checked>
+                                <span>Sound Effects</span>
+                            </label>
+                            <small>Enable UI sound effects</small>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-badge-notif" checked>
+                                <span>Badge Notifications</span>
+                            </label>
+                            <small>Show notification badges</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="settings-section">
+                    <h2 class="section-title"><i class="fa-solid fa-shield"></i> Privacy</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-profile-public" checked>
+                                <span>Public Profile</span>
+                            </label>
+                            <small>Allow others to view your profile</small>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-show-online" checked>
+                                <span>Show Online Status</span>
+                            </label>
+                            <small>Display when you're online</small>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-allow-messages" checked>
+                                <span>Allow Messages</span>
+                            </label>
+                            <small>Let users send you messages</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Settings -->
+                <div class="settings-section">
+                    <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i> Learning</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-auto-save" checked>
+                                <span>Auto-Save Progress</span>
+                            </label>
+                            <small>Automatically save lesson progress</small>
+                        </div>
+                        <div class="setting-item">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="setting-show-hints" checked>
+                                <span>Show Hints</span>
+                            </label>
+                            <small>Display hints during practice</small>
+                        </div>
+                        <div class="setting-item">
+                            <label>Difficulty Preference</label>
+                            <select id="setting-difficulty" class="cyber-input">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="settings-actions">
+                    <button id="save-settings-btn" class="action-btn primary-btn">
+                        <i class="fa-solid fa-floppy-disk"></i> SAVE SETTINGS
+                    </button>
+                    <button id="reset-settings-btn" class="action-btn danger-btn">
+                        <i class="fa-solid fa-rotate-left"></i> RESET TO DEFAULT
+                    </button>
+                </div>
+
+                <!-- Save Confirmation -->
+                <div id="save-confirmation" class="save-confirmation" style="display: none;">
+                    <i class="fa-solid fa-check-circle"></i> Settings saved successfully!
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="simple-auth.js"></script>
+    <script src="flowbank-system.js"></script>
+    <script src="points-system.js"></script>
+    <script src="netrunner-university.js"></script>
+    <script src="credit-system-ui.js"></script>
+    <script src="integration-fixes.js"></script>
+    <script src="settings-ui.js"></script>
+</body>
+
+</html>
