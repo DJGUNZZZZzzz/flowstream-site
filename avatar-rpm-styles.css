@@ -249,6 +249,8 @@
     flex: 1;
     border: none;
     width: 100%;
+    height: 100%;
+    /* CRITICAL: Without this, iframe is invisible! */
 }
 
 .rpm-loading {
