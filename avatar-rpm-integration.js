@@ -96,7 +96,7 @@ const RPMIntegration = {
                 return;
             }
 
-            console.log('Ready Player Me Event:', json.eventName, json);
+            console.log('🎯 Ready Player Me Event:', json.eventName, json);
 
             // Handle different events
             switch (json.eventName) {
@@ -105,8 +105,18 @@ const RPMIntegration = {
                     this.handleAvatarExported(json.data.url);
                     break;
 
+                case 'v1.avatar.created':
+                    // This fires BEFORE account signup prompt
+                    console.log('🎨 Avatar created (before signup):', json.data);
+                    if (json.data.id) {
+                        const avatarUrl = `https://models.readyplayer.me/${json.data.id}.glb`;
+                        console.log('💾 Saving avatar from created event:', avatarUrl);
+                        this.handleAvatarExported(avatarUrl);
+                    }
+                    break;
+
                 case 'v1.user.set':
-                    console.log('User set with ID:', json.data.id);
+                    console.log('👤 User set with ID:', json.data.id);
                     // When user selects existing avatar, fetch it
                     if (json.data.id) {
                         this.fetchUserAvatar(json.data.id);
@@ -114,7 +124,12 @@ const RPMIntegration = {
                     break;
 
                 case 'v1.frame.ready':
-                    console.log('Ready Player Me frame ready');
+                    console.log('✅ Ready Player Me frame ready');
+                    break;
+
+                default:
+                    // Log all other events for debugging
+                    console.log('📋 Unhandled RPM event:', json.eventName, json.data);
                     break;
             }
         });
