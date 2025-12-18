@@ -7,10 +7,10 @@
  */
 
 const RPMIntegration = {
-    // Configuration
+    // Configuration - NEW APPLICATION for fresh start
     config: {
-        subdomain: 'flow-streaming',
-        appId: '6943171cdaf19bea757825bc'
+        subdomain: 'flowstream-v2',
+        appId: '69437c98daf19bea75789938'
     },
 
     // Track if listener is added
