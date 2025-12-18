@@ -257,6 +257,49 @@ function openVIVERSECreator() {
     window.open('https://avatar.viverse.com/avatar', '_blank', 'width=1200,height=800');
 }
 
+/**
+ * Load PlayerZero avatar by ID
+ */
+function loadPlayerZeroAvatar() {
+    const avatarId = document.getElementById('playerzero-id').value.trim();
+
+    if (!avatarId) {
+        alert('Please enter a PlayerZero Avatar ID');
+        return;
+    }
+
+    console.log('🎮 Loading PlayerZero avatar:', avatarId);
+
+    // PlayerZero API endpoint
+    const avatarUrl = `https://models.readyplayer.me/${avatarId}.glb`;
+
+    // Add optimization parameters
+    const optimizedUrl = `${avatarUrl}?morphTargets=none&textureAtlas=256`;
+
+    console.log('📡 Fetching from:', optimizedUrl);
+
+    // Load the avatar
+    loadVRMAvatar(optimizedUrl);
+
+    // Save to IndexedDB for persistence
+    fetch(optimizedUrl)
+        .then(res => res.blob())
+        .then(blob => {
+            saveVRMToDB(blob, `playerzero_${avatarId}.glb`)
+                .then(() => {
+                    console.log('💾 PlayerZero avatar saved');
+                    alert('✅ PlayerZero avatar loaded successfully!');
+                })
+                .catch(err => {
+                    console.error('❌ Failed to save:', err);
+                });
+        })
+        .catch(err => {
+            console.error('❌ Failed to fetch PlayerZero avatar:', err);
+            alert('Failed to load PlayerZero avatar. Please check the ID and try again.');
+        });
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 VRM Avatar System Loaded');
