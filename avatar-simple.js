@@ -12,7 +12,7 @@ window.addEventListener('message', (event) => {
 
     if (json?.source !== 'readyplayerme') return;
 
-    console.log('RPM Event:', json.eventName);
+    console.log('RPM Event:', json.eventName, json);
 
     if (json.eventName === 'v1.avatar.exported') {
         const avatarUrl = json.data.url;
@@ -29,6 +29,29 @@ window.addEventListener('message', (event) => {
         closeAvatarEditor();
 
         alert('✅ Avatar created successfully!');
+    }
+
+    // Handle when user SELECTS an existing avatar
+    if (json.eventName === 'v1.user.set') {
+        console.log('👤 User selected avatar:', json.data.id);
+
+        if (json.data.id) {
+            // Build avatar URL from ID
+            const avatarUrl = `https://models.readyplayer.me/${json.data.id}.glb`;
+            console.log('✅ Avatar selected:', avatarUrl);
+
+            // Save avatar
+            localStorage.setItem('userAvatar', avatarUrl);
+
+            // Update display
+            const thumbnail = avatarUrl.replace('.glb', '.png');
+            updateAvatarDisplay(thumbnail);
+
+            // Close frame
+            closeAvatarEditor();
+
+            alert('✅ Avatar selected successfully!');
+        }
     }
 });
 
