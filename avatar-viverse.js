@@ -62,52 +62,101 @@ function init3DScene() {
 /**
  * Load and display VRM avatar
  */
-function loadVRMAvatar(vrmDataUrl) {
+function loadVRMAvatar(vrmUrl) {
     console.log('🎭 Loading VRM avatar...');
 
-    // Convert data URL to blob
-    fetch(vrmDataUrl)
-        .then(res => res.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
+    // Load VRM
+    const loader = new THREE.GLTFLoader();
+    loader.register((parser) => new VRMLoaderPlugin(parser));
 
-            // Load VRM
-            const loader = new THREE.GLTFLoader();
-            loader.register((parser) => new VRMLoaderPlugin(parser));
+    loader.load(
+        vrmUrl,
+        (gltf) => {
+            // Remove previous avatar
+            if (currentVRM) {
+                scene.remove(currentVRM.scene);
+            }
 
-            loader.load(
-                url,
-                (gltf) => {
-                    // Remove previous avatar
-                    if (currentVRM) {
-                        scene.remove(currentVRM.scene);
-                    }
+            // Add new avatar
+            currentVRM = gltf.userData.vrm;
+            scene.add(currentVRM.scene);
 
-                    // Add new avatar
-                    currentVRM = gltf.userData.vrm;
-                    scene.add(currentVRM.scene);
+            // Center avatar
+            currentVRM.scene.position.set(0, 0, 0);
 
-                    // Center avatar
-                    currentVRM.scene.position.set(0, 0, 0);
+            console.log('✅ VRM avatar loaded successfully');
 
-                    console.log('✅ VRM avatar loaded successfully');
+            // Update thumbnail
+            updateAvatarThumbnail();
+        },
+        (progress) => {
+            const percent = (progress.loaded / progress.total * 100).toFixed(0);
+            console.log(`Loading: ${percent}%`);
+        },
+        (error) => {
+            console.error('❌ VRM load error:', error);
+            alert('Failed to load VRM avatar. Please try a different file.');
+        }
+    );
+}
 
-                    // Update thumbnail
-                    updateAvatarThumbnail(vrmDataUrl);
-                },
-                (progress) => {
-                    const percent = (progress.loaded / progress.total * 100).toFixed(0);
-                    console.log(`Loading: ${percent}%`);
-                },
-                (error) => {
-                    console.error('❌ VRM load error:', error);
-                    alert('Failed to load VRM avatar. Please try a different file.');
-                }
-            );
-        })
-        .catch(error => {
-            console.error('❌ Blob conversion error:', error);
-        });
+/**
+ * IndexedDB helper for storing large VRM files
+ */
+const DB_NAME = 'FlowStreamAvatars';
+const DB_VERSION = 1;
+const STORE_NAME = 'vrm';
+
+let db = null;
+
+// Initialize IndexedDB
+function initDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            db = request.result;
+            resolve(db);
+        };
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME);
+            }
+        };
+    });
+}
+
+// Save VRM to IndexedDB
+function saveVRMToDB(blob, filename) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+
+        const data = {
+            blob: blob,
+            filename: filename,
+            timestamp: Date.now()
+        };
+
+        const request = store.put(data, 'userVRM');
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// Load VRM from IndexedDB
+function loadVRMFromDB() {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORE_NAME], 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.get('userVRM');
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
 }
 
 /**
@@ -124,49 +173,49 @@ function handleVRMUpload(event) {
     }
 
     console.log('📁 VRM file selected:', file.name);
+    console.log('📏 File size:', (file.size / 1024 / 1024).toFixed(2), 'MB');
 
-    // Read file as data URL
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const vrmData = e.target.result;
+    // Save blob to IndexedDB
+    saveVRMToDB(file, file.name)
+        .then(() => {
+            console.log('💾 VRM saved to IndexedDB');
 
-        // Save to localStorage
-        localStorage.setItem('userVRM', vrmData);
-        localStorage.setItem('userVRMName', file.name);
-
-        console.log('💾 VRM saved to localStorage');
-
-        // Load and display
-        loadVRMAvatar(vrmData);
-    };
-
-    reader.readAsDataURL(file);
+            // Load and display
+            const url = URL.createObjectURL(file);
+            loadVRMAvatar(url);
+        })
+        .catch(error => {
+            console.error('❌ Failed to save VRM:', error);
+            alert('Failed to save avatar. Please try a smaller file.');
+        });
 }
 
 /**
  * Update avatar thumbnail in profile
  */
-function updateAvatarThumbnail(vrmDataUrl) {
-    // For now, show a placeholder
-    // In future, could generate thumbnail from 3D scene
+function updateAvatarThumbnail() {
     const profileAvatar = document.getElementById('profileAvatar');
     if (profileAvatar) {
-        // Use a default avatar icon
+        // Use a 3D avatar icon
         profileAvatar.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="%2300ffff" width="200" height="200"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="%23000" font-size="60">3D</text></svg>';
         profileAvatar.style.display = 'block';
     }
 }
 
 /**
- * Load saved VRM from localStorage
+ * Load saved VRM from IndexedDB
  */
-function loadSavedVRM() {
-    const savedVRM = localStorage.getItem('userVRM');
-    const savedName = localStorage.getItem('userVRMName');
+async function loadSavedVRM() {
+    try {
+        const data = await loadVRMFromDB();
 
-    if (savedVRM) {
-        console.log('📦 Loading saved VRM:', savedName);
-        loadVRMAvatar(savedVRM);
+        if (data && data.blob) {
+            console.log('📦 Loading saved VRM:', data.filename);
+            const url = URL.createObjectURL(data.blob);
+            loadVRMAvatar(url);
+        }
+    } catch (error) {
+        console.log('No saved VRM found');
     }
 }
 
@@ -175,8 +224,10 @@ function loadSavedVRM() {
  */
 function clearAvatar() {
     if (confirm('Clear your avatar?')) {
-        localStorage.removeItem('userVRM');
-        localStorage.removeItem('userVRMName');
+        // Clear from IndexedDB
+        const transaction = db.transaction([STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+        store.delete('userVRM');
 
         if (currentVRM) {
             scene.remove(currentVRM.scene);
@@ -200,14 +251,23 @@ function openVIVERSECreator() {
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 VRM Avatar System Loaded');
+
+    // Initialize IndexedDB
+    try {
+        await initDB();
+        console.log('✅ IndexedDB initialized');
+    } catch (error) {
+        console.error('❌ IndexedDB initialization failed:', error);
+        alert('Failed to initialize storage. Avatar saving may not work.');
+    }
 
     // Initialize 3D scene
     init3DScene();
 
     // Load saved avatar
-    loadSavedVRM();
+    await loadSavedVRM();
 
     // Set up file input
     const fileInput = document.getElementById('vrm-upload');
