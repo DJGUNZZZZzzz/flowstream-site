@@ -27,7 +27,7 @@ function init3DScene() {
         0.1,
         100
     );
-    camera.position.set(0, 1.2, 2.5); // Adjusted for full body view
+    camera.position.set(0, 0.8, 4); // Pulled back for full head-to-toe view
 
     // Create renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for full body view
-            currentVRM.scene.position.set(0, -0.8, 0); // Raise avatar up to show full body
+            currentVRM.scene.position.set(0, -0.5, 0); // Centered for head-to-toe view
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
