@@ -108,6 +108,54 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
+ * Load and display GLB avatar (Ready Player Me)
+ */
+function loadGLBAvatar(glbUrl) {
+    console.log('🎭 Loading GLB avatar...');
+
+    // Wait for loader to be ready
+    if (!window.GLTFLoader) {
+        console.error('❌ Loader not ready yet, retrying...');
+        setTimeout(() => loadGLBAvatar(glbUrl), 100);
+        return;
+    }
+
+    // Load GLB (no VRM plugin needed)
+    const loader = new window.GLTFLoader();
+
+    loader.load(
+        glbUrl,
+        (gltf) => {
+            // Remove previous avatar
+            if (currentVRM) {
+                scene.remove(currentVRM.scene);
+            }
+
+            // Add new avatar (GLB uses gltf.scene directly)
+            currentVRM = { scene: gltf.scene };
+            scene.add(currentVRM.scene);
+
+            // Center and scale avatar
+            currentVRM.scene.position.set(0, -1, 0); // RPM avatars need lower position
+            currentVRM.scene.scale.set(1, 1, 1);
+
+            console.log('✅ GLB avatar loaded successfully');
+
+            // Update thumbnail
+            updateAvatarThumbnail();
+        },
+        (progress) => {
+            const percent = (progress.loaded / progress.total * 100).toFixed(0);
+            console.log(`Loading: ${percent}%`);
+        },
+        (error) => {
+            console.error('❌ GLB load error:', error);
+            alert('Failed to load GLB avatar. Please try a different file.');
+        }
+    );
+}
+
+/**
  * IndexedDB helper for storing large VRM files
  */
 const DB_NAME = 'FlowStreamAvatars';
@@ -311,16 +359,16 @@ function tryLoadAvatar(urls, index, avatarId) {
             if (res.ok) {
                 // URL works! Load the avatar
                 console.log('✅ Found avatar at:', glbUrl);
-                loadVRMAvatar(glbUrl);
+                loadGLBAvatar(glbUrl); // Use GLB loader for Ready Player Me
 
                 // Save to IndexedDB
                 return fetch(glbUrl)
                     .then(res => res.blob())
                     .then(blob => {
-                        saveVRMToDB(blob, `playerzero_${avatarId}.glb`)
+                        saveVRMToDB(blob, `readyplayerme_${avatarId}.glb`)
                             .then(() => {
-                                console.log('💾 PlayerZero avatar saved');
-                                alert('✅ PlayerZero avatar loaded successfully!');
+                                console.log('💾 Ready Player Me avatar saved');
+                                alert('✅ Ready Player Me avatar loaded successfully!');
                             });
                     });
             } else {
