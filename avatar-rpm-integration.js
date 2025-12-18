@@ -23,7 +23,7 @@ const RPMIntegration = {
         const params = new URLSearchParams({
             frameApi: 'true',      // Enable postMessage events (documented)
             bodyType: 'fullbody',  // Set body type (documented)
-            clearCache: 'false',   // Allow session persistence (documented)
+            clearCache: 'true',    // FORCE face selection every time - no session memory
             language: 'en'         // Set language (documented)
         });
 
