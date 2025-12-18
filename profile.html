@@ -213,29 +213,33 @@
                                     alt="Avatar"
                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#0ff;text-align:center;padding:60px 20px;font-family:Orbitron\'>CREATE<br>AVATAR</div>'">
                             </div>
-                            <!-- Ready Player Me (Fixed) -->
-                            <button class="avatar-customize-btn" onclick="openAvatarEditor()">
-                                <i class="fa-solid fa-user-astronaut"></i> Ready Player Me (Fixed)
+                            <!-- PlayerZero Avatar Creation -->
+                            <button class="avatar-customize-btn" onclick="openPlayerZeroCreator()">
+                                <i class="fa-solid fa-user-astronaut"></i> Create PlayerZero Avatar
                             </button>
 
                             <button class="avatar-customize-btn" onclick="openVIVERSECreator()"
                                 style="margin-top: 10px;">
-                                <i class="fa-solid fa-user-astronaut"></i> Create Avatar
+                                <i class="fa-solid fa-cube"></i> Create VIVERSE Avatar
                             </button>
+
+                            <!-- VRM Upload -->
                             <input type="file" accept=".vrm" id="vrm-upload" style="display: none;">
                             <button class="avatar-customize-btn" onclick="document.getElementById('vrm-upload').click()"
                                 style="margin-top: 10px;">
                                 <i class="fa-solid fa-upload"></i> Upload VRM Avatar
                             </button>
 
-                            <!-- PlayerZero Integration -->
+                            <!-- PlayerZero ID Input -->
                             <div
                                 style="margin-top: 15px; padding: 15px; border: 1px solid #00ffff; border-radius: 5px; background: rgba(0,255,255,0.05);">
                                 <label
-                                    style="color: #00ffff; font-family: 'Orbitron', sans-serif; font-size: 12px; display: block; margin-bottom: 5px;">
-                                    OR USE PLAYERZERO AVATAR:
+                                    style="color: #00ffff; font-family: 'Orbitron', sans-serif; font-size: 11px; display: block; margin-bottom: 8px; line-height: 1.4;">
+                                    AFTER CREATING ON PLAYERZERO:<br>
+                                    1. Copy ID from URL (after "id=")<br>
+                                    2. Paste below and click Load
                                 </label>
-                                <input type="text" id="playerzero-id" placeholder="Enter PlayerZero Avatar ID"
+                                <input type="text" id="playerzero-id" placeholder="Paste PlayerZero Avatar ID"
                                     style="width: 100%; padding: 8px; background: #000; border: 1px solid #00ffff; color: #00ffff; font-family: 'Share Tech Mono', monospace; margin-bottom: 8px;">
                                 <button class="avatar-customize-btn" onclick="loadPlayerZeroAvatar()"
                                     style="width: 100%;">
@@ -244,17 +248,6 @@
                             </div>
                             <button class="avatar-clear-btn" onclick="clearAvatar()" style="margin-top: 10px;">
                                 <i class="fa-solid fa-trash"></i> Clear Avatar
-                            </button>
-
-                            <!-- Ready Player Me Iframe (WITH WORKAROUNDS) -->
-                            <iframe id="rpm-frame" allow="camera; microphone; clipboard-write" allowfullscreen
-                                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 9999; background: #000;">
-                            </iframe>
-
-                            <!-- RPM Close Button -->
-                            <button id="rpm-close-btn" onclick="closeAvatarEditor()"
-                                style="display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; padding: 10px 20px; background: #ff0000; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif;">
-                                <i class="fa-solid fa-times"></i> Close Editor
                             </button>
 
                             <!-- 3D Avatar Display Container -->

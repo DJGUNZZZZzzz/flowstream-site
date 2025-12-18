@@ -251,6 +251,21 @@ function clearAvatar() {
 }
 
 /**
+ * Open PlayerZero Creator (External)
+ */
+function openPlayerZeroCreator() {
+    // Open PlayerZero in new window
+    const playerZeroWindow = window.open('https://playerzero.me', '_blank', 'width=1200,height=800');
+
+    // Show instructions
+    setTimeout(() => {
+        alert('📋 Instructions:\n\n1. Create your avatar on PlayerZero\n2. Look at the URL - find "id=" parameter\n3. Copy the ID after "id="\n4. Come back and paste it below\n5. Click "Load PlayerZero Avatar"\n\nExample URL:\nplayerzero.readyplayer.me/avatar?id=ABC123\nCopy: ABC123');
+    }, 500);
+
+    console.log('🎮 Opened PlayerZero creator');
+}
+
+/**
  * Open VIVERSE Avatar Creator
  */
 function openVIVERSECreator() {
@@ -264,26 +279,26 @@ function loadPlayerZeroAvatar() {
     const avatarId = document.getElementById('playerzero-id').value.trim();
 
     if (!avatarId) {
-        alert('Please enter a PlayerZero Avatar ID');
+        alert('Please enter your PlayerZero Avatar ID');
         return;
     }
 
     console.log('🎮 Loading PlayerZero avatar:', avatarId);
 
-    // PlayerZero API endpoint
-    const avatarUrl = `https://models.readyplayer.me/${avatarId}.glb`;
+    // PlayerZero/RPM API endpoint for GLB
+    const glbUrl = `https://models.readyplayer.me/${avatarId}.glb`;
 
-    // Add optimization parameters
-    const optimizedUrl = `${avatarUrl}?morphTargets=none&textureAtlas=256`;
+    console.log('📡 Fetching GLB from:', glbUrl);
 
-    console.log('📡 Fetching from:', optimizedUrl);
-
-    // Load the avatar
-    loadVRMAvatar(optimizedUrl);
+    // Load the GLB avatar
+    loadVRMAvatar(glbUrl);
 
     // Save to IndexedDB for persistence
-    fetch(optimizedUrl)
-        .then(res => res.blob())
+    fetch(glbUrl)
+        .then(res => {
+            if (!res.ok) throw new Error('Avatar not found');
+            return res.blob();
+        })
         .then(blob => {
             saveVRMToDB(blob, `playerzero_${avatarId}.glb`)
                 .then(() => {
@@ -296,7 +311,7 @@ function loadPlayerZeroAvatar() {
         })
         .catch(err => {
             console.error('❌ Failed to fetch PlayerZero avatar:', err);
-            alert('Failed to load PlayerZero avatar. Please check the ID and try again.');
+            alert('❌ Failed to load avatar. Please check the ID and try again.\n\nMake sure you copied the ID from the URL correctly.');
         });
 }
 
