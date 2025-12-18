@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="reset-modal.css">
     <link rel="stylesheet" href="university-modal-styles.css">
-    <link rel="stylesheet" href="avatar-rpm-styles.css">
+    <!-- RPM styles removed - using minimal integration -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
@@ -298,21 +298,13 @@
     <script src="credit-system-ui.js"></script>
     <script src="profile-sync.js"></script>
 
-    <!-- Ready Player Me Integration -->
-    <script src="avatar-rpm-integration.js"></script>
+    <!-- Ready Player Me - Simple Integration -->
+    <iframe id="rpm-frame"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10000; background: #000;"
+        allow="camera *; microphone *">
+    </iframe>
 
-    <!-- Avatar Editor Modal Container -->
-    <div id="rpm-container" class="rpm-container">
-        <div class="rpm-modal">
-            <div class="rpm-header">
-                <div class="rpm-title">:: AVATAR_CUSTOMIZATION_MATRIX</div>
-                <button class="rpm-close" onclick="closeAvatarEditor()">CLOSE</button>
-            </div>
-            <div class="rpm-loading" id="rpm-loading">INITIALIZING AVATAR MATRIX...</div>
-            <iframe id="rpm-iframe" class="rpm-iframe" allow="camera *; microphone *">
-            </iframe>
-        </div>
-    </div>
+    <script src="avatar-simple.js"></script>
 </body>
 
 </html>
