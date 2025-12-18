@@ -65,9 +65,16 @@ function init3DScene() {
 function loadVRMAvatar(vrmUrl) {
     console.log('🎭 Loading VRM avatar...');
 
+    // Wait for loaders to be ready
+    if (!window.GLTFLoader || !window.VRMLoaderPlugin) {
+        console.error('❌ Loaders not ready yet, retrying...');
+        setTimeout(() => loadVRMAvatar(vrmUrl), 100);
+        return;
+    }
+
     // Load VRM
-    const loader = new THREE.GLTFLoader();
-    loader.register((parser) => new VRMLoaderPlugin(parser));
+    const loader = new window.GLTFLoader();
+    loader.register((parser) => new window.VRMLoaderPlugin(parser));
 
     loader.load(
         vrmUrl,

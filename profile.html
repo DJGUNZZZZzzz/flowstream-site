@@ -316,11 +316,27 @@
     <!-- Three.js for 3D rendering -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-    <!-- GLTFLoader for loading 3D models -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js" type="module"></script>
+    <!-- GLTFLoader - using importmap for ES modules -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
 
-    <!-- VRM Loader for avatar files -->
-    <script src="https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.0/lib/three-vrm.min.js"></script>
+    <!-- VRM Loader and GLTFLoader as module -->
+    <script type="module">
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { VRMLoaderPlugin } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.0/lib/three-vrm.module.js';
+
+        // Expose to global scope
+        window.GLTFLoader = GLTFLoader;
+        window.VRMLoaderPlugin = VRMLoaderPlugin;
+
+        console.log('✅ Three.js loaders ready');
+    </script>
 
     <!-- Our VIVERSE integration -->
     <script src="avatar-viverse.js"></script>
