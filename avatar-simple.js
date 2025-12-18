@@ -14,6 +14,8 @@ window.addEventListener('message', (event) => {
 
     console.log('RPM Event:', json.eventName, json);
 
+    // Only save when avatar is EXPORTED (finalized)
+    // This fires whether you create new or select existing
     if (json.eventName === 'v1.avatar.exported') {
         const avatarUrl = json.data.url;
         console.log('✅ Avatar exported:', avatarUrl);
@@ -28,30 +30,7 @@ window.addEventListener('message', (event) => {
         // Close frame
         closeAvatarEditor();
 
-        alert('✅ Avatar created successfully!');
-    }
-
-    // Handle when user SELECTS an existing avatar
-    if (json.eventName === 'v1.user.set') {
-        console.log('👤 User selected avatar:', json.data.id);
-
-        if (json.data.id) {
-            // Build avatar URL from ID
-            const avatarUrl = `https://models.readyplayer.me/${json.data.id}.glb`;
-            console.log('✅ Avatar selected:', avatarUrl);
-
-            // Save avatar
-            localStorage.setItem('userAvatar', avatarUrl);
-
-            // Update display
-            const thumbnail = avatarUrl.replace('.glb', '.png');
-            updateAvatarDisplay(thumbnail);
-
-            // Close frame
-            closeAvatarEditor();
-
-            alert('✅ Avatar selected successfully!');
-        }
+        alert('✅ Avatar saved successfully!');
     }
 });
 
