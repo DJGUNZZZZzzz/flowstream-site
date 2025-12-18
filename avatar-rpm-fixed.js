@@ -144,6 +144,7 @@ function updateAvatarDisplay(thumbnailUrl) {
  * Open avatar editor
  */
 function openAvatarEditor() {
+    const rpmUrl = buildRPMUrl();
     frame.src = rpmUrl;
     frame.style.display = 'block';
 
