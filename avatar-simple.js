@@ -44,11 +44,19 @@ function openAvatarEditor() {
     // Use the simple URL that was working - just frameApi parameter
     frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi`;
     frame.style.display = 'block';
+
+    // Show close button
+    const closeBtn = document.getElementById('rpm-close-btn');
+    if (closeBtn) closeBtn.style.display = 'block';
 }
 
 function closeAvatarEditor() {
     frame.style.display = 'none';
     frame.src = '';
+
+    // Hide close button
+    const closeBtn = document.getElementById('rpm-close-btn');
+    if (closeBtn) closeBtn.style.display = 'none';
 }
 
 function updateAvatarDisplay(thumbnailUrl) {
