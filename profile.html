@@ -197,7 +197,13 @@
                                     alt="Avatar"
                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#0ff;text-align:center;padding:60px 20px;font-family:Orbitron\'>CREATE<br>AVATAR</div>'">
                             </div>
-                            <button class="avatar-customize-btn" onclick="openVIVERSECreator()">
+                            <!-- Ready Player Me (Fixed) -->
+                            <button class="avatar-customize-btn" onclick="openAvatarEditor()">
+                                <i class="fa-solid fa-user-astronaut"></i> Ready Player Me (Fixed)
+                            </button>
+
+                            <button class="avatar-customize-btn" onclick="openVIVERSECreator()"
+                                style="margin-top: 10px;">
                                 <i class="fa-solid fa-user-astronaut"></i> Create Avatar
                             </button>
                             <input type="file" accept=".vrm" id="vrm-upload" style="display: none;">
