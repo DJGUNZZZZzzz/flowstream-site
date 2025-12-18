@@ -254,15 +254,15 @@ function clearAvatar() {
  * Open PlayerZero Creator (External)
  */
 function openPlayerZeroCreator() {
-    // Open PlayerZero in new window
-    const playerZeroWindow = window.open('https://playerzero.me', '_blank', 'width=1200,height=800');
+    // Open Ready Player Me Demo (publicly accessible avatars)
+    const rpmWindow = window.open('https://demo.readyplayer.me', '_blank', 'width=1200,height=800');
 
     // Show instructions
     setTimeout(() => {
-        alert('📋 Instructions:\n\n1. Create your avatar on PlayerZero\n2. Look at the URL - find "id=" parameter\n3. Copy the ID after "id="\n4. Come back and paste it below\n5. Click "Load PlayerZero Avatar"\n\nExample URL:\nplayerzero.readyplayer.me/avatar?id=ABC123\nCopy: ABC123');
+        alert('📋 Instructions:\n\n1. Create your avatar on Ready Player Me\n2. Look at the URL - find "id=" parameter\n3. Copy the ID after "id="\n4. Come back and paste it below\n5. Click "Load PlayerZero Avatar"\n\nExample URL:\ndemo.readyplayer.me/avatar?id=ABC123\nCopy: ABC123');
     }, 500);
 
-    console.log('🎮 Opened PlayerZero creator');
+    console.log('🎮 Opened Ready Player Me creator');
 }
 
 /**
