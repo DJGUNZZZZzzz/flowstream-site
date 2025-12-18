@@ -18,13 +18,13 @@ const RPMIntegration = {
 
     // Build Ready Player Me URL with proper parameters
     getEditorUrl: function () {
-        // Full URL with parameters to enable face selection and export
+        // Full URL with ALL parameters to enable face selection
         const baseUrl = `https://${this.config.subdomain}.readyplayer.me/avatar`;
         const params = new URLSearchParams({
             frameApi: 'true',
             bodyType: 'fullbody',
-            clearCache: 'false',
-            quickStart: 'false',
+            clearCache: 'true',  // Force fresh start every time - no session persistence
+            quickStart: 'false',  // Forces face selection!
             language: 'en'
         });
 
@@ -239,6 +239,13 @@ function clearAvatar() {
         if (sidebarAvatar) sidebarAvatar.src = defaultAvatar;
 
         alert('✅ Avatar cleared from FlowStream!');
+    }
+}
+
+function toggleAvatarHelp() {
+    const helpBox = document.getElementById('avatarHelpBox');
+    if (helpBox) {
+        helpBox.style.display = helpBox.style.display === 'none' ? 'block' : 'none';
     }
 }
 
