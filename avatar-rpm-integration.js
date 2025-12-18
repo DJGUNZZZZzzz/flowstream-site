@@ -1,16 +1,15 @@
 /**
- * Ready Player Me Integration for FlowStream - FIXED VERSION
- * App ID: 6943171cdaf19bea757825bc
- * Subdomain: flow-streaming
+ * Ready Player Me Integration for FlowStream - RESTORED WORKING VERSION
+ * Restored from commit 8ce5249 when everything was working
  * 
  * This version properly handles the avatar export event
  */
 
 const RPMIntegration = {
-    // Configuration - NEW APPLICATION for fresh start
+    // Configuration - BACK TO ORIGINAL WORKING APP
     config: {
-        subdomain: 'flowstream-v2',
-        appId: '69437c98daf19bea75789938'
+        subdomain: 'flow-streaming',
+        appId: '6943171cdaf19bea757825bc'
     },
 
     // Track if listener is added
@@ -18,13 +17,12 @@ const RPMIntegration = {
 
     // Build Ready Player Me URL with proper parameters
     getEditorUrl: function () {
-        // Using only OFFICIAL documented Ready Player Me parameters
+        // Full URL with parameters to enable face selection and export
         const baseUrl = `https://${this.config.subdomain}.readyplayer.me/avatar`;
         const params = new URLSearchParams({
-            frameApi: 'true',      // Enable postMessage events (documented)
-            bodyType: 'fullbody',  // Set body type (documented)
-            clearCache: 'true',    // FORCE face selection every time - no session memory
-            language: 'en'         // Set language (documented)
+            frameApi: 'true',
+            bodyType: 'fullbody',
+            clearCache: 'false'  // ORIGINAL WORKING VALUE
         });
 
         return `${baseUrl}?${params.toString()}`;
@@ -32,37 +30,23 @@ const RPMIntegration = {
 
     // Open avatar editor
     openEditor: function () {
-        console.log('🎯 RPMIntegration.openEditor() started');
-
         const container = document.getElementById('rpm-container');
         const iframe = document.getElementById('rpm-iframe');
         const loading = document.getElementById('rpm-loading');
 
-        console.log('Elements found:', {
-            container: container !== null,
-            iframe: iframe !== null,
-            loading: loading !== null
-        });
-
         if (!container || !iframe) {
-            console.error('❌ Avatar editor elements not found');
+            console.error('Avatar editor elements not found');
             return;
         }
 
         // Show container
         container.classList.add('active');
-        console.log('✅ Container activated');
 
         // Load iframe
-        const editorUrl = this.getEditorUrl();
-        console.log('📍 Editor URL:', editorUrl);
-
-        iframe.src = editorUrl;
-        console.log('✅ Iframe src set to:', iframe.src);
+        iframe.src = this.getEditorUrl();
 
         // Hide loading when iframe loads
         iframe.onload = function () {
-            console.log('✅ Iframe loaded');
             if (loading) loading.style.display = 'none';
             iframe.style.display = 'block';
         };
@@ -71,10 +55,7 @@ const RPMIntegration = {
         if (!this.listenerAdded) {
             this.setupMessageListener();
             this.listenerAdded = true;
-            console.log('✅ Message listener setup');
         }
-
-        console.log('🎯 RPMIntegration.openEditor() completed');
     },
 
     // Close avatar editor
@@ -96,7 +77,7 @@ const RPMIntegration = {
                 return;
             }
 
-            console.log('🎯 Ready Player Me Event:', json.eventName, json);
+            console.log('Ready Player Me Event:', json.eventName, json);
 
             // Handle different events
             switch (json.eventName) {
@@ -105,18 +86,8 @@ const RPMIntegration = {
                     this.handleAvatarExported(json.data.url);
                     break;
 
-                case 'v1.avatar.created':
-                    // This fires BEFORE account signup prompt
-                    console.log('🎨 Avatar created (before signup):', json.data);
-                    if (json.data.id) {
-                        const avatarUrl = `https://models.readyplayer.me/${json.data.id}.glb`;
-                        console.log('💾 Saving avatar from created event:', avatarUrl);
-                        this.handleAvatarExported(avatarUrl);
-                    }
-                    break;
-
                 case 'v1.user.set':
-                    console.log('👤 User set with ID:', json.data.id);
+                    console.log('User set with ID:', json.data.id);
                     // When user selects existing avatar, fetch it
                     if (json.data.id) {
                         this.fetchUserAvatar(json.data.id);
@@ -124,12 +95,7 @@ const RPMIntegration = {
                     break;
 
                 case 'v1.frame.ready':
-                    console.log('✅ Ready Player Me frame ready');
-                    break;
-
-                default:
-                    // Log all other events for debugging
-                    console.log('📋 Unhandled RPM event:', json.eventName, json.data);
+                    console.log('Ready Player Me frame ready');
                     break;
             }
         });
@@ -248,10 +214,7 @@ const RPMIntegration = {
 
 // Global functions for HTML onclick
 function openAvatarEditor() {
-    console.log('🚀 openAvatarEditor() called');
-    console.log('RPMIntegration exists:', typeof RPMIntegration !== 'undefined');
     RPMIntegration.openEditor();
-    console.log('✅ RPMIntegration.openEditor() executed');
 }
 
 function closeAvatarEditor() {
@@ -259,7 +222,7 @@ function closeAvatarEditor() {
 }
 
 function clearAvatar() {
-    if (confirm('Are you sure you want to remove your avatar from FlowStream?\n\nNote: This only removes it from FlowStream. Your avatar will still exist in Ready Player Me.')) {
+    if (confirm('Are you sure you want to remove your avatar from FlowStream?\\n\\nNote: This only removes it from FlowStream. Your avatar will still exist in Ready Player Me.')) {
         const userId = RPMIntegration.getCurrentUserId();
         localStorage.removeItem(`avatar_${userId}`);
 
@@ -276,17 +239,10 @@ function clearAvatar() {
     }
 }
 
-function toggleAvatarHelp() {
-    const helpBox = document.getElementById('avatarHelpBox');
-    if (helpBox) {
-        helpBox.style.display = helpBox.style.display === 'none' ? 'block' : 'none';
-    }
-}
-
 // Load avatar on page load
 document.addEventListener('DOMContentLoaded', function () {
     const userId = RPMIntegration.getCurrentUserId();
     RPMIntegration.loadAvatar(userId);
 });
 
-console.log('✓ Ready Player Me Integration Loaded (FlowStream - Fixed Version)');
+console.log('✓ Ready Player Me Integration Loaded (FlowStream - RESTORED Working Version)');
