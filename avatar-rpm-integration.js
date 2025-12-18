@@ -18,14 +18,13 @@ const RPMIntegration = {
 
     // Build Ready Player Me URL with proper parameters
     getEditorUrl: function () {
-        // Full URL with ALL parameters to enable face selection
+        // Using only OFFICIAL documented Ready Player Me parameters
         const baseUrl = `https://${this.config.subdomain}.readyplayer.me/avatar`;
         const params = new URLSearchParams({
-            frameApi: 'true',
-            bodyType: 'fullbody',
-            clearCache: 'false',  // Allow session persistence for cross-platform use
-            quickStart: 'false',  // Forces face selection!
-            language: 'en'
+            frameApi: 'true',      // Enable postMessage events (documented)
+            bodyType: 'fullbody',  // Set body type (documented)
+            clearCache: 'false',   // Allow session persistence (documented)
+            language: 'en'         // Set language (documented)
         });
 
         return `${baseUrl}?${params.toString()}`;
@@ -33,23 +32,37 @@ const RPMIntegration = {
 
     // Open avatar editor
     openEditor: function () {
+        console.log('🎯 RPMIntegration.openEditor() started');
+
         const container = document.getElementById('rpm-container');
         const iframe = document.getElementById('rpm-iframe');
         const loading = document.getElementById('rpm-loading');
 
+        console.log('Elements found:', {
+            container: container !== null,
+            iframe: iframe !== null,
+            loading: loading !== null
+        });
+
         if (!container || !iframe) {
-            console.error('Avatar editor elements not found');
+            console.error('❌ Avatar editor elements not found');
             return;
         }
 
         // Show container
         container.classList.add('active');
+        console.log('✅ Container activated');
 
         // Load iframe
-        iframe.src = this.getEditorUrl();
+        const editorUrl = this.getEditorUrl();
+        console.log('📍 Editor URL:', editorUrl);
+
+        iframe.src = editorUrl;
+        console.log('✅ Iframe src set to:', iframe.src);
 
         // Hide loading when iframe loads
         iframe.onload = function () {
+            console.log('✅ Iframe loaded');
             if (loading) loading.style.display = 'none';
             iframe.style.display = 'block';
         };
@@ -58,7 +71,10 @@ const RPMIntegration = {
         if (!this.listenerAdded) {
             this.setupMessageListener();
             this.listenerAdded = true;
+            console.log('✅ Message listener setup');
         }
+
+        console.log('🎯 RPMIntegration.openEditor() completed');
     },
 
     // Close avatar editor
@@ -217,7 +233,10 @@ const RPMIntegration = {
 
 // Global functions for HTML onclick
 function openAvatarEditor() {
+    console.log('🚀 openAvatarEditor() called');
+    console.log('RPMIntegration exists:', typeof RPMIntegration !== 'undefined');
     RPMIntegration.openEditor();
+    console.log('✅ RPMIntegration.openEditor() executed');
 }
 
 function closeAvatarEditor() {
