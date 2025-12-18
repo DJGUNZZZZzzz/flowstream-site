@@ -12,25 +12,48 @@ window.addEventListener('message', (event) => {
 
     if (json?.source !== 'readyplayerme') return;
 
-    console.log('RPM Event:', json.eventName, json);
+    // Log EVERY event with full data
+    console.log('🎯 RPM Event Received:', json.eventName);
+    console.log('📦 Full Event Data:', json);
 
-    // Only save when avatar is EXPORTED (finalized)
-    // This fires whether you create new or select existing
-    if (json.eventName === 'v1.avatar.exported') {
-        const avatarUrl = json.data.url;
-        console.log('✅ Avatar exported:', avatarUrl);
+    // Try to save on ANY event that has avatar data
+    if (json.eventName === 'v1.avatar.exported' ||
+        json.eventName === 'v2.avatar.exported' ||
+        json.eventName === 'v1.user.set' ||
+        json.eventName === 'v1.user.authorized') {
 
-        // Save avatar
-        localStorage.setItem('userAvatar', avatarUrl);
+        console.log('💾 Attempting to save avatar from event:', json.eventName);
 
-        // Update display
-        const thumbnail = avatarUrl.replace('.glb', '.png');
-        updateAvatarDisplay(thumbnail);
+        let avatarUrl = null;
 
-        // Close frame
-        closeAvatarEditor();
+        // Try to extract avatar URL from different event structures
+        if (json.data?.url) {
+            avatarUrl = json.data.url;
+        } else if (json.data?.id) {
+            avatarUrl = `https://models.readyplayer.me/${json.data.id}.glb`;
+        } else if (json.data?.avatarId) {
+            avatarUrl = `https://models.readyplayer.me/${json.data.avatarId}.glb`;
+        }
 
-        alert('✅ Avatar saved successfully!');
+        if (avatarUrl) {
+            console.log('✅ Avatar URL found:', avatarUrl);
+
+            // Save avatar
+            localStorage.setItem('userAvatar', avatarUrl);
+            console.log('💾 Saved to localStorage');
+
+            // Update display
+            const thumbnail = avatarUrl.replace('.glb', '.png');
+            updateAvatarDisplay(thumbnail);
+            console.log('🖼️ Updated display with thumbnail:', thumbnail);
+
+            // Close frame
+            closeAvatarEditor();
+
+            alert('✅ Avatar saved successfully!');
+        } else {
+            console.warn('⚠️ Event received but no avatar URL found');
+        }
     }
 });
 
