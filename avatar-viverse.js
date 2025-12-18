@@ -27,7 +27,7 @@ function init3DScene() {
         0.1,
         100
     );
-    camera.position.set(0, 0.8, 4); // Pulled back for full head-to-toe view
+    camera.position.set(0, 0.8, 3.5); // Zoomed in for better framing with feet visible
 
     // Create renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -135,8 +135,8 @@ function loadGLBAvatar(glbUrl) {
             currentVRM = { scene: gltf.scene };
             scene.add(currentVRM.scene);
 
-            // Center and scale avatar - adjusted for full body view
-            currentVRM.scene.position.set(0, -0.5, 0); // Centered for head-to-toe view
+            // Center and scale avatar - adjusted for complete body view including feet
+            currentVRM.scene.position.set(0, 0, 0); // Raised to show feet
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
