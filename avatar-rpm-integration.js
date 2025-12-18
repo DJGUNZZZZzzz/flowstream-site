@@ -23,7 +23,7 @@ const RPMIntegration = {
         const params = new URLSearchParams({
             frameApi: 'true',
             bodyType: 'fullbody',
-            clearCache: 'true',  // Force fresh start every time - no session persistence
+            clearCache: 'false',  // Allow session persistence for cross-platform use
             quickStart: 'false',  // Forces face selection!
             language: 'en'
         });
