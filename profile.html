@@ -197,7 +197,7 @@
                                     alt="Avatar"
                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#0ff;text-align:center;padding:60px 20px;font-family:Orbitron\'>CREATE<br>AVATAR</div>'">
                             </div>
-                            <button class="avatar-customize-btn" onclick="openAvatarEditor()">
+                            <button class="avatar-customize-btn" onclick="openVIVERSEAvatar()">
                                 <i class="fa-solid fa-user-astronaut"></i> Customize Your Avatar
                             </button>
                             <button class="avatar-clear-btn" onclick="clearAvatar()" style="margin-top: 10px;">
@@ -298,19 +298,12 @@
     <script src="credit-system-ui.js"></script>
     <script src="profile-sync.js"></script>
 
-    <!-- Ready Player Me - Simple Integration -->
-    <iframe id="rpm-frame"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10000; background: #000;"
-        allow="camera *; microphone *">
-    </iframe>
-
-    <!-- Close button for iframe -->
-    <button id="rpm-close-btn" onclick="closeAvatarEditor()"
-        style="display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10001; background: #00ffff; color: #000; border: 2px solid #00ffff; padding: 10px 20px; font-family: 'Orbitron', sans-serif; font-weight: bold; cursor: pointer; box-shadow: 0 0 20px #00ffff;">
-        ✕ CLOSE
-    </button>
-
-    <script src="avatar-simple.js"></script>
+    <!-- VIVERSE Avatar - External Link -->
+    <script>
+        function openVIVERSEAvatar() {
+            window.open('https://avatar.viverse.com/avatar', '_blank', 'width=1200,height=800');
+        }
+    </script>
 </body>
 
 </html>
