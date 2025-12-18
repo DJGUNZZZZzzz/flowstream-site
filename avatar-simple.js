@@ -41,7 +41,8 @@ function parse(event) {
 }
 
 function openAvatarEditor() {
-    frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi=true&bodyType=fullbody&clearCache=true&selectBodyType=true`;
+    // Use the simple URL that was working - just frameApi parameter
+    frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi`;
     frame.style.display = 'block';
 }
 
