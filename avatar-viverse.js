@@ -285,33 +285,53 @@ function loadPlayerZeroAvatar() {
 
     console.log('🎮 Loading PlayerZero avatar:', avatarId);
 
-    // PlayerZero/RPM API endpoint for GLB
-    const glbUrl = `https://models.readyplayer.me/${avatarId}.glb`;
+    // Try multiple URL endpoints
+    const urls = [
+        `https://models.readyplayer.me/${avatarId}.glb`,
+        `https://avatars.readyplayer.me/${avatarId}.glb`
+    ];
 
-    console.log('📡 Fetching GLB from:', glbUrl);
+    // Try first URL
+    tryLoadAvatar(urls, 0, avatarId);
+}
 
-    // Load the GLB avatar
-    loadVRMAvatar(glbUrl);
+function tryLoadAvatar(urls, index, avatarId) {
+    if (index >= urls.length) {
+        console.error('❌ All URL attempts failed');
+        alert('❌ Could not load avatar.\n\nPossible issues:\n1. Avatar might be private (not public)\n2. ID might be incorrect\n3. Avatar might not be finalized yet\n\nTry:\n- Make sure you saved/finalized the avatar on PlayerZero\n- Check the ID is copied correctly\n- Try creating the avatar on demo.readyplayer.me instead');
+        return;
+    }
 
-    // Save to IndexedDB for persistence
-    fetch(glbUrl)
+    const glbUrl = urls[index];
+    console.log(`📡 Trying URL ${index + 1}/${urls.length}:`, glbUrl);
+
+    // Try to fetch
+    fetch(glbUrl, { method: 'HEAD' })
         .then(res => {
-            if (!res.ok) throw new Error('Avatar not found');
-            return res.blob();
-        })
-        .then(blob => {
-            saveVRMToDB(blob, `playerzero_${avatarId}.glb`)
-                .then(() => {
-                    console.log('💾 PlayerZero avatar saved');
-                    alert('✅ PlayerZero avatar loaded successfully!');
-                })
-                .catch(err => {
-                    console.error('❌ Failed to save:', err);
-                });
+            if (res.ok) {
+                // URL works! Load the avatar
+                console.log('✅ Found avatar at:', glbUrl);
+                loadVRMAvatar(glbUrl);
+
+                // Save to IndexedDB
+                return fetch(glbUrl)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        saveVRMToDB(blob, `playerzero_${avatarId}.glb`)
+                            .then(() => {
+                                console.log('💾 PlayerZero avatar saved');
+                                alert('✅ PlayerZero avatar loaded successfully!');
+                            });
+                    });
+            } else {
+                // Try next URL
+                console.log(`❌ URL ${index + 1} failed (${res.status}), trying next...`);
+                tryLoadAvatar(urls, index + 1, avatarId);
+            }
         })
         .catch(err => {
-            console.error('❌ Failed to fetch PlayerZero avatar:', err);
-            alert('❌ Failed to load avatar. Please check the ID and try again.\n\nMake sure you copied the ID from the URL correctly.');
+            console.log(`❌ URL ${index + 1} error:`, err);
+            tryLoadAvatar(urls, index + 1, avatarId);
         });
 }
 
