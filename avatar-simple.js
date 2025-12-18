@@ -41,7 +41,7 @@ function parse(event) {
 }
 
 function openAvatarEditor() {
-    frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi=true&bodyType=fullbody`;
+    frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi=true&bodyType=fullbody&clearCache=true`;
     frame.style.display = 'block';
 }
 
