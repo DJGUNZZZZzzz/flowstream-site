@@ -205,6 +205,21 @@
                                 style="margin-top: 10px;">
                                 <i class="fa-solid fa-upload"></i> Upload VRM Avatar
                             </button>
+
+                            <!-- PlayerZero Integration -->
+                            <div
+                                style="margin-top: 15px; padding: 15px; border: 1px solid #00ffff; border-radius: 5px; background: rgba(0,255,255,0.05);">
+                                <label
+                                    style="color: #00ffff; font-family: 'Orbitron', sans-serif; font-size: 12px; display: block; margin-bottom: 5px;">
+                                    OR USE PLAYERZERO AVATAR:
+                                </label>
+                                <input type="text" id="playerzero-id" placeholder="Enter PlayerZero Avatar ID"
+                                    style="width: 100%; padding: 8px; background: #000; border: 1px solid #00ffff; color: #00ffff; font-family: 'Share Tech Mono', monospace; margin-bottom: 8px;">
+                                <button class="avatar-customize-btn" onclick="loadPlayerZeroAvatar()"
+                                    style="width: 100%;">
+                                    <i class="fa-solid fa-download"></i> Load PlayerZero Avatar
+                                </button>
+                            </div>
                             <button class="avatar-clear-btn" onclick="clearAvatar()" style="margin-top: 10px;">
                                 <i class="fa-solid fa-trash"></i> Clear Avatar
                             </button>
