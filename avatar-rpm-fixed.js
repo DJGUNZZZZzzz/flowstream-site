@@ -10,33 +10,13 @@ const subdomain = 'demo';
  * Build RPM URL with proper parameters
  */
 function buildRPMUrl() {
-    const savedAvatar = localStorage.getItem('userAvatar');
-    let avatarId = null;
-
-    // Extract avatar ID from saved URL
-    if (savedAvatar) {
-        const match = savedAvatar.match(/\/([a-f0-9-]+)\.glb/);
-        if (match) {
-            avatarId = match[1];
-        }
-    }
-
-    // Build URL with parameters
+    // Let RPM handle loading the previous avatar with clearCache=false
+    // This is more reliable than trying to pass the ID
     let url = `https://${subdomain}.readyplayer.me?frameApi`;
-
-    if (avatarId) {
-        // Load existing avatar for editing
-        url += `&id=${avatarId}`;
-        url += '&selectBodyType=true';
-        url += '&bodyType=fullbody';
-    } else {
-        // New avatar - show selection
-        url += '&quickStart=true';
-        url += '&selectBodyType=true';
-        url += '&bodyType=fullbody';
-    }
-
-    url += '&clearCache=false';
+    url += '&quickStart=true';           // Show avatar selection
+    url += '&selectBodyType=true';       // Allow body type selection
+    url += '&bodyType=fullbody';         // Default body type
+    url += '&clearCache=false';          // Load previous avatar automatically
 
     return url;
 }
