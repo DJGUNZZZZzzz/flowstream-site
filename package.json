@@ -1,0 +1,21 @@
+{
+  "name": "flow-stream-site",
+  "version": "1.0.0",
+  "description": "A next-generation live streaming platform featuring multi-stream viewing, AI-powered safety, and creator-first economics.",
+  "main": "avatar-fix.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DJGUNZZZZzzz/flowstream-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DJGUNZZZZzzz/flowstream-site/issues"
+  },
+  "homepage": "https://github.com/DJGUNZZZZzzz/flowstream-site#readme"
+}

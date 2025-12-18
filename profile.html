@@ -197,7 +197,7 @@
                                     alt="Avatar"
                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#0ff;text-align:center;padding:60px 20px;font-family:Orbitron\'>CREATE<br>AVATAR</div>'">
                             </div>
-                            <button class="avatar-customize-btn" onclick="openVIVERSEAvatar()">
+                            <button class="avatar-customize-btn" onclick="loginVIVERSE()">
                                 <i class="fa-solid fa-user-astronaut"></i> Customize Your Avatar
                             </button>
                             <button class="avatar-clear-btn" onclick="clearAvatar()" style="margin-top: 10px;">
@@ -298,12 +298,22 @@
     <script src="credit-system-ui.js"></script>
     <script src="profile-sync.js"></script>
 
-    <!-- VIVERSE Avatar - External Link -->
-    <script>
-        function openVIVERSEAvatar() {
-            window.open('https://avatar.viverse.com/avatar', '_blank', 'width=1200,height=800');
-        }
-    </script>
+    <!-- VIVERSE Avatar SDK - Hybrid CDN Integration -->
+
+    <!-- VIVERSE SDK -->
+    <script src="https://www.viverse.com/static-assets/viverse-sdk/index.umd.cjs"></script>
+
+    <!-- Three.js for 3D rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+    <!-- GLTFLoader for loading 3D models -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js" type="module"></script>
+
+    <!-- VRM Loader for avatar files -->
+    <script src="https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.0/lib/three-vrm.min.js"></script>
+
+    <!-- Our VIVERSE integration -->
+    <script src="avatar-viverse.js"></script>
 </body>
 
 </html>
