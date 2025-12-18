@@ -176,7 +176,20 @@
 
                     <!-- Ready Player Me Avatar Customization -->
                     <div class="cyber-module">
-                        <div class="module-header">:: 3D_AVATAR_MATRIX</div>
+                        <div class="module-header">
+                            :: 3D_AVATAR_MATRIX
+                            <span class="avatar-help-icon" onclick="toggleAvatarHelp()" title="Help">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </span>
+                        </div>
+                        <div id="avatarHelpBox" class="avatar-help-box" style="display: none;">
+                            <strong>Avatar Editor Not Working?</strong><br>
+                            If you see a random character instead of customization options:<br>
+                            1. Click the lock icon in your browser's address bar<br>
+                            2. Allow cookies and site data<br>
+                            3. Refresh the page<br>
+                            <em>Or try using Chrome for the best experience.</em>
+                        </div>
                         <div class="avatar-showcase-rpm">
                             <div class="avatar-preview-3d" id="avatarPreviewContainer">
                                 <img id="profileAvatar"
@@ -296,7 +309,7 @@
                 <button class="rpm-close" onclick="closeAvatarEditor()">CLOSE</button>
             </div>
             <div class="rpm-loading" id="rpm-loading">INITIALIZING AVATAR MATRIX...</div>
-            <iframe id="rpm-iframe" class="rpm-iframe" allow="camera *; microphone *" style="display: none;">
+            <iframe id="rpm-iframe" class="rpm-iframe" allow="camera *; microphone *">
             </iframe>
         </div>
     </div>
