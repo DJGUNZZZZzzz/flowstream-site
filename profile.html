@@ -23,8 +23,24 @@
                 class="fa-solid fa-house-signal"></i></a>
         <div class="nav-divider"></div>
 
-        <!-- User Avatar -->
-        <img src="https://via.placeholder.com/50" alt="User" class="sidebar-user-avatar" title="User Profile">
+        <!-- User Avatar with Dropdown -->
+        <div class="sidebar-user-avatar-container" style="position: relative;">
+            <img src="https://via.placeholder.com/50" alt="User" class="sidebar-user-avatar" id="sidebar-avatar"
+                title="User Profile">
+            <div class="dropdown-menu" id="sidebar-dropdown"
+                style="display: none; position: absolute; left: 60px; top: 0; background: rgba(0,255,255,0.1); border: 1px solid #00ffff; padding: 10px; min-width: 150px; z-index: 1000;">
+                <a href="profile.html" style="display: block; color: #00ffff; padding: 5px; text-decoration: none;">
+                    <i class="fa-solid fa-user"></i> Profile
+                </a>
+                <a href="settings.html" style="display: block; color: #00ffff; padding: 5px; text-decoration: none;">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+                <a href="#" id="sidebar-sign-out"
+                    style="display: block; color: #ff0000; padding: 5px; text-decoration: none;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </a>
+            </div>
+        </div>
 
         <!-- Netrunner University Icon -->
         <button id="university-btn" class="cyber-nav-btn university-icon" title="Netrunner University">
