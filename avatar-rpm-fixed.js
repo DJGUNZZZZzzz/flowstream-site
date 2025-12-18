@@ -6,13 +6,40 @@
 // Configuration
 const subdomain = 'demo';
 
-// Build URL with ALL parameters (workaround from forums)
-const rpmUrl = `https://${subdomain}.readyplayer.me?` +
-    'frameApi' +                    // Enable events
-    '&quickStart=true' +             // Show avatar selection first (FIX #1)
-    '&selectBodyType=true' +         // Allow body type selection (FIX #2)
-    '&bodyType=fullbody' +           // Default body type
-    '&clearCache=false';             // Load previous avatar
+/**
+ * Build RPM URL with proper parameters
+ */
+function buildRPMUrl() {
+    const savedAvatar = localStorage.getItem('userAvatar');
+    let avatarId = null;
+
+    // Extract avatar ID from saved URL
+    if (savedAvatar) {
+        const match = savedAvatar.match(/\/([a-f0-9-]+)\.glb/);
+        if (match) {
+            avatarId = match[1];
+        }
+    }
+
+    // Build URL with parameters
+    let url = `https://${subdomain}.readyplayer.me?frameApi`;
+
+    if (avatarId) {
+        // Load existing avatar for editing
+        url += `&id=${avatarId}`;
+        url += '&selectBodyType=true';
+        url += '&bodyType=fullbody';
+    } else {
+        // New avatar - show selection
+        url += '&quickStart=true';
+        url += '&selectBodyType=true';
+        url += '&bodyType=fullbody';
+    }
+
+    url += '&clearCache=false';
+
+    return url;
+}
 
 const frame = document.getElementById('rpm-frame');
 
