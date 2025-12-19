@@ -223,16 +223,10 @@ class AvatarManager {
     }
 
     init() {
-        console.log('🚀 AVATAR MANAGER DEBUG V4');
-        const legacyDebug = localStorage.getItem('userAvatar');
-        console.log('🔍 LS CHECK:', legacyDebug);
-
-        // --- HARD SYNC WITH LEGACY DATA ---
-        // We explicitly check the raw 'userAvatar' key that profile.html uses.
-        // If it exists, we MAKE SURE we are using it.
+        // --- 1. HARD SYNC WITH LEGACY DATA (Priority) ---
         let legacyRaw = localStorage.getItem('userAvatar');
 
-        // FALLBACK: If userAvatar is null, check flow_profile_data_v2
+        // --- 2. FALLBACK 1: Profile Data Object ---
         if (!legacyRaw) {
             try {
                 const profileData = JSON.parse(localStorage.getItem('flow_profile_data_v2'));
@@ -240,12 +234,20 @@ class AvatarManager {
                     legacyRaw = profileData.avatar;
                     console.log('🔍 Found avatar in flow_profile_data_v2:', legacyRaw);
                 }
-            } catch (e) {
-                console.log('⚠️ Error reading flow_profile_data_v2', e);
-            }
+            } catch (e) { console.error(e); }
         }
 
-        console.log('🔍 LS CHECK FINAL:', legacyRaw);
+        // --- 3. FALLBACK 2: DOM HEALER (Run on profile.html) ---
+        // If we still have nothing, but we are on the profile page and the inputs have data, STEAL IT.
+        if (!legacyRaw) {
+            const regAvatar = document.getElementById('reg-avatar');
+            if (regAvatar && regAvatar.value && !regAvatar.value.includes('ui-avatars.com') && !regAvatar.value.includes('placeholder')) {
+                console.log('🚑 HEALER: Found valid avatar in DOM Input! Rescuing...', regAvatar.value);
+                legacyRaw = regAvatar.value;
+                // Force save immediately to fix the broken storage
+                this.setAvatar(legacyRaw, 'rpm');
+            }
+        }
 
         if (legacyRaw) {
             let cleanLegacy = legacyRaw;
@@ -253,14 +255,10 @@ class AvatarManager {
                 cleanLegacy = cleanLegacy.replace('.glb', '.png');
             }
 
-            console.log(`🔍 Cleaned Legacy Avatar: ${cleanLegacy.substring(0, 30)}...`);
-
-            // If our current internal state is different, or we are on default, OVERRIDE.
+            // Sync internal state to match this legacy/fallback truth
             if (this.state.currentUrl !== cleanLegacy || this.state.source === 'default') {
-                console.log('⚠️ MISMATCH DETECTED: Overwriting with Legacy Data');
+                console.log('⚠️ State mismatch or Default detected. Forcing sync to Data.');
                 this.setAvatar(cleanLegacy, 'rpm');
-            } else {
-                console.log('✅ State matches Legacy Data');
             }
         }
 
@@ -269,11 +267,9 @@ class AvatarManager {
         // Listen for storage changes (cross-tab sync)
         window.addEventListener('storage', (e) => {
             if (e.key === this.storageKey || e.key === 'userAvatar') {
-                // If legacy key changes, re-run init logic basically
-                if (e.key === 'userAvatar') {
-                    const newVal = e.newValue;
-                    if (newVal) this.setAvatar(newVal, 'rpm');
-                } else {
+                if (e.key === 'userAvatar' && e.newValue) {
+                    this.setAvatar(e.newValue, 'rpm');
+                } else if (e.key === this.storageKey) {
                     const newState = JSON.parse(e.newValue);
                     this.state = newState;
                     this.updateDomElements();
@@ -284,9 +280,11 @@ class AvatarManager {
         // If on profile page, hook into the file upload specifically
         this.attachProfileListeners();
 
-        // Ensure container is visible if we have data
-        const containers = document.querySelectorAll('.user-avatar');
-        containers.forEach(el => el.style.display = 'block');
+        // Ensure container is visible 
+        setTimeout(() => {
+            const containers = document.querySelectorAll('.user-avatar');
+            containers.forEach(el => el.style.display = 'block');
+        }, 500);
     }
 
     attachProfileListeners() {
