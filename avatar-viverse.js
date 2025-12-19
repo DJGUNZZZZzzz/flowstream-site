@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -0.8, 0); // Lowered more to show feet completely
+            currentVRM.scene.position.set(0, -1.0, 0); // Lowered to ensure feet are fully visible
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
@@ -251,21 +251,35 @@ function handleVRMUpload(event) {
 function updateAvatarThumbnail() {
     // Capture the 3D scene as an image
     if (renderer && currentVRM) {
-        renderer.render(scene, camera);
-        const thumbnailUrl = renderer.domElement.toDataURL('image/png');
+        // Save current camera position
+        const originalCamPos = camera.position.clone();
 
-        // Update profile avatar
+        // Render full body for profile
+        renderer.render(scene, camera);
+        const fullBodyUrl = renderer.domElement.toDataURL('image/png');
+
+        // Update profile avatar (full body)
         const profileAvatar = document.getElementById('profileAvatar');
         if (profileAvatar) {
-            profileAvatar.src = thumbnailUrl;
+            profileAvatar.src = fullBodyUrl;
             profileAvatar.style.display = 'block';
         }
 
-        // Update sidebar avatar
-        const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
+        // Zoom in for face closeup for sidebar
+        camera.position.set(0, 1.4, 1.2); // Closer for face
+        camera.lookAt(0, 1.2, 0); // Look at face height
+        renderer.render(scene, camera);
+        const faceCloseupUrl = renderer.domElement.toDataURL('image/png');
+
+        // Restore camera position
+        camera.position.copy(originalCamPos);
+        camera.lookAt(0, 0, 0); // Reset look at
+
+        // Update sidebar avatar (face closeup)
+        const sidebarAvatar = document.getElementById('sidebar-avatar');
         if (sidebarAvatar) {
-            sidebarAvatar.src = thumbnailUrl;
-            console.log('✅ Sidebar avatar updated');
+            sidebarAvatar.src = faceCloseupUrl;
+            console.log('✅ Sidebar avatar updated with face closeup');
         }
     }
 }
