@@ -251,36 +251,45 @@ function handleVRMUpload(event) {
 function updateAvatarThumbnail() {
     // Capture the 3D scene as an image
     if (renderer && currentVRM) {
-        // Save current camera position
-        const originalCamPos = camera.position.clone();
+        // Wait a moment for the scene to fully render
+        setTimeout(() => {
+            // Save current camera position
+            const originalCamPos = camera.position.clone();
+            const originalLookAt = new THREE.Vector3(0, 0, 0);
 
-        // Render full body for profile
-        renderer.render(scene, camera);
-        const fullBodyUrl = renderer.domElement.toDataURL('image/png');
+            // Render full body for profile
+            renderer.render(scene, camera);
+            const fullBodyUrl = renderer.domElement.toDataURL('image/png');
 
-        // Update profile avatar (full body)
-        const profileAvatar = document.getElementById('profileAvatar');
-        if (profileAvatar) {
-            profileAvatar.src = fullBodyUrl;
-            profileAvatar.style.display = 'block';
-        }
+            // Update profile avatar (full body) - show the static image
+            const profileAvatar = document.getElementById('profileAvatar');
+            if (profileAvatar) {
+                profileAvatar.src = fullBodyUrl;
+                profileAvatar.style.display = 'block';
+                console.log('✅ Profile avatar updated with full body');
+            }
 
-        // Zoom in for face closeup for sidebar
-        camera.position.set(0, 1.4, 1.2); // Closer for face
-        camera.lookAt(0, 1.2, 0); // Look at face height
-        renderer.render(scene, camera);
-        const faceCloseupUrl = renderer.domElement.toDataURL('image/png');
+            // Zoom in for face closeup for sidebar
+            camera.position.set(0, 1.4, 1.2); // Closer for face
+            camera.lookAt(0, 1.2, 0); // Look at face height
+            renderer.render(scene, camera);
+            const faceCloseupUrl = renderer.domElement.toDataURL('image/png');
 
-        // Restore camera position
-        camera.position.copy(originalCamPos);
-        camera.lookAt(0, 0, 0); // Reset look at
+            // Restore camera position
+            camera.position.copy(originalCamPos);
+            camera.lookAt(originalLookAt);
 
-        // Update sidebar avatar (face closeup)
-        const sidebarAvatar = document.getElementById('sidebar-avatar');
-        if (sidebarAvatar) {
-            sidebarAvatar.src = faceCloseupUrl;
-            console.log('✅ Sidebar avatar updated with face closeup');
-        }
+            // Update sidebar avatar (face closeup)
+            const sidebarAvatar = document.getElementById('sidebar-avatar');
+            if (sidebarAvatar) {
+                sidebarAvatar.src = faceCloseupUrl;
+                sidebarAvatar.style.display = 'block';
+                console.log('✅ Sidebar avatar updated with face closeup');
+                console.log('Sidebar avatar src length:', faceCloseupUrl.length);
+            } else {
+                console.error('❌ sidebar-avatar element not found');
+            }
+        }, 500); // Wait 500ms for scene to render
     }
 }
 
