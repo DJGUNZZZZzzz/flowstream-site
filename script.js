@@ -223,26 +223,49 @@ class AvatarManager {
     }
 
     init() {
-        // FORCE CHECK: If we are on default, but have an RPM url in storage (from legacy or current), USE IT.
-        // This fixes the issue where users define an RPM avatar but it doesn't auto-select.
-        if (this.state.source === 'default' && this.state.rpmUrl) {
-            console.log('🔄 Init: Found dormant RPM avatar, auto-activating...');
-            this.setAvatar(this.state.rpmUrl, 'rpm');
+        // --- HARD SYNC WITH LEGACY DATA ---
+        // We explicitly check the raw 'userAvatar' key that profile.html uses.
+        // If it exists, we MAKE SURE we are using it.
+        const legacyRaw = localStorage.getItem('userAvatar');
+
+        if (legacyRaw) {
+            let cleanLegacy = legacyRaw;
+            if (cleanLegacy.includes('.glb')) {
+                cleanLegacy = cleanLegacy.replace('.glb', '.png');
+            }
+
+            console.log(`🔍 Init Check: Found legacy avatar: ${cleanLegacy.substring(0, 20)}...`);
+
+            // If our current internal state is different, or we are on default, OVERRIDE.
+            if (this.state.currentUrl !== cleanLegacy || this.state.source === 'default') {
+                console.log('⚠️ State mismatch or Default detected. Forcing sync to Legacy Avatar.');
+                this.setAvatar(cleanLegacy, 'rpm');
+            }
         }
 
         this.updateDomElements();
 
         // Listen for storage changes (cross-tab sync)
         window.addEventListener('storage', (e) => {
-            if (e.key === this.storageKey) {
-                const newState = JSON.parse(e.newValue);
-                this.state = newState;
-                this.updateDomElements();
+            if (e.key === this.storageKey || e.key === 'userAvatar') {
+                // If legacy key changes, re-run init logic basically
+                if (e.key === 'userAvatar') {
+                    const newVal = e.newValue;
+                    if (newVal) this.setAvatar(newVal, 'rpm');
+                } else {
+                    const newState = JSON.parse(e.newValue);
+                    this.state = newState;
+                    this.updateDomElements();
+                }
             }
         });
 
         // If on profile page, hook into the file upload specifically
         this.attachProfileListeners();
+
+        // Ensure container is visible if we have data
+        const containers = document.querySelectorAll('.user-avatar');
+        containers.forEach(el => el.style.display = 'block');
     }
 
     attachProfileListeners() {
