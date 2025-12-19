@@ -223,6 +223,10 @@ class AvatarManager {
     }
 
     init() {
+        console.log('🚀 AVATAR MANAGER DEBUG V4');
+        const legacyDebug = localStorage.getItem('userAvatar');
+        console.log('🔍 LS CHECK:', legacyDebug);
+
         // --- HARD SYNC WITH LEGACY DATA ---
         // We explicitly check the raw 'userAvatar' key that profile.html uses.
         // If it exists, we MAKE SURE we are using it.
