@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, 0, 0); // Raised to show feet
+            currentVRM.scene.position.set(0, -0.3, 0); // Lowered to show head and feet
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
@@ -246,14 +246,27 @@ function handleVRMUpload(event) {
 }
 
 /**
- * Update avatar thumbnail in profile
+ * Update avatar thumbnail in profile and sidebar
  */
 function updateAvatarThumbnail() {
-    const profileAvatar = document.getElementById('profileAvatar');
-    if (profileAvatar) {
-        // Use a 3D avatar icon
-        profileAvatar.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="%2300ffff" width="200" height="200"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="%23000" font-size="60">3D</text></svg>';
-        profileAvatar.style.display = 'block';
+    // Capture the 3D scene as an image
+    if (renderer && currentVRM) {
+        renderer.render(scene, camera);
+        const thumbnailUrl = renderer.domElement.toDataURL('image/png');
+
+        // Update profile avatar
+        const profileAvatar = document.getElementById('profileAvatar');
+        if (profileAvatar) {
+            profileAvatar.src = thumbnailUrl;
+            profileAvatar.style.display = 'block';
+        }
+
+        // Update sidebar avatar
+        const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
+        if (sidebarAvatar) {
+            sidebarAvatar.src = thumbnailUrl;
+            console.log('✅ Sidebar avatar updated');
+        }
     }
 }
 
