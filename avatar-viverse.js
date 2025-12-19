@@ -27,7 +27,7 @@ function init3DScene() {
         0.1,
         100
     );
-    camera.position.set(0, 0.8, 3.5); // Zoomed in for better framing with feet visible
+    camera.position.set(0, 0.5, 3.5); // Lowered camera for better full-body framing
 
     // Create renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -0.3, 0); // Lowered to show head and feet
+            currentVRM.scene.position.set(0, -0.6, 0); // Lowered more to show feet
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
@@ -271,19 +271,27 @@ function updateAvatarThumbnail() {
 }
 
 /**
- * Load saved VRM from IndexedDB
+ * Load saved VRM/GLB from IndexedDB
  */
 async function loadSavedVRM() {
     try {
         const data = await loadVRMFromDB();
 
         if (data && data.blob) {
-            console.log('📦 Loading saved VRM:', data.filename);
+            console.log('📦 Loading saved avatar:', data.filename);
             const url = URL.createObjectURL(data.blob);
-            loadVRMAvatar(url);
+
+            // Check if it's a GLB file (Ready Player Me) or VRM file
+            if (data.filename && data.filename.includes('.glb')) {
+                console.log('Loading as GLB (Ready Player Me)');
+                loadGLBAvatar(url);
+            } else {
+                console.log('Loading as VRM');
+                loadVRMAvatar(url);
+            }
         }
     } catch (error) {
-        console.log('No saved VRM found');
+        console.log('No saved avatar found');
     }
 }
 
