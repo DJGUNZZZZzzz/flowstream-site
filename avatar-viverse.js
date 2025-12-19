@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -0.4, 0); // Raised higher to show full body head to toe
+            currentVRM.scene.position.set(0, -1.0, 0); // Reverted to Y=-1.0 per user request
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
@@ -269,8 +269,8 @@ function updateAvatarThumbnail() {
             }
 
             // Zoom in for face closeup for sidebar
-            camera.position.set(0, 1.4, 1.2); // Closer for face
-            camera.lookAt(0, 1.2, 0); // Look at face height
+            camera.position.set(0, 0.8, 1.2); // Closer for face, adjusted for lower avatar
+            camera.lookAt(0, 0.6, 0); // Look at face height (0.6)
             renderer.render(scene, camera);
             const faceCloseupUrl = renderer.domElement.toDataURL('image/png');
 
