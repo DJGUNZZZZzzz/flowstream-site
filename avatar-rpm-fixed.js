@@ -40,13 +40,15 @@ function parse(event) {
 function saveAvatar(avatarUrl) {
     console.log('💾 Saving avatar:', avatarUrl);
 
-    localStorage.setItem('userAvatar', avatarUrl);
-
-    const thumbnail = avatarUrl.replace('.glb', '.png');
-    updateAvatarDisplay(thumbnail);
+    // Use centralized AvatarManager if available
+    if (window.avatarManager) {
+        avatarManager.setAvatar(avatarUrl, 'rpm');
+    } else {
+        // Fallback for safety
+        localStorage.setItem('userAvatar', avatarUrl);
+    }
 
     closeAvatarEditor();
-
     alert('✅ Avatar saved successfully!');
 }
 

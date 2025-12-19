@@ -85,6 +85,180 @@ class SoundFX {
 
 const sfx = new SoundFX();
 
+/* --- AVATAR MANAGER (Centralized Logic) --- */
+class AvatarManager {
+    constructor() {
+        this.storageKey = 'flow_avatar_manager';
+        this.defaultAvatar = 'https://ui-avatars.com/api/?name=Operative+01&background=0ff&color=000&size=150';
+
+        // Initialize state from local storage or defaults
+        const saved = JSON.parse(localStorage.getItem(this.storageKey)) || {};
+        this.state = {
+            currentUrl: saved.currentUrl || this.defaultAvatar,
+            source: saved.source || 'default', // 'default', 'upload', 'rpm'
+            uploadedUrl: saved.uploadedUrl || null,
+            rpmUrl: saved.rpmUrl || null
+        };
+
+        // Migrating legacy keys if this is a fresh install of the manager
+        this.migrateLegacyData();
+    }
+
+    migrateLegacyData() {
+        // Check for legacy RPM key
+        const legacyRpm = localStorage.getItem('userAvatar');
+        if (legacyRpm && !this.state.rpmUrl) {
+            this.state.rpmUrl = legacyRpm;
+            // If we are currently default, upgrade to RPM immediately
+            if (this.state.source === 'default') {
+                this.setAvatar(legacyRpm, 'rpm');
+            }
+        }
+    }
+
+    save() {
+        localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+        this.syncToProfileDossier();
+        this.updateDomElements();
+    }
+
+    /**
+     * Main method to set the avatar.
+     * @param {string} url - The image URL
+     * @param {string} source - 'upload' or 'rpm'
+     */
+    setAvatar(url, source) {
+        if (source === 'upload') {
+            this.state.uploadedUrl = url;
+            this.state.source = 'upload';
+            this.state.currentUrl = url;
+        } else if (source === 'rpm') {
+            this.state.rpmUrl = url;
+            // Only switch to RPM if we are NOT currently using a manual upload
+            // OR if the user explicitly just created this RPM avatar (implied by calling this function)
+            // For now, we assume calling setAvatar means "User wants to use this NOW"
+            this.state.source = 'rpm';
+            this.state.currentUrl = url;
+        }
+
+        // If source is null/reset
+        if (!url) {
+            if (source === 'upload') {
+                this.state.uploadedUrl = null;
+                // Fallback to RPM if exists
+                if (this.state.rpmUrl) {
+                    this.state.currentUrl = this.state.rpmUrl;
+                    this.state.source = 'rpm';
+                } else {
+                    this.state.currentUrl = this.defaultAvatar;
+                    this.state.source = 'default';
+                }
+            }
+        }
+
+        this.save();
+        console.log(`👤 Avatar updated: [${this.state.source}] ${this.state.currentUrl.substring(0, 30)}...`);
+    }
+
+    getAvatar() {
+        return this.state.currentUrl;
+    }
+
+    /**
+     * Syncs the current avatar URL to the separate profile data structure 
+     * used by the dossier editor (profile.html)
+     */
+    syncToProfileDossier() {
+        const profileKey = 'flow_profile_data_v2';
+        const profileData = JSON.parse(localStorage.getItem(profileKey)) || {};
+
+        if (profileData.avatar !== this.state.currentUrl) {
+            profileData.avatar = this.state.currentUrl;
+            localStorage.setItem(profileKey, JSON.stringify(profileData));
+            // Also update the DOM input if it exists on the current page
+            const regAvatar = document.getElementById('reg-avatar');
+            if (regAvatar) regAvatar.value = this.state.currentUrl;
+        }
+    }
+
+    /**
+     * Updates all avatar images present in the DOM
+     */
+    updateDomElements() {
+        const url = this.state.currentUrl;
+
+        // 1. Sidebar Avatar
+        const sidebarAvatars = document.querySelectorAll('.sidebar-user-avatar');
+        sidebarAvatars.forEach(img => img.src = url);
+
+        // 2. Top Nav / User Avatar
+        const userAvatars = document.querySelectorAll('.user-avatar img');
+        userAvatars.forEach(img => img.src = url);
+
+        // 3. Profile Page Main Avatar (if exists)
+        const profileAvatar = document.querySelector('.p-avatar'); // Inside iframe usually, but check main doc too
+        if (profileAvatar) profileAvatar.src = url;
+
+        // 4. Dossier Preview Image (profile.html specific)
+        const previewAvatar = document.getElementById('profileAvatar');
+        if (previewAvatar) {
+            previewAvatar.src = url;
+            previewAvatar.style.display = 'block';
+        }
+
+        // 5. Card Avatars (in feed) - Optional, maybe we want to update "You" in comments?
+        // Leaving out for now to avoid overwriting other streamers.
+    }
+
+    init() {
+        this.updateDomElements();
+
+        // Listen for storage changes (cross-tab sync)
+        window.addEventListener('storage', (e) => {
+            if (e.key === this.storageKey) {
+                const newState = JSON.parse(e.newValue);
+                this.state = newState;
+                this.updateDomElements();
+            }
+        });
+
+        // If on profile page, hook into the file upload specifically
+        this.attachProfileListeners();
+    }
+
+    attachProfileListeners() {
+        const fileUpload = document.getElementById('file-upload');
+        const regAvatar = document.getElementById('reg-avatar');
+
+        if (fileUpload && regAvatar) {
+            fileUpload.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        const url = evt.target.result;
+                        // This is an explicit user upload action
+                        this.setAvatar(url, 'upload');
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // Also listen for manual text input changes to the avatar URL field
+            regAvatar.addEventListener('change', () => {
+                if (regAvatar.value && regAvatar.value.trim() !== '') {
+                    this.setAvatar(regAvatar.value, 'upload');
+                }
+            });
+        }
+    }
+}
+
+const avatarManager = new AvatarManager();
+document.addEventListener('DOMContentLoaded', () => {
+    avatarManager.init();
+});
+
+
 /* ADD SOUND TOGGLE TO NAV */
 const navLinks = document.querySelector('.nav-links');
 if (navLinks) {
