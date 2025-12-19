@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -1.0, 0); // Lowered to ensure feet are fully visible
+            currentVRM.scene.position.set(0, -1.8, 0); // Much lower to show feet completely
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
@@ -261,12 +261,11 @@ function updateAvatarThumbnail() {
             renderer.render(scene, camera);
             const fullBodyUrl = renderer.domElement.toDataURL('image/png');
 
-            // Update profile avatar (full body) - show the static image
+            // Hide the static profile avatar - user wants spinning 3D avatar only
             const profileAvatar = document.getElementById('profileAvatar');
             if (profileAvatar) {
-                profileAvatar.src = fullBodyUrl;
-                profileAvatar.style.display = 'block';
-                console.log('✅ Profile avatar updated with full body');
+                profileAvatar.style.display = 'none'; // Keep it hidden
+                console.log('✅ Profile avatar hidden - showing spinning 3D avatar');
             }
 
             // Zoom in for face closeup for sidebar
