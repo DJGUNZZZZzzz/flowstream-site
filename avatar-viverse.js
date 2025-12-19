@@ -136,7 +136,7 @@ function loadGLBAvatar(glbUrl) {
             scene.add(currentVRM.scene);
 
             // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -1.8, 0); // Much lower to show feet completely
+            currentVRM.scene.position.set(0, -0.4, 0); // Raised higher to show full body head to toe
             currentVRM.scene.scale.set(1, 1, 1);
 
             console.log('✅ GLB avatar loaded successfully');
