@@ -230,7 +230,22 @@ class AvatarManager {
         // --- HARD SYNC WITH LEGACY DATA ---
         // We explicitly check the raw 'userAvatar' key that profile.html uses.
         // If it exists, we MAKE SURE we are using it.
-        const legacyRaw = localStorage.getItem('userAvatar');
+        let legacyRaw = localStorage.getItem('userAvatar');
+
+        // FALLBACK: If userAvatar is null, check flow_profile_data_v2
+        if (!legacyRaw) {
+            try {
+                const profileData = JSON.parse(localStorage.getItem('flow_profile_data_v2'));
+                if (profileData && profileData.avatar && !profileData.avatar.includes('ui-avatars.com')) {
+                    legacyRaw = profileData.avatar;
+                    console.log('🔍 Found avatar in flow_profile_data_v2:', legacyRaw);
+                }
+            } catch (e) {
+                console.log('⚠️ Error reading flow_profile_data_v2', e);
+            }
+        }
+
+        console.log('🔍 LS CHECK FINAL:', legacyRaw);
 
         if (legacyRaw) {
             let cleanLegacy = legacyRaw;
@@ -238,12 +253,14 @@ class AvatarManager {
                 cleanLegacy = cleanLegacy.replace('.glb', '.png');
             }
 
-            console.log(`🔍 Init Check: Found legacy avatar: ${cleanLegacy.substring(0, 20)}...`);
+            console.log(`🔍 Cleaned Legacy Avatar: ${cleanLegacy.substring(0, 30)}...`);
 
             // If our current internal state is different, or we are on default, OVERRIDE.
             if (this.state.currentUrl !== cleanLegacy || this.state.source === 'default') {
-                console.log('⚠️ State mismatch or Default detected. Forcing sync to Legacy Avatar.');
+                console.log('⚠️ MISMATCH DETECTED: Overwriting with Legacy Data');
                 this.setAvatar(cleanLegacy, 'rpm');
+            } else {
+                console.log('✅ State matches Legacy Data');
             }
         }
 
