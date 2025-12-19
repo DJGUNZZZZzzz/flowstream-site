@@ -211,6 +211,13 @@ class AvatarManager {
     }
 
     init() {
+        // FORCE CHECK: If we are on default, but have an RPM url in storage (from legacy or current), USE IT.
+        // This fixes the issue where users define an RPM avatar but it doesn't auto-select.
+        if (this.state.source === 'default' && this.state.rpmUrl) {
+            console.log('🔄 Init: Found dormant RPM avatar, auto-activating...');
+            this.setAvatar(this.state.rpmUrl, 'rpm');
+        }
+
         this.updateDomElements();
 
         // Listen for storage changes (cross-tab sync)
