@@ -106,12 +106,19 @@ class AvatarManager {
 
     migrateLegacyData() {
         // Check for legacy RPM key
-        const legacyRpm = localStorage.getItem('userAvatar');
-        if (legacyRpm && !this.state.rpmUrl) {
-            this.state.rpmUrl = legacyRpm;
-            // If we are currently default, upgrade to RPM immediately
-            if (this.state.source === 'default') {
-                this.setAvatar(legacyRpm, 'rpm');
+        let legacyRpm = localStorage.getItem('userAvatar');
+        if (legacyRpm) {
+            // Ensure we store the PNG version if it was GLB
+            if (legacyRpm.includes('.glb')) {
+                legacyRpm = legacyRpm.replace('.glb', '.png');
+            }
+
+            if (!this.state.rpmUrl) {
+                this.state.rpmUrl = legacyRpm;
+                // If we are currently default, upgrade to RPM immediately
+                if (this.state.source === 'default') {
+                    this.setAvatar(legacyRpm, 'rpm');
+                }
             }
         }
     }
@@ -128,6 +135,11 @@ class AvatarManager {
      * @param {string} source - 'upload' or 'rpm'
      */
     setAvatar(url, source) {
+        // CRITICAL FIX: RPM returns .glb (3D model), but we need .png for <img> tags
+        if (url && typeof url === 'string' && url.includes('.glb')) {
+            url = url.replace('.glb', '.png');
+        }
+
         if (source === 'upload') {
             this.state.uploadedUrl = url;
             this.state.source = 'upload';
