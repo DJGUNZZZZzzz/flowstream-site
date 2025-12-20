@@ -85,6 +85,17 @@ class SoundFX {
 
 const sfx = new SoundFX();
 
+/* --- HELPER EXTENSIONS --- */
+// Helper to check if an element has a "real" avatar URL and not a placeholder
+Object.prototype.isValidAvatar = function () {
+    let url = this.value || this.src;
+    if (!url) return false;
+    return url.includes('http') &&
+        !url.includes('ui-avatars.com') &&
+        !url.includes('via.placeholder') &&
+        !url.includes('data:image/svg');
+};
+
 /* --- AVATAR MANAGER (Centralized Logic) --- */
 class AvatarManager {
     constructor() {
@@ -243,13 +254,34 @@ class AvatarManager {
         // --- 3. FALLBACK 2: DOM HEALER (Run on profile.html) ---
         // If we still have nothing, but we are on the profile page and the inputs have data, STEAL IT.
         if (!legacyRaw) {
+            // Check Input Field
             const regAvatar = document.getElementById('reg-avatar');
-            if (regAvatar && regAvatar.value && !regAvatar.value.includes('ui-avatars.com') && !regAvatar.value.includes('placeholder')) {
-                console.log('🚑 HEALER: Found valid avatar in DOM Input! Rescuing...', regAvatar.value);
+            if (regAvatar && regAvatar.isValidAvatar()) {
+                console.log('🚑 HEALER: Found avatar in Input! Rescuing...', regAvatar.value);
                 legacyRaw = regAvatar.value;
-                // Force save immediately to fix the broken storage
+            }
+
+            // Check Visual Images (Screen Scraping) - If the user sees it, we want it!
+            if (!legacyRaw) {
+                const sidebarImg = document.querySelector('.sidebar-user-avatar');
+                if (sidebarImg && sidebarImg.isValidAvatar()) {
+                    console.log('🚑 HEALER: Scraped avatar from Sidebar Image!', sidebarImg.src);
+                    legacyRaw = sidebarImg.src;
+                }
+            }
+
+            if (!legacyRaw) {
+                const profileImg = document.getElementById('profileAvatar');
+                if (profileImg && profileImg.isValidAvatar()) {
+                    console.log('🚑 HEALER: Scraped avatar from Profile Main Image!', profileImg.src);
+                    legacyRaw = profileImg.src;
+                }
+            }
+
+            // Apply Rescue
+            if (legacyRaw) {
                 this.setAvatar(legacyRaw, 'rpm');
-                alert('🚑 Avatar Connection restored! Please refresh.');
+                alert('🚑 Avatar Connection restored! Syncing to all pages...');
             }
         }
 
