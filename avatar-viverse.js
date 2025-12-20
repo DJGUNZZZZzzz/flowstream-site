@@ -378,11 +378,12 @@ function loadPlayerZeroAvatar() {
 
     console.log('🎮 Loading PlayerZero avatar:', avatarId);
 
-    // Try multiple URL endpoints - REQUEST UNCOMPRESSED to avoid DRACO issues
-    // Per RPM docs: useDracoMeshCompression=false disables Draco compression
+    // Try multiple URL endpoints - REQUEST SIMPLIFIED GLB
+    // Per RPM docs: quality=low gives simpler mesh, morphTargets=none removes blend shapes
+    const params = 'quality=low&morphTargets=none&useDracoMeshCompression=false';
     const urls = [
-        `https://models.readyplayer.me/${avatarId}.glb?useDracoMeshCompression=false`,
-        `https://avatars.readyplayer.me/${avatarId}.glb?useDracoMeshCompression=false`
+        `https://models.readyplayer.me/${avatarId}.glb?${params}`,
+        `https://avatars.readyplayer.me/${avatarId}.glb?${params}`
     ];
 
     // Try first URL
