@@ -223,10 +223,12 @@ class AvatarManager {
         if (profileAvatar) profileAvatar.src = url;
 
         // 4. Dossier Preview Image (profile.html specific)
+        // NOTE: We don't set display:block here because avatar-viverse.js manages this.
+        // The 3D spinning avatar should be shown instead of the static image.
         const previewAvatar = document.getElementById('profileAvatar');
         if (previewAvatar) {
             previewAvatar.src = url;
-            previewAvatar.style.display = 'block';
+            // Do NOT force display:block - avatar-viverse.js hides this when 3D is active
         }
 
         // 5. Card Avatars (in feed) - Optional, maybe we want to update "You" in comments?
