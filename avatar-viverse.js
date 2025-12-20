@@ -404,6 +404,19 @@ function tryLoadAvatar(urls, index, avatarId) {
                 console.log('✅ Found avatar at:', glbUrl);
                 loadGLBAvatar(glbUrl); // Use GLB loader for Ready Player Me
 
+                // ============================================
+                // BRIDGE TO AVATAR MANAGER (for cross-page sync)
+                // ============================================
+                const pngUrl = glbUrl.replace('.glb', '.png');
+                localStorage.setItem('userAvatar', glbUrl); // Legacy key
+
+                // Use AvatarManager if available (script.js)
+                if (window.avatarManager) {
+                    window.avatarManager.setAvatar(pngUrl, 'rpm');
+                    console.log('🔗 Synced to AvatarManager');
+                }
+                // ============================================
+
                 // Save to IndexedDB
                 return fetch(glbUrl)
                     .then(res => res.blob())
