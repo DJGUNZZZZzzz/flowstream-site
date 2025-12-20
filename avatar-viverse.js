@@ -120,8 +120,10 @@ function loadGLBAvatar(glbUrl) {
         return;
     }
 
-    // Load GLB (no VRM plugin needed)
-    const loader = new window.GLTFLoader();
+    // Use pre-configured loader with DRACO support (for Ready Player Me compressed meshes)
+    // Falls back to a new instance if configuredGLTFLoader isn't available
+    const loader = window.configuredGLTFLoader || new window.GLTFLoader();
+    console.log('📦 Using loader:', window.configuredGLTFLoader ? 'Pre-configured with DRACO' : 'Basic GLTFLoader');
 
     loader.load(
         glbUrl,

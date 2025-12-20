@@ -416,14 +416,25 @@
     <script type="module">
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
         import { VRMLoaderPlugin } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.0/lib/three-vrm.module.js';
+
+        // Set up DRACO decoder for compressed meshes (used by Ready Player Me)
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/');
+
+        // Create GLTFLoader with DRACO support
+        const gltfLoader = new GLTFLoader();
+        gltfLoader.setDRACOLoader(dracoLoader);
 
         // Expose to global scope - SINGLE source of truth
         window.THREE = THREE;
         window.GLTFLoader = GLTFLoader;
+        window.DRACOLoader = DRACOLoader;
+        window.configuredGLTFLoader = gltfLoader;  // Pre-configured with DRACO
         window.VRMLoaderPlugin = VRMLoaderPlugin;
 
-        console.log('✅ Three.js loaders ready (unified module)');
+        console.log('✅ Three.js loaders ready (unified module + DRACO)');
     </script>
 
     <!-- Our VIVERSE integration -->
