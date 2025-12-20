@@ -108,11 +108,13 @@ window.addEventListener('message', (event) => {
  * Update avatar display
  */
 function updateAvatarDisplay(thumbnailUrl) {
+    // NOTE: We do NOT show profileAvatar here because avatar-viverse.js manages the 3D avatar.
+    // The static image should remain hidden when 3D is active.
     const profileAvatar = document.getElementById('profileAvatar');
     if (profileAvatar) {
         profileAvatar.src = thumbnailUrl;
-        profileAvatar.style.display = 'block';
-        console.log('✅ Profile avatar updated');
+        // Do NOT set display:block - let avatar-viverse.js control visibility
+        console.log('✅ Profile avatar src updated (visibility managed by 3D system)');
     }
 
     const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
