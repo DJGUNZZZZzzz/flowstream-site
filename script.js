@@ -223,6 +223,9 @@ class AvatarManager {
     }
 
     init() {
+        console.log('🚀 AVATAR MANAGER DEBUG V5 (HEALER EDITION)');
+        console.log('📦 AvatarState:', this.state);
+
         // --- 1. HARD SYNC WITH LEGACY DATA (Priority) ---
         let legacyRaw = localStorage.getItem('userAvatar');
 
@@ -246,6 +249,7 @@ class AvatarManager {
                 legacyRaw = regAvatar.value;
                 // Force save immediately to fix the broken storage
                 this.setAvatar(legacyRaw, 'rpm');
+                alert('🚑 Avatar Connection restored! Please refresh.');
             }
         }
 
@@ -255,11 +259,15 @@ class AvatarManager {
                 cleanLegacy = cleanLegacy.replace('.glb', '.png');
             }
 
+            console.log('✅ Final determined avatar:', cleanLegacy);
+
             // Sync internal state to match this legacy/fallback truth
             if (this.state.currentUrl !== cleanLegacy || this.state.source === 'default') {
                 console.log('⚠️ State mismatch or Default detected. Forcing sync to Data.');
                 this.setAvatar(cleanLegacy, 'rpm');
             }
+        } else {
+            console.log('ℹ️ No avatar data found in any storage source.');
         }
 
         this.updateDomElements();
@@ -284,6 +292,7 @@ class AvatarManager {
         setTimeout(() => {
             const containers = document.querySelectorAll('.user-avatar');
             containers.forEach(el => el.style.display = 'block');
+            console.log(`👁️ Forced user-avatar display:block on ${containers.length} elements`);
         }, 500);
     }
 
