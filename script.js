@@ -1950,7 +1950,14 @@ a[href=""], a[href="undefined"] { display: none; }
         currentData.cust_3 = regCustom3.value;
 
         document.querySelector('#editor-data textarea').value = JSON.stringify(currentData, null, 4);
-        generateProfilePreview();  // Show in PUBLIC_FEED_PREVIEW
+
+        // Check which mode is active and update preview accordingly
+        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+        if (isVisualMode) {
+            generateProfilePreview();  // Show simple card in VISUAL_EDITOR mode
+        } else {
+            compileProfile();  // Show custom code in SOURCE_CODE mode
+        }
     }
 
     const colorValDisplay = document.getElementById('color-val-display');
@@ -2371,11 +2378,23 @@ a[href=""], a[href="undefined"] { display: none; }
     }
 
     setTimeout(() => {
-        generateProfilePreview();  // Show VISUAL_EDITOR preview
-        // compileProfile();  // For SOURCE_CODE if needed
+        // Default to VISUAL_EDITOR preview on load
+        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+        if (isVisualMode) {
+            generateProfilePreview();
+        } else {
+            compileProfile();
+        }
     }, 500);
+
     compileBtn.addEventListener('click', () => {
-        generateProfilePreview();  // Regenerate preview
+        // Compile based on current mode
+        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+        if (isVisualMode) {
+            generateProfilePreview();
+        } else {
+            compileProfile();
+        }
         sfx.click();
     });
 }
