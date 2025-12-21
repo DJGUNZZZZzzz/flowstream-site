@@ -1932,18 +1932,36 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
 }`
     };
 
-    // Use v2 key to force new defaults for bug fix
-    const savedData = JSON.parse(localStorage.getItem('flow_profile_data_v2')) || defaults;
+    // Load saved data or use defaults (ensure all fields exist)
+    let savedData = localStorage.getItem('flow_profile_data_v2');
+    let profileData = defaults;
+
+    if (savedData) {
+        try {
+            const parsed = JSON.parse(savedData);
+            // Merge with defaults to ensure all fields exist
+            profileData = {
+                html: parsed.html || defaults.html,
+                css: parsed.css || defaults.css,
+                js: parsed.js || defaults.js,
+                configs: parsed.configs || defaults.configs,
+                data: parsed.data || defaults.data
+            };
+        } catch (e) {
+            console.warn('Failed to parse saved profile data, using defaults');
+            profileData = defaults;
+        }
+    }
 
     function loadEditors(data) {
         ['html', 'css', 'js', 'configs', 'data'].forEach(type => {
             const el = document.querySelector(`#editor-${type} textarea`);
-            if (el) el.value = data[type];
+            if (el) el.value = data[type] || '';
         });
         syncDataToRegular();
         compileProfile();
     }
-    loadEditors(savedData);
+    loadEditors(profileData);
 
     // --- NEW TAB LOGIC ---
     // 1. Main Mode Switching (Visual vs Code)
