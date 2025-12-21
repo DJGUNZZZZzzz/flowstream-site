@@ -108,13 +108,13 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Display avatar - attempt 3D model, fallback to 2D thumbnail
+ * Display avatar - attempt 3D with simple loader, fallback to 2D
  */
 function loadGLBAvatar(glbUrl) {
     console.log('🎭 Loading avatar...');
     console.log('📦 GLB URL:', glbUrl);
 
-    // Always show 2D thumbnail as reliable fallback
+    // Always show 2D thumbnail as immediate feedback
     const thumbnailUrl = glbUrl.replace('.glb', '.png');
 
     let avatarDisplay = document.getElementById('avatar-display-image');
@@ -130,25 +130,27 @@ function loadGLBAvatar(glbUrl) {
     avatarDisplay.style.display = 'block';
     console.log('✅ 2D thumbnail displayed:', thumbnailUrl);
 
-    // ALSO attempt 3D in the Three.js container (may fail with RPM proprietary format)
+    // Try 3D with SIMPLE loader (no DRACO, no configuration)
     const container3D = document.getElementById('avatar-3d-container');
     if (container3D && window.GLTFLoader) {
-        console.log('🎮 Attempting 3D model load...');
+        console.log('🎮 Attempting 3D with simple GLTFLoader...');
         container3D.style.display = 'block';
 
-        const loader = window.configuredGLTFLoader || new window.GLTFLoader();
+        // Use BASIC GLTFLoader - no configuration, no DRACO
+        const loader = new window.GLTFLoader();
+        console.log('📦 Using basic GLTFLoader (no DRACO)');
 
         loader.load(
             glbUrl,
             (gltf) => {
-                // Success - hide 2D, show 3D
+                // Success!
                 if (currentVRM) scene.remove(currentVRM.scene);
                 currentVRM = { scene: gltf.scene };
                 scene.add(currentVRM.scene);
                 currentVRM.scene.position.set(0, -1.0, 0);
                 currentVRM.scene.scale.set(1, 1, 1);
 
-                console.log('✅ 3D model loaded - hiding 2D thumbnail');
+                console.log('✅ 3D model loaded successfully!');
                 avatarDisplay.style.display = 'none';
                 container3D.style.display = 'block';
             },
@@ -157,7 +159,8 @@ function loadGLBAvatar(glbUrl) {
                 console.log(`3D Loading: ${percent}%`);
             },
             (error) => {
-                console.warn('⚠️ 3D load failed, keeping 2D thumbnail:', error.message);
+                console.warn('⚠️ 3D load failed:', error.message);
+                console.log('Keeping 2D thumbnail visible');
                 container3D.style.display = 'none';
                 avatarDisplay.style.display = 'block';
             }
