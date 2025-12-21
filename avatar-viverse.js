@@ -108,38 +108,39 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Load and display GLB avatar using Google model-viewer (better GLB compatibility)
+ * Load and display GLB avatar using Ready Player Me's official viewer
+ * RPM avatars contain proprietary extensions that require their viewer
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading GLB avatar with model-viewer...');
+    console.log('🎭 Loading GLB avatar with RPM official viewer...');
 
-    // Use Google model-viewer instead of Three.js GLTFLoader
-    const modelViewer = document.getElementById('avatar-model-viewer');
+    // Use Ready Player Me's web viewer (iframe-based)
+    const iframe = document.getElementById('rpm-avatar-viewer');
 
-    if (!modelViewer) {
-        console.error('❌ model-viewer element not found, falling back to Three.js');
+    if (!iframe) {
+        console.error('❌ RPM viewer iframe not found, falling back to Three.js');
         loadGLBAvatarThreeJS(glbUrl);
         return;
     }
 
-    // Set the source - model-viewer handles all the loading
-    modelViewer.src = glbUrl;
+    // RPM Web Viewer URL format: https://demo.readyplayer.me/avatar?url=[glb_url]
+    const viewerUrl = `https://demo.readyplayer.me/avatar?url=${encodeURIComponent(glbUrl)}`;
 
-    // Listen for load events
-    modelViewer.addEventListener('load', () => {
-        console.log('✅ GLB avatar loaded successfully via model-viewer');
+    console.log('📺 RPM Viewer URL:', viewerUrl);
+
+    // Set iframe source
+    iframe.src = viewerUrl;
+    iframe.style.display = 'block';
+
+    // Listen for load event
+    iframe.addEventListener('load', () => {
+        console.log('✅ RPM avatar viewer loaded successfully');
         updateAvatarThumbnail();
     }, { once: true });
 
-    modelViewer.addEventListener('error', (event) => {
-        console.error('❌ model-viewer load error EVENT:', event);
-        console.error('📋 Error detail:', event.detail);
-        console.error('📋 Error detail type:', event.detail?.type);
-        console.error('📋 Error detail message:', event.detail?.message);
-        console.error('📋 Full detail object:', JSON.stringify(event.detail, null, 2));
-
-        const errorMsg = event.detail?.message || event.detail?.type || 'Unknown error';
-        alert(`Failed to load 3D avatar.\n\nError: ${errorMsg}\n\nCheck console for details.`);
+    iframe.addEventListener('error', (event) => {
+        console.error('❌ RPM viewer load error:', event);
+        alert('Failed to load avatar viewer. Please try again.');
     }, { once: true });
 }
 
