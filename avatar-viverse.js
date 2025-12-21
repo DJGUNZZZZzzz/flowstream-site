@@ -108,13 +108,13 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Display avatar - attempt 3D with simple loader, fallback to 2D
+ * Display avatar - 2D thumbnail (reliable)
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading avatar...');
+    console.log('🎭 Loading avatar thumbnail...');
     console.log('📦 GLB URL:', glbUrl);
 
-    // Always show 2D thumbnail as immediate feedback
+    // Show 2D thumbnail (RPM's PNG export)
     const thumbnailUrl = glbUrl.replace('.glb', '.png');
 
     let avatarDisplay = document.getElementById('avatar-display-image');
@@ -128,44 +128,7 @@ function loadGLBAvatar(glbUrl) {
 
     avatarDisplay.src = thumbnailUrl;
     avatarDisplay.style.display = 'block';
-    console.log('✅ 2D thumbnail displayed:', thumbnailUrl);
-
-    // Try 3D with SIMPLE loader (no DRACO, no configuration)
-    const container3D = document.getElementById('avatar-3d-container');
-    if (container3D && window.GLTFLoader) {
-        console.log('🎮 Attempting 3D with simple GLTFLoader...');
-        container3D.style.display = 'block';
-
-        // Use BASIC GLTFLoader - no configuration, no DRACO
-        const loader = new window.GLTFLoader();
-        console.log('📦 Using basic GLTFLoader (no DRACO)');
-
-        loader.load(
-            glbUrl,
-            (gltf) => {
-                // Success!
-                if (currentVRM) scene.remove(currentVRM.scene);
-                currentVRM = { scene: gltf.scene };
-                scene.add(currentVRM.scene);
-                currentVRM.scene.position.set(0, -1.0, 0);
-                currentVRM.scene.scale.set(1, 1, 1);
-
-                console.log('✅ 3D model loaded successfully!');
-                avatarDisplay.style.display = 'none';
-                container3D.style.display = 'block';
-            },
-            (progress) => {
-                const percent = (progress.loaded / progress.total * 100).toFixed(0);
-                console.log(`3D Loading: ${percent}%`);
-            },
-            (error) => {
-                console.warn('⚠️ 3D load failed:', error.message);
-                console.log('Keeping 2D thumbnail visible');
-                container3D.style.display = 'none';
-                avatarDisplay.style.display = 'block';
-            }
-        );
-    }
+    console.log('✅ Avatar thumbnail displayed:', thumbnailUrl);
 }
 
 /**
