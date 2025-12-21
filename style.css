@@ -2112,7 +2112,7 @@ body.profile-layout {
 
 #dossier-frame {
     width: 100%;
-    min-height: 500px;
+    min-height: 650px;
     height: auto;
     border: none;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
