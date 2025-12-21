@@ -2009,11 +2009,14 @@ body.profile-layout {
 /* --- LEFT: HOLO-DECK PREVIEW --- */
 .holo-deck {
     background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-    position: relative;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+    max-height: calc(100vh - 40px);
     display: flex;
     flex-direction: column;
     border-right: 2px solid #333;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .holo-deck::before {
