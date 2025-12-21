@@ -132,8 +132,14 @@ function loadGLBAvatar(glbUrl) {
     }, { once: true });
 
     modelViewer.addEventListener('error', (event) => {
-        console.error('❌ model-viewer load error:', event);
-        alert('Failed to load 3D avatar. Please try again.');
+        console.error('❌ model-viewer load error EVENT:', event);
+        console.error('📋 Error detail:', event.detail);
+        console.error('📋 Error detail type:', event.detail?.type);
+        console.error('📋 Error detail message:', event.detail?.message);
+        console.error('📋 Full detail object:', JSON.stringify(event.detail, null, 2));
+
+        const errorMsg = event.detail?.message || event.detail?.type || 'Unknown error';
+        alert(`Failed to load 3D avatar.\n\nError: ${errorMsg}\n\nCheck console for details.`);
     }, { once: true });
 }
 
