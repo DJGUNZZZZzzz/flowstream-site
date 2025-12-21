@@ -483,3 +483,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 console.log('✓ VRM Avatar System Ready');
+
+// Restore saved RPM ID after page fully loads
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const savedRpmId = localStorage.getItem('flow_rpm_avatar_id');
+        const rpmIdInput = document.getElementById('playerzero-id');
+        if (savedRpmId && rpmIdInput) {
+            rpmIdInput.value = savedRpmId;
+            console.log('✅ Restored RPM ID from localStorage:', savedRpmId);
+        } else if (!rpmIdInput) {
+            console.log('⚠️ RPM ID input field not found');
+        }
+    }, 500);
+});
