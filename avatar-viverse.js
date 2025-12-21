@@ -3,16 +3,6 @@
  * No registration, no API keys - works immediately!
  */
 
-// Auto-restore saved RPM ID on load
-document.addEventListener('DOMContentLoaded', () => {
-    const savedRpmId = localStorage.getItem('flow_rpm_avatar_id');
-    const rpmIdInput = document.getElementById('playerzero-id');
-    if (savedRpmId && rpmIdInput) {
-        rpmIdInput.value = savedRpmId;
-        console.log('✅ Restored RPM ID:', savedRpmId);
-    }
-});
-
 // Three.js scene setup
 let scene, camera, renderer, currentVRM;
 
