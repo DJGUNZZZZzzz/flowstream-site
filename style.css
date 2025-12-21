@@ -2077,7 +2077,7 @@ body.profile-layout {
     flex-grow: 1;
     position: relative;
     padding: 40px;
-    min-height: 400px;
+    min-height: 650px;
     display: flex;
     justify-content: center;
     align-items: start;
@@ -2112,7 +2112,7 @@ body.profile-layout {
 
 #dossier-frame {
     width: 100%;
-    min-height: 300px;
+    min-height: 500px;
     height: auto;
     border: none;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
