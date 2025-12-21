@@ -108,42 +108,61 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Load and display GLB avatar (Ready Player Me)
+ * Load and display GLB avatar using Google model-viewer (better GLB compatibility)
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading GLB avatar...');
+    console.log('🎭 Loading GLB avatar with model-viewer...');
 
-    // Wait for loader to be ready
-    if (!window.GLTFLoader) {
-        console.error('❌ Loader not ready yet, retrying...');
-        setTimeout(() => loadGLBAvatar(glbUrl), 100);
+    // Use Google model-viewer instead of Three.js GLTFLoader
+    const modelViewer = document.getElementById('avatar-model-viewer');
+
+    if (!modelViewer) {
+        console.error('❌ model-viewer element not found, falling back to Three.js');
+        loadGLBAvatarThreeJS(glbUrl);
         return;
     }
 
-    // Use pre-configured loader with DRACO support (for Ready Player Me compressed meshes)
-    // Falls back to a new instance if configuredGLTFLoader isn't available
+    // Set the source - model-viewer handles all the loading
+    modelViewer.src = glbUrl;
+
+    // Listen for load events
+    modelViewer.addEventListener('load', () => {
+        console.log('✅ GLB avatar loaded successfully via model-viewer');
+        updateAvatarThumbnail();
+    }, { once: true });
+
+    modelViewer.addEventListener('error', (event) => {
+        console.error('❌ model-viewer load error:', event);
+        alert('Failed to load 3D avatar. Please try again.');
+    }, { once: true });
+}
+
+/**
+ * Fallback: Load GLB using Three.js (kept for compatibility)
+ */
+function loadGLBAvatarThreeJS(glbUrl) {
+    console.log('🎭 [FALLBACK] Loading GLB avatar with Three.js...');
+
+    if (!window.GLTFLoader) {
+        console.error('❌ Loader not ready yet, retrying...');
+        setTimeout(() => loadGLBAvatarThreeJS(glbUrl), 100);
+        return;
+    }
+
     const loader = window.configuredGLTFLoader || new window.GLTFLoader();
     console.log('📦 Using loader:', window.configuredGLTFLoader ? 'Pre-configured with DRACO' : 'Basic GLTFLoader');
 
     loader.load(
         glbUrl,
         (gltf) => {
-            // Remove previous avatar
             if (currentVRM) {
                 scene.remove(currentVRM.scene);
             }
-
-            // Add new avatar (GLB uses gltf.scene directly)
             currentVRM = { scene: gltf.scene };
             scene.add(currentVRM.scene);
-
-            // Center and scale avatar - adjusted for complete body view including feet
-            currentVRM.scene.position.set(0, -1.0, 0); // Reverted to Y=-1.0 per user request
+            currentVRM.scene.position.set(0, -1.0, 0);
             currentVRM.scene.scale.set(1, 1, 1);
-
             console.log('✅ GLB avatar loaded successfully');
-
-            // Update thumbnail
             updateAvatarThumbnail();
         },
         (progress) => {
