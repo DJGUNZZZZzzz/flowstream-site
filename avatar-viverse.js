@@ -108,25 +108,41 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Load and display GLB avatar using Ready Player Me's official viewer
- * RPM avatars contain proprietary extensions that require their viewer
+ * Load and display GLB avatar using Ready Player Me's direct viewer
+ * Use the avatar ID directly, not the GLB URL
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading GLB avatar with RPM official viewer...');
+    console.log('🎭 Loading GLB avatar with RPM viewer...');
+    console.log('📦 GLB URL received:', glbUrl);
+
+    // Extract avatar ID from the GLB URL
+    // URL format: https://models.readyplayer.me/[AVATAR_ID].glb
+    const avatarId = glbUrl.match(/\/([a-f0-9-]+)\.glb/i)?.[1];
+
+    if (!avatarId) {
+        console.error('❌ Could not extract avatar ID from URL:', glbUrl);
+        alert('Invalid avatar URL format');
+        return;
+    }
+
+    console.log('🆔 Extracted Avatar ID:', avatarId);
 
     // Use Ready Player Me's web viewer (iframe-based)
     const iframe = document.getElementById('rpm-avatar-viewer');
 
     if (!iframe) {
-        console.error('❌ RPM viewer iframe not found, falling back to Three.js');
-        loadGLBAvatarThreeJS(glbUrl);
+        console.error('❌ RPM viewer iframe not found');
         return;
     }
 
-    // RPM Web Viewer URL format: https://demo.readyplayer.me/avatar?url=[glb_url]
-    const viewerUrl = `https://demo.readyplayer.me/avatar?url=${encodeURIComponent(glbUrl)}`;
+    // RPM Visage Web Viewer - their official embeddable viewer
+    // This viewer can load any GLB URL and displays it correctly
+    const viewerUrl = `https://render.readyplayer.me/render?` +
+        `frameApi=postMessage&` +
+        `background=transparent&` +
+        `model=${encodeURIComponent(glbUrl)}`;
 
-    console.log('📺 RPM Viewer URL:', viewerUrl);
+    console.log('📺 RPM Visage Viewer URL:', viewerUrl);
 
     // Set iframe source
     iframe.src = viewerUrl;
@@ -134,13 +150,12 @@ function loadGLBAvatar(glbUrl) {
 
     // Listen for load event
     iframe.addEventListener('load', () => {
-        console.log('✅ RPM avatar viewer loaded successfully');
+        console.log('✅ RPM Visage viewer loaded successfully');
         updateAvatarThumbnail();
     }, { once: true });
 
     iframe.addEventListener('error', (event) => {
         console.error('❌ RPM viewer load error:', event);
-        alert('Failed to load avatar viewer. Please try again.');
     }, { once: true });
 }
 
