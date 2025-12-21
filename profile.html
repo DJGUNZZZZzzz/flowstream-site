@@ -402,12 +402,13 @@
     <script src="https://www.viverse.com/static-assets/viverse-sdk/index.umd.cjs"></script>
 
     <!-- Three.js - ONLY use ES Modules to prevent dual-loading conflicts -->
+    <!-- UPGRADED to 0.170.0 to fix GLB bufferView parsing bug -->
     <!-- GLTFLoader - using importmap for ES modules -->
     <script type="importmap">
     {
         "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
         }
     }
     </script>
@@ -417,11 +418,11 @@
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
         import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-        import { VRMLoaderPlugin } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.0.0/lib/three-vrm.module.js';
+        import { VRMLoaderPlugin } from 'https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.0.0/lib/three-vrm.module.js';
 
         // Set up DRACO decoder for compressed meshes (used by Ready Player Me)
         const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/');
+        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/libs/draco/');
 
         // Create GLTFLoader with DRACO support
         const gltfLoader = new GLTFLoader();
@@ -434,7 +435,7 @@
         window.configuredGLTFLoader = gltfLoader;  // Pre-configured with DRACO
         window.VRMLoaderPlugin = VRMLoaderPlugin;
 
-        console.log('✅ Three.js loaders ready (unified module + DRACO)');
+        console.log('✅ Three.js v0.170.0 loaders ready (unified module + DRACO)');
     </script>
 
     <!-- Our VIVERSE integration -->
