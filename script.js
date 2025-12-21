@@ -2570,6 +2570,13 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
             data: document.querySelector('#editor-data textarea').value
         };
         localStorage.setItem('flow_profile_data_v2', JSON.stringify(saveData));
+
+        // Save RPM avatar ID if present
+        const rpmIdInput = document.getElementById('rpm-id-input');
+        if (rpmIdInput && rpmIdInput.value) {
+            localStorage.setItem('flow_rpm_avatar_id', rpmIdInput.value);
+        }
+
         alert("DOSSIER SAVED TO LOCAL STORAGE");
         sfx.success();
     });
