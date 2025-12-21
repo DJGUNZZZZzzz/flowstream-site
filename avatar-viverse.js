@@ -378,12 +378,12 @@ function loadPlayerZeroAvatar() {
 
     console.log('🎮 Loading PlayerZero avatar:', avatarId);
 
-    // Try multiple URL endpoints - REQUEST SIMPLIFIED GLB
-    // Per RPM docs: quality=low gives simpler mesh, morphTargets=none removes blend shapes
-    const params = 'quality=low&morphTargets=none&useDracoMeshCompression=false';
+    // Try vanilla GLB URL - no quality parameters
+    // Previous params (quality=low&morphTargets=none) may have caused bufferView errors
+    // by stripping data that accessors still reference
     const urls = [
-        `https://models.readyplayer.me/${avatarId}.glb?${params}`,
-        `https://avatars.readyplayer.me/${avatarId}.glb?${params}`
+        `https://models.readyplayer.me/${avatarId}.glb`,
+        `https://avatars.readyplayer.me/${avatarId}.glb`
     ];
 
     // Try first URL
