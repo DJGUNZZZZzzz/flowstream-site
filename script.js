@@ -1687,59 +1687,249 @@ if (dossierFrame && compileBtn) {
     const regCustom2 = document.getElementById('reg-custom-2');
     const regCustom3 = document.getElementById('reg-custom-3');
 
-    /* DEFAULT TEMPLATE */
+    /* FUTURISTIC ANIMATED PROFILE TEMPLATE */
     const defaults = {
         html: `
-<div class="profile-card">
-    <div class="header">
-        <img src="{{avatar}}" class="p-avatar">
-        <h1>{{username}}</h1>
-        <div class="badges">
-            <span class="badge">NETRUNNER</span>
-            <span class="badge">LVL {{level}}</span>
+<div class="holo-container">
+    <div class="particle-field" id="particles"></div>
+    <div class="scanline"></div>
+    <div class="profile-core">
+        <div class="avatar-ring">
+            <img src="{{avatar}}" class="avatar-img">
+            <div class="ring-glow"></div>
         </div>
-    </div>
-    <div class="bio">
-        <h3>// BIO</h3>
-        <p>{{bio}}</p>
-    </div>
-    <div class="socials">
-        <h3>// CONNECT</h3>
-        <div class="social-grid">
-            <a href="{{soc_x}}" target="_blank" class="soc-btn" title="X"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="{{soc_insta}}" target="_blank" class="soc-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="{{soc_tiktok}}" target="_blank" class="soc-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="{{soc_snap}}" target="_blank" class="soc-btn" title="Snapchat"><i class="fa-brands fa-snapchat"></i></a>
-            <a href="{{soc_yt}}" target="_blank" class="soc-btn" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-            <a href="{{soc_discord}}" target="_blank" class="soc-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+        <h1 class="glitch-text" data-text="{{username}}">{{username}}</h1>
+        <div class="status-bar">
+            <span class="status-dot pulse"></span>
+            <span>LEVEL {{level}} NETRUNNER</span>
         </div>
-        <div class="custom-links">
-            <a href="{{cust_1}}" target="_blank">{{cust_1}}</a>
-            <a href="{{cust_2}}" target="_blank">{{cust_2}}</a>
-            <a href="{{cust_3}}" target="_blank">{{cust_3}}</a>
+        <div class="bio-matrix">
+            <div class="matrix-header">// DOSSIER</div>
+            <p class="bio-text">{{bio}}</p>
+        </div>
+        <div class="uplink-grid">
+            <div class="grid-header">// UPLINKS</div>
+            <div class="social-buttons">
+                <a href="{{soc_x}}" class="uplink-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="{{soc_insta}}" class="uplink-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="{{soc_tiktok}}" class="uplink-btn"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="{{soc_yt}}" class="uplink-btn"><i class="fa-brands fa-youtube"></i></a>
+                <a href="{{soc_discord}}" class="uplink-btn"><i class="fa-brands fa-discord"></i></a>
+            </div>
         </div>
     </div>
 </div>`,
         css: `
-body { font-family: 'Rajdhani', sans-serif; color: white; display: flex; flex-direction: column; min-height: 100vh; margin: 0; box-sizing: border-box; padding: 20px; }
-.profile-card { width: 100%; max-width: 400px; background: rgba(0,0,0,0.85); border: 1px solid {{themeColor}}; padding: 30px; border-radius: 15px; box-shadow: 0 0 30px {{themeColor}}; text-align: center; margin: auto; }
-.p-avatar { width: 100px; height: 100px; border-radius: 50%; border: 3px solid {{themeColor}}; margin-bottom: 15px; object-fit: cover; }
-h1 { margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; font-size: 28px; word-wrap: break-word; overflow-wrap: break-word; }
-.badges { margin-top: 10px; display: flex; justify-content: center; gap: 10px; }
-.badge { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; border: 1px solid #333; }
-.bio { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: left; }
-.bio h3, .socials h3 { color: {{themeColor}}; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
-.bio p { color: #ccc; line-height: 1.6; font-size: 14px; word-wrap: break-word; overflow-wrap: break-word; }
-.socials { margin-top: 25px; text-align: left; }
-.social-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
-.soc-btn { width: 35px; height: 35px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; border-radius: 5px; color: #fff; text-decoration: none; transition: 0.2s; border: 1px solid transparent; font-size: 14px; }
-.soc-btn:hover { background: {{themeColor}}; color: #000; box-shadow: 0 0 10px {{themeColor}}; }
-a[href=""], a[href="undefined"] { display: none; }
-.custom-links a { display: block; color: {{themeColor}}; text-decoration: none; font-size: 14px; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.custom-links a:hover { text-decoration: underline; }`,
-        js: `console.log("Profile Loaded");`,
+body { 
+    margin: 0; 
+    padding: 20px; 
+    font-family: 'Rajdhani', sans-serif; 
+    background: #000; 
+    color: #fff; 
+    overflow: hidden; 
+}
+.holo-container { 
+    position: relative; 
+    width: 100%; 
+    max-width: 500px; 
+    margin: 0 auto; 
+    padding: 30px; 
+    background: rgba(0, 20, 40, 0.5); 
+    border: 2px solid {{themeColor}}; 
+    border-radius: 10px; 
+    box-shadow: 0 0 40px {{themeColor}}80; 
+    backdrop-filter: blur(10px);
+}
+.particle-field { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    pointer-events: none; 
+    z-index: 1;
+}
+.particle { 
+    position: absolute; 
+    width: 2px; 
+    height: 2px; 
+    background: {{themeColor}}; 
+    border-radius: 50%; 
+    opacity: 0.6; 
+    animation: float 4s infinite ease-in-out;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+    50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+}
+.scanline { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 2px; 
+    background: linear-gradient(to right, transparent, {{themeColor}}, transparent); 
+    opacity: 0.5; 
+    animation: scan 3s linear infinite; 
+    z-index: 2;
+}
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+.profile-core { 
+    position: relative; 
+    z-index: 3; 
+    text-align: center;
+}
+.avatar-ring { 
+    position: relative; 
+    width: 120px; 
+    height: 120px; 
+    margin: 0 auto 20px; 
+    animation: rotate 10s linear infinite;
+}
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.avatar-img { 
+    width: 100%; 
+    height: 100%; 
+    border-radius: 50%; 
+    border: 3px solid {{themeColor}}; 
+    object-fit: cover; 
+    position: relative; 
+    z-index: 2;
+}
+.ring-glow { 
+    position: absolute; 
+    top: -10px; 
+    left: -10px; 
+    width: calc(100% + 20px); 
+    height: calc(100% + 20px); 
+    border-radius: 50%; 
+    background: radial-gradient(circle, {{themeColor}}40, transparent); 
+    animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+.glitch-text { 
+    font-family: 'Orbitron', sans-serif; 
+    font-size: 32px; 
+    margin: 0 0 10px; 
+    color: {{themeColor}}; 
+    text-shadow: 2px 2px 0 #ff0055, -2px -2px 0 #0ff; 
+    animation: glitch 3s infinite;
+}
+@keyframes glitch {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(-2px, 2px); }
+    94% { transform: translate(2px, -2px); }
+}
+.status-bar { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    font-size: 12px; 
+    letter-spacing: 2px; 
+    margin-bottom: 30px; 
+    color: #aaa;
+}
+.status-dot { 
+    width: 8px; 
+    height: 8px; 
+    background: #0f0; 
+    border-radius: 50%; 
+    box-shadow: 0 0 10px #0f0;
+}
+.pulse { 
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+.bio-matrix, .uplink-grid { 
+    background: rgba(0, 0, 0, 0.5); 
+    border: 1px solid {{themeColor}}50; 
+    border-radius: 5px; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    text-align: left;
+}
+.matrix-header, .grid-header { 
+    color: {{themeColor}}; 
+    font-size: 11px; 
+    letter-spacing: 1px; 
+    margin-bottom: 10px; 
+    font-family: 'Orbitron', sans-serif;
+}
+.bio-text { 
+    color: #ccc; 
+    line-height: 1.6; 
+    font-size: 14px; 
+    margin: 0;
+}
+.social-buttons { 
+    display: flex; 
+    gap: 10px; 
+    flex-wrap: wrap;
+}
+.uplink-btn { 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid {{themeColor}}50; 
+    border-radius: 5px; 
+    color: {{themeColor}}; 
+    text-decoration: none; 
+    transition: all 0.3s; 
+    font-size: 16px;
+}
+.uplink-btn:hover { 
+    background: {{themeColor}}; 
+    color: #000; 
+    box-shadow: 0 0 20px {{themeColor}}; 
+    transform: translateY(-3px);
+}
+a[href=""], a[href="undefined"] { display: none; }`,
+        js: `
+// Generate floating particles
+const particleField = document.getElementById('particles');
+for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 4 + 's';
+    particleField.appendChild(particle);
+}
+
+console.log("🚀 NETRUNNER PROFILE LOADED");`,
         configs: `{}`,
-        data: `{\n    "username": "Operative_01",\n    "level": "55",\n    "themeColor": "#00ffff",\n    "avatar": "https://ui-avatars.com/api/?name=Operative+01&background=0ff&color=000&size=150",\n    "bio": "Elite netrunner. Streaming mostly FPS and RPGs.",\n    "soc_x": "",\n    "soc_insta": "",\n    "soc_tiktok": "",\n    "soc_snap": "",\n    "soc_yt": "",\n    "soc_discord": "",\n    "cust_1": "",\n    "cust_2": "",\n    "cust_3": ""\n}`
+        data: `{
+    "username": "CyberNinja_42",
+    "level": "99",
+    "themeColor": "#00ffff",
+    "avatar": "https://ui-avatars.com/api/?name=Cyber+Ninja&background=00ffff&color=000&size=150",
+    "bio": "Elite operative. Specializing in high-stakes infiltration and digital warfare. 10+ years in the field.",
+    "soc_x": "https://x.com",
+    "soc_insta": "https://instagram.com",
+    "soc_tiktok": "",
+    "soc_snap": "",
+    "soc_yt": "https://youtube.com",
+    "soc_discord": "https://discord.com",
+    "cust_1": "",
+    "cust_2": "",
+    "cust_3": ""
+}`
     };
 
     // Use v2 key to force new defaults for bug fix
