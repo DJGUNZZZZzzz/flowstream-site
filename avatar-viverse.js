@@ -122,13 +122,21 @@ function loadGLBAvatar(glbUrl) {
         const container = document.getElementById('avatar-model-viewer').parentElement;
         avatarDisplay = document.createElement('img');
         avatarDisplay.id = 'avatar-display-image';
-        avatarDisplay.style.cssText = 'width: 100%; height: 650px; margin-top: 20px; border: 2px solid #00ffff; border-radius: 10px; background: #0a0a0a; object-fit: contain; display: block;';
+        avatarDisplay.style.cssText = 'width: 100%; height: 650px; margin-top: 20px; border: 2px solid #00ffff; border-radius: 10px; background: #0a0a0a; object-fit: contain; display: none;';
         container.appendChild(avatarDisplay);
     }
 
+    // Show only on successful load
+    avatarDisplay.onload = () => {
+        avatarDisplay.style.display = 'block';
+        console.log('✅ Avatar thumbnail displayed:', thumbnailUrl);
+    };
+    avatarDisplay.onerror = () => {
+        avatarDisplay.style.display = 'none';
+        console.error('❌ Failed to load avatar thumbnail');
+    };
+
     avatarDisplay.src = thumbnailUrl;
-    avatarDisplay.style.display = 'block';
-    console.log('✅ Avatar thumbnail displayed:', thumbnailUrl);
 }
 
 /**
