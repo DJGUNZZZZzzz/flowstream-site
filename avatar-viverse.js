@@ -108,16 +108,15 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Display avatar - use 2D thumbnail since RPM GLB has proprietary format
+ * Display avatar - attempt 3D model, fallback to 2D thumbnail
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading avatar thumbnail...');
+    console.log('🎭 Loading avatar...');
     console.log('📦 GLB URL:', glbUrl);
 
-    // Get the PNG thumbnail URL (replace .glb with .png)
+    // Always show 2D thumbnail as reliable fallback
     const thumbnailUrl = glbUrl.replace('.glb', '.png');
 
-    // Find or create the display image
     let avatarDisplay = document.getElementById('avatar-display-image');
     if (!avatarDisplay) {
         const container = document.getElementById('avatar-model-viewer').parentElement;
@@ -127,17 +126,43 @@ function loadGLBAvatar(glbUrl) {
         container.appendChild(avatarDisplay);
     }
 
-    // Hide 3D viewers, show image
-    const modelViewer = document.getElementById('avatar-model-viewer');
-    const iframe = document.getElementById('rpm-avatar-viewer');
-    if (modelViewer) modelViewer.style.display = 'none';
-    if (iframe) iframe.style.display = 'none';
-
-    // Set the thumbnail
     avatarDisplay.src = thumbnailUrl;
     avatarDisplay.style.display = 'block';
+    console.log('✅ 2D thumbnail displayed:', thumbnailUrl);
 
-    console.log('✅ Avatar thumbnail displayed:', thumbnailUrl);
+    // ALSO attempt 3D in the Three.js container (may fail with RPM proprietary format)
+    const container3D = document.getElementById('avatar-3d-container');
+    if (container3D && window.GLTFLoader) {
+        console.log('🎮 Attempting 3D model load...');
+        container3D.style.display = 'block';
+
+        const loader = window.configuredGLTFLoader || new window.GLTFLoader();
+
+        loader.load(
+            glbUrl,
+            (gltf) => {
+                // Success - hide 2D, show 3D
+                if (currentVRM) scene.remove(currentVRM.scene);
+                currentVRM = { scene: gltf.scene };
+                scene.add(currentVRM.scene);
+                currentVRM.scene.position.set(0, -1.0, 0);
+                currentVRM.scene.scale.set(1, 1, 1);
+
+                console.log('✅ 3D model loaded - hiding 2D thumbnail');
+                avatarDisplay.style.display = 'none';
+                container3D.style.display = 'block';
+            },
+            (progress) => {
+                const percent = (progress.loaded / progress.total * 100).toFixed(0);
+                console.log(`3D Loading: ${percent}%`);
+            },
+            (error) => {
+                console.warn('⚠️ 3D load failed, keeping 2D thumbnail:', error.message);
+                container3D.style.display = 'none';
+                avatarDisplay.style.display = 'block';
+            }
+        );
+    }
 }
 
 /**
