@@ -319,6 +319,10 @@ function updateAvatarThumbnail() {
  * Load saved VRM/GLB from IndexedDB
  */
 async function loadSavedVRM() {
+    // DISABLED: Don't auto-load avatar - user must click "Load Avatar" button
+    console.log('ℹ️ Auto-load disabled');
+    return;
+
     try {
         const data = await loadVRMFromDB();
 
