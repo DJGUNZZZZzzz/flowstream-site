@@ -14,21 +14,32 @@ function initProfileDisplay() {
         return;
     }
 
-    // Mock data for SkateGamer_OG
-    const profileData = {
-        username: 'SkateGamer_OG',
-        level: '47',
-        bio: 'Professional gamer and content creator. Streaming competitive gameplay, tutorials, and chill sessions. Let\'s get this W! 🎮',
-        avatar: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=200&auto=format&fit=crop',
-        color: '#00ff88',
-        socials: {
-            x: 'https://twitter.com/skategamer',
-            insta: 'https://instagram.com/skategamer_og',
-            tiktok: 'https://tiktok.com/@skategamer',
-            yt: 'https://youtube.com/@skategamer',
-            discord: 'https://discord.gg/skategamer'
-        }
-    };
+    // Try to load user's edited profile from localStorage
+    const userProfile = localStorage.getItem('userProfileCard');
+    let profileData;
+
+    if (userProfile) {
+        // Use user's edited profile
+        profileData = JSON.parse(userProfile);
+        console.log('✓ Loaded user profile from editor');
+    } else {
+        // Fall back to mock data
+        profileData = {
+            username: 'SkateGamer_OG',
+            level: '47',
+            bio: 'Professional gamer and content creator. Streaming competitive gameplay, tutorials, and chill sessions. Let\'s get this W! 🎮',
+            avatar: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=200&auto=format&fit=crop',
+            color: '#00ff88',
+            socials: {
+                x: 'https://twitter.com/skategamer',
+                insta: 'https://instagram.com/skategamer_og',
+                tiktok: 'https://tiktok.com/@skategamer',
+                yt: 'https://youtube.com/@skategamer',
+                discord: 'https://discord.gg/skategamer'
+            }
+        };
+        console.log('⚠️ No user profile found, using mock data');
+    }
 
     // Create compact profile card HTML matching profile.html design
     const profileCardHTML = `

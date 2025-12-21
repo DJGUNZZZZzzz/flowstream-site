@@ -1950,7 +1950,7 @@ a[href=""], a[href="undefined"] { display: none; }
         currentData.cust_3 = regCustom3.value;
 
         document.querySelector('#editor-data textarea').value = JSON.stringify(currentData, null, 4);
-        compileProfile();
+        generateProfilePreview();  // Show in PUBLIC_FEED_PREVIEW
     }
 
     const colorValDisplay = document.getElementById('color-val-display');
@@ -2178,6 +2178,148 @@ a[href=""], a[href="undefined"] { display: none; }
         // Simple cursor tracking
     }
 
+    // Generate profile preview card from VISUAL_EDITOR form data
+    function generateProfilePreview() {
+        // Get form data
+        const username = regUsername?.value || 'OPERATIVE';
+        const level = regLevel?.value || '1';
+        const bio = regBio?.value || '';
+        const color = regColor?.value || '#00ffff';
+        const avatar = regAvatar?.value || window.avatarManager?.state?.currentUrl || 'https://ui-avatars.com/api/?name=User&background=0ff&color=000&size=200';
+
+        // Get social links
+        const socials = {
+            x: regSocX?.value || '',
+            insta: regSocInsta?.value || '',
+            tiktok: regSocTikTok?.value || '',
+            yt: regSocYt?.value || '',
+            discord: regSocDiscord?.value || ''
+        };
+
+        // Save to localStorage for channel.html sync
+        const profileData = { username, level, bio, color, avatar, socials };
+        localStorage.setItem('userProfileCard', JSON.stringify(profileData));
+
+        // Generate profile card HTML (matching channel.html design)
+        const profileCardHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: transparent;
+            color: #fff;
+            padding: 0;
+            overflow: hidden;
+        }
+        .profile-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid ${color};
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px ${color}50;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid ${color};
+            box-shadow: 0 0 15px ${color}70;
+            flex-shrink: 0;
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-info h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: ${color};
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px ${color}80;
+        }
+        .profile-level {
+            color: #aaa;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .profile-bio {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .profile-socials {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid ${color}50;
+            border-radius: 20px;
+            color: ${color};
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .social-link:hover {
+            background: ${color}20;
+            border-color: ${color};
+            box-shadow: 0 0 10px ${color}50;
+            transform: translateX(5px);
+        }
+        .social-link i {
+            font-size: 16px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-left">
+            <img src="${avatar}" alt="${username}" class="profile-avatar">
+            <div class="profile-info">
+                <h1>${username}</h1>
+                <div class="profile-level">LEVEL ${level} • VERIFIED STREAMER</div>
+                <div class="profile-bio">${bio}</div>
+            </div>
+        </div>
+        <div class="profile-socials">
+            ${socials.x ? `<a href="${socials.x}" target="_blank" class="social-link"><i class="fa-brands fa-x-twitter"></i> Twitter</a>` : ''}
+            ${socials.insta ? `<a href="${socials.insta}" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i> Instagram</a>` : ''}
+            ${socials.tiktok ? `<a href="${socials.tiktok}" target="_blank" class="social-link"><i class="fa-brands fa-tiktok"></i> TikTok</a>` : ''}
+            ${socials.yt ? `<a href="${socials.yt}" target="_blank" class="social-link"><i class="fa-brands fa-youtube"></i> YouTube</a>` : ''}
+            ${socials.discord ? `<a href="${socials.discord}" target="_blank" class="social-link"><i class="fa-brands fa-discord"></i> Discord</a>` : ''}
+        </div>
+    </div>
+</body>
+</html>
+        `;
+
+        const blob = new Blob([profileCardHTML], { type: 'text/html;charset=utf-8' });
+        dossierFrame.src = URL.createObjectURL(blob);
+    }
+
+    // OLD compileProfile function (for SOURCE_CODE mode)
     function compileProfile() {
         let html = document.querySelector('#editor-html textarea').value;
         let css = document.querySelector('#editor-css textarea').value;
@@ -2228,9 +2370,12 @@ a[href=""], a[href="undefined"] { display: none; }
         });
     }
 
-    setTimeout(compileProfile, 500);
+    setTimeout(() => {
+        generateProfilePreview();  // Show VISUAL_EDITOR preview
+        // compileProfile();  // For SOURCE_CODE if needed
+    }, 500);
     compileBtn.addEventListener('click', () => {
-        compileProfile();
+        generateProfilePreview();  // Regenerate preview
         sfx.click();
     });
 }
