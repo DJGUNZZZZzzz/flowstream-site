@@ -2077,6 +2077,7 @@ body.profile-layout {
     flex-grow: 1;
     position: relative;
     padding: 40px;
+    min-height: 400px;
     display: flex;
     justify-content: center;
     align-items: start;
