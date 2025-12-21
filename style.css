@@ -2081,9 +2081,7 @@ body.profile-layout {
     display: flex;
     justify-content: center;
     align-items: start;
-    /* content flows from top */
-    overflow-y: auto;
-    /* Allow scrolling to see full profile */
+    overflow: hidden;
 }
 
 /* Glitch Overlay for Holo Deck */
