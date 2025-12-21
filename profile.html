@@ -297,13 +297,12 @@
                                 <i class="fa-solid fa-trash"></i> Clear Avatar
                             </button>
 
-                            <!-- 3D Avatar Display - Ready Player Me Official Viewer -->
-                            <iframe id="rpm-avatar-viewer"
-                                style="width: 100%; height: 650px; margin-top: 20px; border: 2px solid #00ffff; border-radius: 10px; background: #0a0a0a; display: none;"
-                                allow="camera; microphone; fullscreen" scrolling="no">
-                            </iframe>
-                            <!-- Fallback displays (hidden) -->
-                            <model-viewer id="avatar-model-viewer" style="display: none;"></model-viewer>
+                            <!-- 3D Avatar Display - model-viewer (handles blobs) -->
+                            <model-viewer id="avatar-model-viewer" alt="Your 3D Avatar"
+                                style="width: 100%; height: 650px; margin-top: 20px; border: 2px solid #00ffff; border-radius: 10px; background: #0a0a0a; display: none;">
+                            </model-viewer>
+                            <!-- Fallback iframe (hidden) -->
+                            <iframe id="rpm-avatar-viewer" style="display: none;"></iframe>
                             <div id="avatar-3d-container" style="display: none;"></div>
                         </div>
                     </div>

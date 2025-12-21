@@ -108,55 +108,36 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Load and display GLB avatar using Ready Player Me's direct viewer
- * Use the avatar ID directly, not the GLB URL
+ * Load and display GLB avatar using model-viewer
+ * Handles both regular URLs and blob URLs from IndexedDB
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading GLB avatar with RPM viewer...');
-    console.log('📦 GLB URL received:', glbUrl);
+    console.log('🎭 Loading GLB avatar...');
+    console.log('📦 GLB URL:', glbUrl);
 
-    // Extract avatar ID from the GLB URL
-    // URL format: https://models.readyplayer.me/[AVATAR_ID].glb
-    const avatarId = glbUrl.match(/\/([a-f0-9-]+)\.glb/i)?.[1];
-
-    if (!avatarId) {
-        console.error('❌ Could not extract avatar ID from URL:', glbUrl);
-        alert('Invalid avatar URL format');
-        return;
-    }
-
-    console.log('🆔 Extracted Avatar ID:', avatarId);
-
-    // Use Ready Player Me's web viewer (iframe-based)
+    // Use model-viewer for display (handles blob URLs)
+    const modelViewer = document.getElementById('avatar-model-viewer');
     const iframe = document.getElementById('rpm-avatar-viewer');
 
-    if (!iframe) {
-        console.error('❌ RPM viewer iframe not found');
+    if (!modelViewer) {
+        console.error('❌ model-viewer not found');
         return;
     }
 
-    // RPM Visage Web Viewer - their official embeddable viewer
-    // This viewer can load any GLB URL and displays it correctly
-    const viewerUrl = `https://render.readyplayer.me/render?` +
-        `frameApi=postMessage&` +
-        `background=transparent&` +
-        `model=${encodeURIComponent(glbUrl)}`;
+    // Hide iframe, show model-viewer
+    if (iframe) iframe.style.display = 'none';
+    modelViewer.style.display = 'block';
 
-    console.log('📺 RPM Visage Viewer URL:', viewerUrl);
+    // Set the GLB source (works with both URLs and blobs)
+    modelViewer.src = glbUrl;
+    modelViewer.setAttribute('camera-controls', '');
+    modelViewer.setAttribute('auto-rotate', '');
+    modelViewer.setAttribute('shadow-intensity', '1');
 
-    // Set iframe source
-    iframe.src = viewerUrl;
-    iframe.style.display = 'block';
+    console.log('✅ Avatar loaded in model-viewer');
 
-    // Listen for load event
-    iframe.addEventListener('load', () => {
-        console.log('✅ RPM Visage viewer loaded successfully');
-        updateAvatarThumbnail();
-    }, { once: true });
-
-    iframe.addEventListener('error', (event) => {
-        console.error('❌ RPM viewer load error:', event);
-    }, { once: true });
+    // Update thumbnail after a delay
+    setTimeout(() => updateAvatarThumbnail(), 1000);
 }
 
 /**
