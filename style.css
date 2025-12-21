@@ -2117,10 +2117,11 @@ body.profile-layout {
 }
 
 .holo-footer {
+    display: none;
+    /* Hide to show full profile */
     height: 30px;
     background: #050505;
     border-top: 1px solid #222;
-    display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
