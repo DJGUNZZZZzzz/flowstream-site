@@ -108,36 +108,36 @@ function loadVRMAvatar(vrmUrl) {
 }
 
 /**
- * Load and display GLB avatar using model-viewer
- * Handles both regular URLs and blob URLs from IndexedDB
+ * Display avatar - use 2D thumbnail since RPM GLB has proprietary format
  */
 function loadGLBAvatar(glbUrl) {
-    console.log('🎭 Loading GLB avatar...');
+    console.log('🎭 Loading avatar thumbnail...');
     console.log('📦 GLB URL:', glbUrl);
 
-    // Use model-viewer for display (handles blob URLs)
-    const modelViewer = document.getElementById('avatar-model-viewer');
-    const iframe = document.getElementById('rpm-avatar-viewer');
+    // Get the PNG thumbnail URL (replace .glb with .png)
+    const thumbnailUrl = glbUrl.replace('.glb', '.png');
 
-    if (!modelViewer) {
-        console.error('❌ model-viewer not found');
-        return;
+    // Find or create the display image
+    let avatarDisplay = document.getElementById('avatar-display-image');
+    if (!avatarDisplay) {
+        const container = document.getElementById('avatar-model-viewer').parentElement;
+        avatarDisplay = document.createElement('img');
+        avatarDisplay.id = 'avatar-display-image';
+        avatarDisplay.style.cssText = 'width: 100%; height: 650px; margin-top: 20px; border: 2px solid #00ffff; border-radius: 10px; background: #0a0a0a; object-fit: contain; display: block;';
+        container.appendChild(avatarDisplay);
     }
 
-    // Hide iframe, show model-viewer
+    // Hide 3D viewers, show image
+    const modelViewer = document.getElementById('avatar-model-viewer');
+    const iframe = document.getElementById('rpm-avatar-viewer');
+    if (modelViewer) modelViewer.style.display = 'none';
     if (iframe) iframe.style.display = 'none';
-    modelViewer.style.display = 'block';
 
-    // Set the GLB source (works with both URLs and blobs)
-    modelViewer.src = glbUrl;
-    modelViewer.setAttribute('camera-controls', '');
-    modelViewer.setAttribute('auto-rotate', '');
-    modelViewer.setAttribute('shadow-intensity', '1');
+    // Set the thumbnail
+    avatarDisplay.src = thumbnailUrl;
+    avatarDisplay.style.display = 'block';
 
-    console.log('✅ Avatar loaded in model-viewer');
-
-    // Update thumbnail after a delay
-    setTimeout(() => updateAvatarThumbnail(), 1000);
+    console.log('✅ Avatar thumbnail displayed:', thumbnailUrl);
 }
 
 /**
