@@ -2558,6 +2558,19 @@ body.profile-layout {
     transform: translateY(-2px);
 }
 
+/* Execute button - Lime green */
+.cyber-btn.execute {
+    background: rgba(0, 255, 0, 0.1);
+    border-color: #00ff00;
+    color: #00ff00;
+}
+
+.cyber-btn.execute:hover {
+    background: #00ff00;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+}
+
 /* ================================================
    6. AUTH PAGES (SIGN UP / SIGN IN)
    ================================================ */

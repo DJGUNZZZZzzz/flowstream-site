@@ -1216,6 +1216,25 @@ const emoteBtn = document.getElementById('emote-btn');
 const emotePicker = document.getElementById('emote-picker');
 
 if (chatInput && sendBtn && chatFeed) {
+    // Compile button for SOURCE_CODE mode
+    const compileBtn = document.getElementById('compile-btn');
+    if (compileBtn) {
+        compileBtn.addEventListener('click', compileProfile);
+    }
+
+    // Execute button for VISUAL_EDITOR mode (same function)
+    const visualExecuteBtn = document.getElementById('visual-execute-btn');
+    if (visualExecuteBtn) {
+        visualExecuteBtn.addEventListener('click', () => {
+            // Check which mode is active and execute accordingly
+            const isVisualMode = document.getElementById('mode-visual')?.classList.contains('active');
+            if (isVisualMode) {
+                generateProfilePreview();  // Update VISUAL_EDITOR preview
+            } else {
+                compileProfile();  // Compile SOURCE_CODE
+            }
+        });
+    }
     // Sound Toggle
     const typeSoundBtn = document.getElementById('type-sound-toggle');
     if (typeSoundBtn) {
