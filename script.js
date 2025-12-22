@@ -2535,8 +2535,12 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
 </html>
         `;
 
-        const blob = new Blob([profileCardHTML], { type: 'text/html;charset=utf-8' });
-        dossierFrame.src = URL.createObjectURL(blob);
+        // Display in iframe
+        const iframe = document.getElementById('dossier-frame');
+        if (iframe) {
+            const blob = new Blob([profileHTML], { type: 'text/html;charset=utf-8' });
+            iframe.src = URL.createObjectURL(blob);
+        }
     }
 
     // OLD compileProfile function (for SOURCE_CODE mode)
