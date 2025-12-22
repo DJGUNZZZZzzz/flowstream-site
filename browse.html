@@ -108,6 +108,144 @@
             box-shadow: 0 0 35px rgba(0, 255, 255, 0.5);
         }
 
+        /* Autocomplete Dropdown */
+        .search-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .autocomplete-dropdown.active {
+            display: block;
+        }
+
+        .autocomplete-section {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .autocomplete-section:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            color: #666;
+            padding: 5px 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .autocomplete-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .autocomplete-item.selected {
+            background: rgba(0, 255, 255, 0.15);
+            border-left: 3px solid #0ff;
+        }
+
+        .autocomplete-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0ff;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .autocomplete-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .autocomplete-icon.live {
+            border: 2px solid #ff0055;
+        }
+
+        .autocomplete-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .autocomplete-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .autocomplete-title .highlight {
+            color: #0ff;
+            font-weight: 700;
+        }
+
+        .autocomplete-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .autocomplete-meta .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #ff0055;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .autocomplete-viewers {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: #ff0055;
+            white-space: nowrap;
+        }
+
+        .autocomplete-hint {
+            text-align: center;
+            padding: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: #555;
+        }
+
         /* Category Filter Chips */
         .category-filters {
             display: flex;
@@ -552,10 +690,15 @@
         <div class="browse-hero-content">
             <h1 class="browse-main-title"><i class="fa-solid fa-satellite-dish"></i> BROWSE NETWORK</h1>
 
-            <!-- Large Search Box -->
+            <!-- Large Search Box with Autocomplete -->
             <div class="search-main-box">
-                <input type="text" class="search-main-input" id="browse-search-input"
-                    placeholder="Search channels, games, streamers...">
+                <div class="search-wrapper">
+                    <input type="text" class="search-main-input" id="browse-search-input"
+                        placeholder="Search channels, games, streamers..." autocomplete="off">
+                    <div class="autocomplete-dropdown" id="autocomplete-dropdown">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
                 <button class="search-main-btn" id="browse-search-btn">
                     <i class="fa-solid fa-search"></i> SCAN
                 </button>
@@ -789,8 +932,24 @@
                 { title: "Cooking Challenge IRL", name: "ChefGamer", game: "IRL", viewers: "9.4K", tags: ["IRL"], image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400" },
             ];
 
+            // All searchable categories/games
+            const allGames = [
+                { name: "VALORANT", icon: "fa-crosshairs", viewers: "156K" },
+                { name: "FORTNITE", icon: "fa-gamepad", viewers: "234K" },
+                { name: "CYBERPUNK 2077", icon: "fa-city", viewers: "89K" },
+                { name: "ELDEN RING", icon: "fa-dragon", viewers: "67K" },
+                { name: "MUSIC", icon: "fa-music", viewers: "45K" },
+                { name: "SOFTWARE DEV", icon: "fa-code", viewers: "28K" },
+                { name: "IRL", icon: "fa-camera", viewers: "112K" },
+                { name: "JUST CHATTING", icon: "fa-comments", viewers: "312K" },
+                { name: "APEX LEGENDS", icon: "fa-crosshairs", viewers: "98K" },
+                { name: "MINECRAFT", icon: "fa-cube", viewers: "187K" },
+            ];
+
             let currentFilter = 'all';
             let currentSearch = '';
+            let selectedIndex = -1;
+            const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
 
             // Check URL for search query
             const urlParams = new URLSearchParams(window.location.search);
@@ -804,12 +963,164 @@
             renderStreams();
 
             // Search button click
-            searchBtn.addEventListener('click', performSearch);
-
-            // Enter key in search
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') performSearch();
+            searchBtn.addEventListener('click', () => {
+                hideAutocomplete();
+                performSearch();
             });
+
+            // Live search as you type
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                if (query.length >= 1) {
+                    showAutocomplete(query);
+                    // Also filter results live
+                    currentSearch = query.toLowerCase();
+                    renderStreams();
+                } else {
+                    hideAutocomplete();
+                    currentSearch = '';
+                    renderStreams();
+                }
+            });
+
+            // Keyboard navigation
+            searchInput.addEventListener('keydown', (e) => {
+                const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelection(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = Math.max(selectedIndex - 1, -1);
+                    updateSelection(items);
+                } else if (e.key === 'Enter') {
+                    if (selectedIndex >= 0 && items[selectedIndex]) {
+                        e.preventDefault();
+                        items[selectedIndex].click();
+                    } else {
+                        hideAutocomplete();
+                        performSearch();
+                    }
+                } else if (e.key === 'Escape') {
+                    hideAutocomplete();
+                }
+            });
+
+            // Close autocomplete on click outside
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
+                    hideAutocomplete();
+                }
+            });
+
+            // Focus shows autocomplete if there's text
+            searchInput.addEventListener('focus', () => {
+                if (searchInput.value.trim().length >= 1) {
+                    showAutocomplete(searchInput.value.trim());
+                }
+            });
+
+            function showAutocomplete(query) {
+                const q = query.toLowerCase();
+                selectedIndex = -1;
+
+                // Find matching games
+                const matchingGames = allGames.filter(g =>
+                    g.name.toLowerCase().includes(q)
+                ).slice(0, 4);
+
+                // Find matching channels (live)
+                const matchingChannels = allStreams.filter(s =>
+                    s.name.toLowerCase().includes(q) ||
+                    s.title.toLowerCase().includes(q) ||
+                    s.game.toLowerCase().includes(q)
+                ).slice(0, 4);
+
+                // Build dropdown HTML
+                let html = '';
+
+                if (matchingGames.length > 0) {
+                    html += `<div class="autocomplete-section">
+                        <div class="autocomplete-section-title"><i class="fa-solid fa-gamepad"></i> Categories</div>
+                        ${matchingGames.map(g => `
+                            <div class="autocomplete-item" data-type="game" data-value="${g.name}">
+                                <div class="autocomplete-icon"><i class="fa-solid ${g.icon}"></i></div>
+                                <div class="autocomplete-info">
+                                    <div class="autocomplete-title">${highlightMatch(g.name, query)}</div>
+                                    <div class="autocomplete-meta">${g.viewers} viewers</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>`;
+                }
+
+                if (matchingChannels.length > 0) {
+                    html += `<div class="autocomplete-section">
+                        <div class="autocomplete-section-title"><i class="fa-solid fa-broadcast-tower"></i> Live Channels</div>
+                        ${matchingChannels.map(c => `
+                            <div class="autocomplete-item" data-type="channel" data-value="${c.name}">
+                                <div class="autocomplete-icon live"><img src="https://via.placeholder.com/36" alt="${c.name}"></div>
+                                <div class="autocomplete-info">
+                                    <div class="autocomplete-title">${highlightMatch(c.name, query)}</div>
+                                    <div class="autocomplete-meta"><span class="live-dot"></span> ${c.game}</div>
+                                </div>
+                                <div class="autocomplete-viewers">${c.viewers}</div>
+                            </div>
+                        `).join('')}
+                    </div>`;
+                }
+
+                if (html === '') {
+                    html = `<div class="autocomplete-hint"><i class="fa-solid fa-search"></i> Press Enter to search for "${query}"</div>`;
+                }
+
+                autocompleteDropdown.innerHTML = html;
+                autocompleteDropdown.classList.add('active');
+
+                // Add click handlers to items
+                autocompleteDropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const value = item.dataset.value;
+                        searchInput.value = value;
+                        currentSearch = value.toLowerCase();
+                        hideAutocomplete();
+                        renderStreams();
+                        updateSearchQueryDisplay();
+                        if (window.sfx) sfx.click();
+                    });
+                });
+            }
+
+            function hideAutocomplete() {
+                autocompleteDropdown.classList.remove('active');
+                selectedIndex = -1;
+            }
+
+            function updateSelection(items) {
+                items.forEach((item, i) => {
+                    item.classList.toggle('selected', i === selectedIndex);
+                });
+                if (selectedIndex >= 0 && items[selectedIndex]) {
+                    items[selectedIndex].scrollIntoView({ block: 'nearest' });
+                }
+            }
+
+            function highlightMatch(text, query) {
+                const regex = new RegExp(`(${query})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
+
+            function updateSearchQueryDisplay() {
+                if (currentSearch) {
+                    searchQueryDisplay.textContent = ` for "${currentSearch}"`;
+                    history.pushState({}, '', `browse.html?q=${encodeURIComponent(currentSearch)}`);
+                } else {
+                    searchQueryDisplay.textContent = '';
+                    history.pushState({}, '', 'browse.html');
+                }
+            }
 
             // Nav search
             if (navSearchInput) {
