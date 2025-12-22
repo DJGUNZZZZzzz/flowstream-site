@@ -2395,136 +2395,119 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
 
     // Generate profile preview card from VISUAL_EDITOR form data
     function generateProfilePreview() {
-        // Get form data
-        const username = regUsername?.value || 'OPERATIVE';
-        const level = regLevel?.value || '1';
-        const bio = regBio?.value || '';
-        const color = regColor?.value || '#00ffff';
-        const avatar = regAvatar?.value || window.avatarManager?.state?.currentUrl || 'https://ui-avatars.com/api/?name=User&background=0ff&color=000&size=200';
+        // Get form values
+        const username = document.getElementById('reg-username')?.value || 'Operative';
+        const bio = document.getElementById('reg-bio')?.value || 'No bio provided';
+        const color = document.getElementById('reg-color')?.value || '#00FFFF';
 
         // Get social links
-        const socials = {
-            x: regSocX?.value || '',
-            insta: regSocInsta?.value || '',
-            tiktok: regSocTikTok?.value || '',
-            yt: regSocYt?.value || '',
-            discord: regSocDiscord?.value || ''
-        };
+        const socialX = document.getElementById('reg-soc-x')?.value || '';
+        const socialInsta = document.getElementById('reg-soc-insta')?.value || '';
+        const socialTiktok = document.getElementById('reg-soc-tiktok')?.value || '';
+        const socialSnap = document.getElementById('reg-soc-snap')?.value || '';
+        const socialYT = document.getElementById('reg-soc-yt')?.value || '';
+        const socialDiscord = document.getElementById('reg-soc-discord')?.value || '';
 
-        // Save to localStorage for channel.html sync
-        const profileData = { username, level, bio, color, avatar, socials };
-        localStorage.setItem('userProfileCard', JSON.stringify(profileData));
+        // Extract initials based on capitals
+        let initials = 'CN';
+        const capitals = username.match(/[A-Z]/g);
+        if (capitals && capitals.length >= 2) {
+            // Use first 2 capital letters
+            initials = capitals[0] + capitals[1];
+        } else if (username.length >= 2) {
+            // Use first 2 letters of username
+            initials = username.substring(0, 2).toUpperCase();
+        }
 
-        // Generate profile card HTML (matching channel.html design)
-        const profileCardHTML = `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: transparent;
-            color: #fff;
-            padding: 0;
-            overflow: hidden;
-        }
-        .profile-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid ${color};
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 20px ${color}50;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        .profile-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-        }
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid ${color};
-            box-shadow: 0 0 15px ${color}70;
-            flex-shrink: 0;
-        }
-        .profile-info {
-            flex: 1;
-        }
-        .profile-info h1 {
-            font-family: 'Orbitron', sans-serif;
-            color: ${color};
-            font-size: 22px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px ${color}80;
-        }
-        .profile-level {
-            color: #aaa;
-            font-size: 12px;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .profile-bio {
-            color: #ccc;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-        .profile-socials {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid ${color}50;
-            border-radius: 20px;
-            color: ${color};
-            text-decoration: none;
-            font-size: 13px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-        .social-link:hover {
-            background: ${color}20;
-            border-color: ${color};
-            box-shadow: 0 0 10px ${color}50;
-            transform: translateX(5px);
-        }
-        .social-link i {
-            font-size: 16px;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="profile-card">
-        <div class="profile-left">
-            <img src="${avatar}" alt="${username}" class="profile-avatar">
-            <div class="profile-info">
-                <h1>${username}</h1>
-                <div class="profile-level">LEVEL ${level} • VERIFIED STREAMER</div>
+        // Create profile card HTML matching channel.html design
+        const profileHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                body {
+                    margin: 0;
+                    padding: 20px;
+                    background: #000;
+                    font-family: 'Share Tech Mono', monospace;
+                    color: #fff;
+                }
+                .profile-card {
+                    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+                    border: 1px solid ${color};
+                    border-radius: 8px;
+                    padding: 20px;
+                    box-shadow: 0 0 20px rgba(0,255,255,0.3);
+                }
+                .profile-header {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 15px;
+                }
+                .profile-avatar {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    background: ${color};
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #000;
+                    margin-right: 15px;
+                }
+                .profile-info h3 {
+                    margin: 0 0 5px 0;
+                    color: ${color};
+                    font-size: 18px;
+                }
+                .profile-bio {
+                    margin: 15px 0;
+                    color: #ccc;
+                    font-size: 14px;
+                    line-height: 1.5;
+                }
+                .social-links {
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                }
+                .social-btn {
+                    padding: 8px 12px;
+                    background: rgba(0,255,255,0.1);
+                    border: 1px solid ${color};
+                    color: ${color};
+                    text-decoration: none;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    transition: all 0.3s;
+                }
+                .social-btn:hover {
+                    background: ${color};
+                    color: #000;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">${initials}</div>
+                    <div class="profile-info">
+                        <h3>${username}</h3>
+                    </div>
+                </div>
                 <div class="profile-bio">${bio}</div>
+                <div class="social-links">
+                    ${socialX ? `<a href="${socialX}" class="social-btn" target="_blank">X/Twitter</a>` : ''}
+                    ${socialInsta ? `<a href="${socialInsta}" class="social-btn" target="_blank">Instagram</a>` : ''}
+                    ${socialTiktok ? `<a href="${socialTiktok}" class="social-btn" target="_blank">TikTok</a>` : ''}
+                    ${socialSnap ? `<a href="${socialSnap}" class="social-btn" target="_blank">Snapchat</a>` : ''}
+                    ${socialYT ? `<a href="${socialYT}" class="social-btn" target="_blank">YouTube</a>` : ''}
+                    ${socialDiscord ? `<a href="${socialDiscord}" class="social-btn" target="_blank">Discord</a>` : ''}
+                </div>
             </div>
-        </div>
-        <div class="profile-socials">
-            ${socials.x ? `<a href="${socials.x}" target="_blank" class="social-link"><i class="fa-brands fa-x-twitter"></i> Twitter</a>` : ''}
-            ${socials.insta ? `<a href="${socials.insta}" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i> Instagram</a>` : ''}
-            ${socials.tiktok ? `<a href="${socials.tiktok}" target="_blank" class="social-link"><i class="fa-brands fa-tiktok"></i> TikTok</a>` : ''}
-            ${socials.yt ? `<a href="${socials.yt}" target="_blank" class="social-link"><i class="fa-brands fa-youtube"></i> YouTube</a>` : ''}
-            ${socials.discord ? `<a href="${socials.discord}" target="_blank" class="social-link"><i class="fa-brands fa-discord"></i> Discord</a>` : ''}
-        </div>
     </div>
 </body>
 </html>
