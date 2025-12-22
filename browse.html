@@ -4,13 +4,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLOW | Browse Channels</title>
+    <title>FLOW | Browse Network</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="university-modal-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
+    <style>
+        /* Browse/Search Page Styles */
+        .browse-hero {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 15, 25, 0.95) 100%);
+            padding: 40px 30px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+            position: relative;
+        }
+
+        .browse-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .browse-hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .browse-main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: #0ff;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .browse-main-title i {
+            font-size: 28px;
+        }
+
+        /* Large Search Box */
+        .search-main-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .search-main-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(0, 255, 255, 0.25);
+            border-radius: 8px;
+            padding: 16px 22px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 16px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .search-main-input:focus {
+            outline: none;
+            border-color: #0ff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+        }
+
+        .search-main-input::placeholder {
+            color: #555;
+        }
+
+        .search-main-btn {
+            background: linear-gradient(135deg, #0ff, #00cc99);
+            border: none;
+            border-radius: 8px;
+            padding: 16px 35px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Category Filter Chips */
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .category-chip {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 25px;
+            padding: 10px 18px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-chip:hover {
+            border-color: rgba(0, 255, 255, 0.4);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .category-chip.active {
+            background: rgba(0, 255, 255, 0.12);
+            border-color: #0ff;
+            color: #0ff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .category-chip i {
+            font-size: 13px;
+        }
+
+        /* Recent Searches Section */
+        .recent-searches {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .recent-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .recent-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .recent-tag {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recent-tag:hover {
+            border-color: #0ff;
+            color: #0ff;
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .recent-tag i {
+            margin-right: 6px;
+            opacity: 0.6;
+        }
+
+        /* Results Header */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .results-info {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .results-info span {
+            color: #0ff;
+            font-weight: bold;
+        }
+
+        .results-sort {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .results-sort label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cyber-select {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            color: #0ff;
+            cursor: pointer;
+        }
+
+        .cyber-select:focus {
+            outline: none;
+            border-color: #0ff;
+        }
+
+        /* Channel Grid */
+        .channels-section {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: #ff0055;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 0, 85, 0.4), transparent);
+            margin-left: 15px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Stream Card Styling */
+        .stream-card {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stream-card:hover {
+            border-color: #0ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.15);
+        }
+
+        .thumbnail-container {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .thumbnail-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .stream-card:hover .thumbnail-container img {
+            transform: scale(1.05);
+        }
+
+        .live-tag-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff0055;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .viewer-count-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .viewer-count-overlay::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #ff0055;
+            border-radius: 50%;
+        }
+
+        .watch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: #0ff;
+            letter-spacing: 2px;
+        }
+
+        .stream-card:hover .watch-overlay {
+            opacity: 1;
+        }
+
+        .stream-info {
+            padding: 15px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .card-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #0ff;
+            flex-shrink: 0;
+        }
+
+        .text-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stream-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .streamer-name {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            color: #0ff;
+            margin-bottom: 4px;
+        }
+
+        .game-name {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255, 0, 85, 0.15);
+            border: 1px solid rgba(255, 0, 85, 0.3);
+            color: #ff6699;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* No Results State */
+        .no-results {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .no-results-icon {
+            font-size: 70px;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        .no-results-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .no-results-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            color: #444;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +479,7 @@
         <div class="search-container">
             <div class="search-box">
                 <i class="fa-solid fa-search search-icon"></i>
-                <input type="text" placeholder="Search streamers, categories and more...">
+                <input type="text" id="nav-search-input" placeholder="Search streamers, categories and more...">
             </div>
         </div>
         <div class="nav-links">
@@ -76,10 +530,10 @@
                             <span class="item-desc">>> View operative profile data</span>
                         </div>
                     </a>
-                    <a href="#" class="dropdown-item">
+                    <a href="settings.html" class="dropdown-item">
                         <div class="item-content">
                             <span class="item-title">OPERATOR SETTINGS</span>
-                            <span class="item-desc">>> System config & light/dark mode</span>
+                            <span class="item-desc">>> System config & preferences</span>
                         </div>
                     </a>
                     <a href="javascript:void(0)" class="dropdown-item kill-signal" id="sign-out-btn">
@@ -93,10 +547,65 @@
         </div>
     </nav>
 
+    <!-- BROWSE HERO SECTION -->
+    <section class="browse-hero">
+        <div class="browse-hero-content">
+            <h1 class="browse-main-title"><i class="fa-solid fa-satellite-dish"></i> BROWSE NETWORK</h1>
+
+            <!-- Large Search Box -->
+            <div class="search-main-box">
+                <input type="text" class="search-main-input" id="browse-search-input"
+                    placeholder="Search channels, games, streamers...">
+                <button class="search-main-btn" id="browse-search-btn">
+                    <i class="fa-solid fa-search"></i> SCAN
+                </button>
+            </div>
+
+            <!-- Category Filter Chips -->
+            <div class="category-filters" id="category-filters">
+                <button class="category-chip active" data-filter="all">
+                    <i class="fa-solid fa-layer-group"></i> ALL
+                </button>
+                <button class="category-chip" data-filter="fps">
+                    <i class="fa-solid fa-crosshairs"></i> SHOOTERS
+                </button>
+                <button class="category-chip" data-filter="rpg">
+                    <i class="fa-solid fa-dragon"></i> RPG
+                </button>
+                <button class="category-chip" data-filter="irl">
+                    <i class="fa-solid fa-camera"></i> IRL
+                </button>
+                <button class="category-chip" data-filter="music">
+                    <i class="fa-solid fa-music"></i> MUSIC
+                </button>
+                <button class="category-chip" data-filter="dev">
+                    <i class="fa-solid fa-code"></i> DEV
+                </button>
+                <button class="category-chip" data-filter="crypto">
+                    <i class="fa-brands fa-bitcoin"></i> CRYPTO
+                </button>
+            </div>
+
+            <!-- Recent Searches -->
+            <div class="recent-searches">
+                <h4 class="recent-title"><i class="fa-solid fa-clock-rotate-left"></i> RECENT SCANS</h4>
+                <div class="recent-tags" id="recent-tags">
+                    <span class="recent-tag" data-search="Valorant"><i class="fa-solid fa-gamepad"></i> Valorant</span>
+                    <span class="recent-tag" data-search="Cyberpunk 2077"><i class="fa-solid fa-gamepad"></i> Cyberpunk
+                        2077</span>
+                    <span class="recent-tag" data-search="Fortnite"><i class="fa-solid fa-gamepad"></i> Fortnite</span>
+                    <span class="recent-tag" data-search="Music"><i class="fa-solid fa-music"></i> Music Streams</span>
+                    <span class="recent-tag" data-search="Just Chatting"><i class="fa-solid fa-comments"></i> Just
+                        Chatting</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- APP LAYOUT -->
     <div class="app-layout">
 
-        <!-- SIDEBAR (Reused Structure) -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-section">
                 <h4 class="sidebar-title glitch-loop" data-text="HACKED FEEDS">HACKED FEEDS</h4>
@@ -115,44 +624,40 @@
         <!-- MAIN CONTENT -->
         <main class="main-content">
 
-            <!-- BROWSE HEADER -->
-            <section class="browse-header-section">
-                <h1 class="browse-title">BROWSE <span class="highlight">NETWORK</span></h1>
-
-                <!-- Filter Bar -->
-                <div class="filter-bar" id="browse-filters">
-                    <button class="filter-chip active" data-filter="all"><i class="fa-solid fa-layer-group"></i>
-                        ALL</button>
-                    <button class="filter-chip" data-filter="fps"><i class="fa-solid fa-crosshairs"></i>
-                        SHOOTERS</button>
-                    <button class="filter-chip" data-filter="rpg"><i class="fa-solid fa-dragon"></i> RPG</button>
-                    <button class="filter-chip" data-filter="irl"><i class="fa-solid fa-camera"></i> IRL</button>
-                    <button class="filter-chip" data-filter="music"><i class="fa-solid fa-music"></i> MUSIC</button>
-                    <button class="filter-chip" data-filter="dev"><i class="fa-solid fa-code"></i> DEV</button>
-                    <button class="filter-chip" data-filter="crypto"><i class="fa-brands fa-bitcoin"></i>
-                        CRYPTO</button>
+            <!-- Results Header -->
+            <div class="results-header">
+                <div class="results-info">
+                    Showing <span id="results-count">32</span> live channels
+                    <span id="search-query-display"></span>
                 </div>
-
-                <!-- Sort Bar -->
-                <div class="sort-bar">
-                    <span>SORT BY:</span>
-                    <select class="cyber-select">
-                        <option>RECOMMENDED</option>
-                        <option>VIEWERS (HIGH TO LOW)</option>
-                        <option>VIEWERS (LOW TO HIGH)</option>
-                        <option>RECENTLY STARTED</option>
+                <div class="results-sort">
+                    <label>SORT BY:</label>
+                    <select class="cyber-select" id="sort-select">
+                        <option value="recommended">RECOMMENDED</option>
+                        <option value="viewers-high">VIEWERS (HIGH → LOW)</option>
+                        <option value="viewers-low">VIEWERS (LOW → HIGH)</option>
+                        <option value="recent">RECENTLY STARTED</option>
                     </select>
                 </div>
-            </section>
+            </div>
 
-            <!-- BROWSE GRID (Massive List) -->
-            <section class="live-feed-section">
+            <!-- Channels Grid Section -->
+            <section class="channels-section">
+                <h3 class="section-title"><i class="fa-solid fa-broadcast-tower"></i> LIVE CHANNELS</h3>
+
                 <div class="video-grid" id="browse-grid">
-                    <!-- JS will populate this with many items -->
+                    <!-- JS will populate this -->
+                </div>
+
+                <!-- No Results State -->
+                <div class="no-results" id="no-results" style="display: none;">
+                    <div class="no-results-icon"><i class="fa-solid fa-ghost"></i></div>
+                    <div class="no-results-title">NO SIGNAL DETECTED</div>
+                    <div class="no-results-text">No channels match your search. Try different keywords or filters.</div>
                 </div>
             </section>
 
-            <!-- FOOTER (System Diagnostic) -->
+            <!-- FOOTER -->
             <footer class="site-footer">
 
                 <!-- HEARTBEAT LINE -->
@@ -253,6 +758,199 @@
     <script src="bounty-watch-system.js"></script>
     <script src="integration-fixes.js"></script>
     <script src="credit-system-ui.js"></script>
+
+    <script>
+        // Enhanced Browse Page Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('browse-search-input');
+            const searchBtn = document.getElementById('browse-search-btn');
+            const navSearchInput = document.getElementById('nav-search-input');
+            const categoryFilters = document.querySelectorAll('.category-chip');
+            const recentTags = document.querySelectorAll('.recent-tag');
+            const browseGrid = document.getElementById('browse-grid');
+            const resultsCount = document.getElementById('results-count');
+            const searchQueryDisplay = document.getElementById('search-query-display');
+            const sortSelect = document.getElementById('sort-select');
+            const noResults = document.getElementById('no-results');
+
+            // Mock stream data
+            const allStreams = [
+                { title: "Ranked Grind to Immortal", name: "NeonGamer_X", game: "VALORANT", viewers: "12.4K", tags: ["FPS", "RANKED"], image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400" },
+                { title: "Night City Adventures", name: "CyberKate", game: "CYBERPUNK 2077", viewers: "8.9K", tags: ["RPG"], image: "https://images.unsplash.com/photo-1605901309584-818e25960b8f?w=400" },
+                { title: "Chill Coding Session", name: "DevGuru", game: "SOFTWARE DEV", viewers: "2.1K", tags: ["DEV"], image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400" },
+                { title: "Late Night Lo-Fi Beats", name: "SynthWave_DJ", game: "MUSIC", viewers: "24.3K", tags: ["MUSIC"], image: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?w=400" },
+                { title: "Speedrun Any% WR Attempts", name: "SpeedRunner99", game: "ELDEN RING", viewers: "5.6K", tags: ["RPG"], image: "https://images.unsplash.com/photo-1593305841991-05c29736cec7?w=400" },
+                { title: "IRL Tokyo Night Walk", name: "TravelVibes", game: "IRL", viewers: "15.2K", tags: ["IRL"], image: "https://images.unsplash.com/photo-1554178286-db443a99268e?w=400" },
+                { title: "Crypto Market Analysis", name: "BitLord", game: "FINANCE", viewers: "4.8K", tags: ["CRYPTO"], image: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400" },
+                { title: "Radiant Ranked Matches", name: "JettMain", game: "VALORANT", viewers: "18.7K", tags: ["FPS", "RANKED"], image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400" },
+                { title: "Battle Royale Wins Only", name: "VictoryRoyal", game: "FORTNITE", viewers: "31.2K", tags: ["FPS"], image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400" },
+                { title: "Piano & Requests", name: "MelodyMaster", game: "MUSIC", viewers: "7.3K", tags: ["MUSIC"], image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=400" },
+                { title: "React Tutorial Live", name: "CodeNewbie", game: "SOFTWARE DEV", viewers: "1.8K", tags: ["DEV"], image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400" },
+                { title: "Cooking Challenge IRL", name: "ChefGamer", game: "IRL", viewers: "9.4K", tags: ["IRL"], image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400" },
+            ];
+
+            let currentFilter = 'all';
+            let currentSearch = '';
+
+            // Check URL for search query
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryFromUrl = urlParams.get('q');
+            if (queryFromUrl) {
+                searchInput.value = queryFromUrl;
+                currentSearch = queryFromUrl.toLowerCase();
+            }
+
+            // Initial render
+            renderStreams();
+
+            // Search button click
+            searchBtn.addEventListener('click', performSearch);
+
+            // Enter key in search
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Nav search
+            if (navSearchInput) {
+                navSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        searchInput.value = navSearchInput.value;
+                        performSearch();
+                    }
+                });
+            }
+
+            // Category filter clicks
+            categoryFilters.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    categoryFilters.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentFilter = chip.dataset.filter;
+                    renderStreams();
+                    if (window.sfx) sfx.click();
+                });
+            });
+
+            // Recent tags clicks
+            recentTags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    const query = tag.dataset.search;
+                    searchInput.value = query;
+                    performSearch();
+                    if (window.sfx) sfx.click();
+                });
+            });
+
+            // Sort change
+            sortSelect.addEventListener('change', renderStreams);
+
+            function performSearch() {
+                currentSearch = searchInput.value.trim().toLowerCase();
+                // Reset to 'all' filter when searching
+                categoryFilters.forEach(c => c.classList.remove('active'));
+                document.querySelector('[data-filter="all"]').classList.add('active');
+                currentFilter = 'all';
+                renderStreams();
+
+                // Update URL
+                if (currentSearch) {
+                    history.pushState({}, '', `browse.html?q=${encodeURIComponent(currentSearch)}`);
+                    searchQueryDisplay.textContent = ` for "${currentSearch}"`;
+                } else {
+                    history.pushState({}, '', 'browse.html');
+                    searchQueryDisplay.textContent = '';
+                }
+            }
+
+            function renderStreams() {
+                let filtered = [...allStreams];
+
+                // Apply search filter
+                if (currentSearch) {
+                    filtered = filtered.filter(s =>
+                        s.title.toLowerCase().includes(currentSearch) ||
+                        s.name.toLowerCase().includes(currentSearch) ||
+                        s.game.toLowerCase().includes(currentSearch) ||
+                        s.tags.some(t => t.toLowerCase().includes(currentSearch))
+                    );
+                }
+
+                // Apply category filter
+                if (currentFilter !== 'all') {
+                    const filterMap = {
+                        'fps': ['FPS', 'RANKED'],
+                        'rpg': ['RPG'],
+                        'irl': ['IRL'],
+                        'music': ['MUSIC'],
+                        'dev': ['DEV'],
+                        'crypto': ['CRYPTO']
+                    };
+                    const tags = filterMap[currentFilter] || [];
+                    filtered = filtered.filter(s =>
+                        s.tags.some(t => tags.includes(t)) ||
+                        tags.some(tag => s.game.toUpperCase().includes(tag))
+                    );
+                }
+
+                // Apply sorting
+                const sortValue = sortSelect.value;
+                if (sortValue === 'viewers-high') {
+                    filtered.sort((a, b) => parseViews(b.viewers) - parseViews(a.viewers));
+                } else if (sortValue === 'viewers-low') {
+                    filtered.sort((a, b) => parseViews(a.viewers) - parseViews(b.viewers));
+                }
+
+                // Update count
+                resultsCount.textContent = filtered.length;
+
+                // Show/hide no results
+                if (filtered.length === 0) {
+                    noResults.style.display = 'block';
+                    browseGrid.innerHTML = '';
+                    return;
+                } else {
+                    noResults.style.display = 'none';
+                }
+
+                // Render cards
+                browseGrid.innerHTML = filtered.map((stream, i) => `
+                    <div class="stream-card" style="animation: slideIn 0.4s ease-out ${i * 0.05}s forwards; opacity: 0;">
+                        <div class="thumbnail-container">
+                            <img src="${stream.image}" alt="${stream.title}">
+                            <div class="live-tag-overlay">LIVE</div>
+                            <div class="viewer-count-overlay">${stream.viewers}</div>
+                            <div class="watch-overlay"><i class="fa-solid fa-play"></i> WATCH</div>
+                        </div>
+                        <div class="stream-info">
+                            <img src="https://via.placeholder.com/40" class="card-avatar" alt="${stream.name}">
+                            <div class="text-content">
+                                <div class="stream-title">${stream.title}</div>
+                                <div class="streamer-name">${stream.name}</div>
+                                <div class="game-name">${stream.game}</div>
+                                <div class="tags">${stream.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add click handlers
+                document.querySelectorAll('.stream-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        if (window.sfx) sfx.click();
+                        window.location.href = 'channel.html';
+                    });
+                });
+            }
+
+            function parseViews(viewStr) {
+                const num = parseFloat(viewStr);
+                if (viewStr.includes('K')) return num * 1000;
+                if (viewStr.includes('M')) return num * 1000000;
+                return num;
+            }
+        });
+    </script>
 </body>
 
 </html>
