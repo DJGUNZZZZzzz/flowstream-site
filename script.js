@@ -2001,6 +2001,24 @@ if (compileBtn) {
     });
 }
 
+// Visual Execute Button Listener (for VISUAL_EDITOR)
+const visualExecuteBtn = document.getElementById('visual-execute-btn');
+if (visualExecuteBtn) {
+    visualExecuteBtn.addEventListener('click', () => {
+        console.log('🟢 Visual EXECUTE button clicked');
+        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+        if (isVisualMode) {
+            console.log('→ Generating profile preview');
+            generateProfilePreview();
+        } else {
+            console.log('→ Compiling profile');
+            compileProfile();
+        }
+        sfx.success();
+    });
+    console.log('✓ Visual EXECUTE button connected');
+}
+
 // Reset Button Listener
 console.log('Checking for reset button:', document.getElementById('reset-template-btn'));
 if (resetBtn) {
