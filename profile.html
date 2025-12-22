@@ -260,18 +260,17 @@
                                     alt="Avatar" style="display: none;" onerror="this.style.display='none';">
                             </div>
                             <!-- Ready Player Me Avatar Creation -->
-                            <button class="avatar-customize-btn" onclick="openPlayerZeroCreator()">
+                            <button class="avatar-action-btn" onclick="openPlayerZeroCreator()">
                                 <i class="fa-solid fa-user-astronaut"></i> Create Ready Player Me Avatar
                             </button>
 
-                            <button class="avatar-customize-btn" onclick="openVIVERSECreator()"
-                                style="margin-top: 10px;">
+                            <button class="avatar-action-btn" onclick="openVIVERSECreator()" style="margin-top: 10px;">
                                 <i class="fa-solid fa-cube"></i> Create VIVERSE Avatar
                             </button>
 
                             <!-- VRM Upload -->
                             <input type="file" accept=".vrm" id="vrm-upload" style="display: none;">
-                            <button class="avatar-customize-btn" onclick="document.getElementById('vrm-upload').click()"
+                            <button class="avatar-action-btn" onclick="document.getElementById('vrm-upload').click()"
                                 style="margin-top: 10px;">
                                 <i class="fa-solid fa-upload"></i> Upload VRM Avatar
                             </button>
@@ -292,7 +291,7 @@
                                     <i class="fa-solid fa-download"></i> Load Avatar
                                 </button>
                             </div>
-                            <button class="avatar-clear-btn" onclick="clearAvatar()" style="margin-top: 10px;">
+                            <button class="avatar-action-btn danger" onclick="clearAvatar()" style="margin-top: 10px;">
                                 <i class="fa-solid fa-trash"></i> Clear Avatar
                             </button>
 
