@@ -1216,25 +1216,6 @@ const emoteBtn = document.getElementById('emote-btn');
 const emotePicker = document.getElementById('emote-picker');
 
 if (chatInput && sendBtn && chatFeed) {
-    // Compile button for SOURCE_CODE mode
-    const compileBtn = document.getElementById('compile-btn');
-    if (compileBtn) {
-        compileBtn.addEventListener('click', compileProfile);
-    }
-
-    // Execute button for VISUAL_EDITOR mode (same function)
-    const visualExecuteBtn = document.getElementById('visual-execute-btn');
-    if (visualExecuteBtn) {
-        visualExecuteBtn.addEventListener('click', () => {
-            // Check which mode is active and execute accordingly
-            const isVisualMode = document.getElementById('mode-visual')?.classList.contains('active');
-            if (isVisualMode) {
-                generateProfilePreview();  // Update VISUAL_EDITOR preview
-            } else {
-                compileProfile();  // Compile SOURCE_CODE
-            }
-        });
-    }
     // Sound Toggle
     const typeSoundBtn = document.getElementById('type-sound-toggle');
     if (typeSoundBtn) {
@@ -1657,58 +1638,49 @@ if (authTitleElement) {
 const dossierFrame = document.getElementById('dossier-frame');
 const compileBtn = document.getElementById('compile-btn');
 
+// Check if profile editor exists
 console.log('Profile Editor Check:', {
-    dossierFrame: dossierFrame ? 'FOUND' : 'NOT FOUND',
-    compileBtn: compileBtn ? 'FOUND' : 'NOT FOUND'
+    dossierFrame: dossierFrame ? 'FOUND' : 'MISSING',
+    compileBtn: compileBtn ? 'FOUND' : 'MISSING'
 });
 
-if (dossierFrame && compileBtn) {
-    console.log('✓ Profile editor initialized');
-    // Main Modes
-    const modeVisual = document.getElementById('mode-visual');
-    const modeCode = document.getElementById('mode-code');
-    const panelVisual = document.getElementById('panel-visual');
-    const panelCode = document.getElementById('panel-code');
+const codeBoxes = document.querySelectorAll('.code-box');
 
-    // Code Sub-tabs
-    const codeTabs = document.querySelectorAll('.code-tab');
-    const codeBoxes = document.querySelectorAll('.code-box');
+const saveBtn = document.getElementById('global-save-btn');
+const resetBtn = document.getElementById('reset-template-btn');
+const navNetrunnerBtn = document.getElementById('nav-netrunner-btn');
 
-    const saveBtn = document.getElementById('global-save-btn');
-    const resetBtn = document.getElementById('reset-template-btn');
-    const navNetrunnerBtn = document.getElementById('nav-netrunner-btn');
+if (navNetrunnerBtn) {
+    navNetrunnerBtn.addEventListener('click', () => {
+        document.body.classList.toggle('netrunner-mode');
+        const isNetrunner = document.body.classList.contains('netrunner-mode');
+        navNetrunnerBtn.classList.toggle('active', isNetrunner);
+        sfx.click();
+        if (isNetrunner) sfx.playTone(200, 'sawtooth', 0.5);
+    });
+}
 
-    if (navNetrunnerBtn) {
-        navNetrunnerBtn.addEventListener('click', () => {
-            document.body.classList.toggle('netrunner-mode');
-            const isNetrunner = document.body.classList.contains('netrunner-mode');
-            navNetrunnerBtn.classList.toggle('active', isNetrunner);
-            sfx.click();
-            if (isNetrunner) sfx.playTone(200, 'sawtooth', 0.5);
-        });
-    }
+// Inputs
+const regUsername = document.getElementById('reg-username');
+const regLevel = document.getElementById('reg-level');
+const regColor = document.getElementById('reg-color');
+const regAvatar = document.getElementById('reg-avatar');
+const fileUpload = document.getElementById('file-upload');
+const regBio = document.getElementById('reg-bio');
+const colorHexDisplay = document.getElementById('color-hex');
+const regSocX = document.getElementById('reg-soc-x');
+const regSocInsta = document.getElementById('reg-soc-insta');
+const regSocTikTok = document.getElementById('reg-soc-tiktok');
+const regSocSnap = document.getElementById('reg-soc-snap');
+const regSocYt = document.getElementById('reg-soc-yt');
+const regSocDiscord = document.getElementById('reg-soc-discord');
+const regCustom1 = document.getElementById('reg-custom-1');
+const regCustom2 = document.getElementById('reg-custom-2');
+const regCustom3 = document.getElementById('reg-custom-3');
 
-    // Inputs
-    const regUsername = document.getElementById('reg-username');
-    const regLevel = document.getElementById('reg-level');
-    const regColor = document.getElementById('reg-color');
-    const regAvatar = document.getElementById('reg-avatar');
-    const fileUpload = document.getElementById('file-upload');
-    const regBio = document.getElementById('reg-bio');
-    const colorHexDisplay = document.getElementById('color-hex');
-    const regSocX = document.getElementById('reg-soc-x');
-    const regSocInsta = document.getElementById('reg-soc-insta');
-    const regSocTikTok = document.getElementById('reg-soc-tiktok');
-    const regSocSnap = document.getElementById('reg-soc-snap');
-    const regSocYt = document.getElementById('reg-soc-yt');
-    const regSocDiscord = document.getElementById('reg-soc-discord');
-    const regCustom1 = document.getElementById('reg-custom-1');
-    const regCustom2 = document.getElementById('reg-custom-2');
-    const regCustom3 = document.getElementById('reg-custom-3');
-
-    /* FUTURISTIC ANIMATED PROFILE TEMPLATE */
-    const defaults = {
-        html: `
+/* FUTURISTIC ANIMATED PROFILE TEMPLATE */
+const defaults = {
+    html: `
 <div class="holo-container">
     <div class="particle-field" id="particles"></div>
     <div class="scanline"></div>
@@ -1738,7 +1710,7 @@ if (dossierFrame && compileBtn) {
         </div>
     </div>
 </div>`,
-        css: `
+    css: `
 body { 
     margin: 0; 
     padding: 20px; 
@@ -1919,7 +1891,7 @@ body {
     transform: translateY(-3px);
 }
 a[href=""], a[href="undefined"] { display: none; }`,
-        js: `
+    js: `
 // Generate floating particles
 const particleField = document.getElementById('particles');
 for (let i = 0; i < 20; i++) {
@@ -1932,8 +1904,8 @@ for (let i = 0; i < 20; i++) {
 }
 
 console.log("🚀 NETRUNNER PROFILE LOADED");`,
-        configs: `{}`,
-        data: `{
+    configs: `{}`,
+    data: `{
     "username": "CyberNinja_42",
     "level": "99",
     "themeColor": "#00ffff",
@@ -1949,369 +1921,369 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
     "cust_2": "",
     "cust_3": ""
 }`
-    };
+};
 
-    // Load saved data or use defaults (ensure all fields exist)
-    let savedData = localStorage.getItem('flow_profile_data_v2');
-    let profileData = defaults;
+// Load saved data or use defaults (ensure all fields exist)
+let savedData = localStorage.getItem('flow_profile_data_v2');
+let profileData = defaults;
 
-    if (savedData) {
-        try {
-            const parsed = JSON.parse(savedData);
-            // Merge with defaults to ensure all fields exist
-            profileData = {
-                html: parsed.html || defaults.html,
-                css: parsed.css || defaults.css,
-                js: parsed.js || defaults.js,
-                configs: parsed.configs || defaults.configs,
-                data: parsed.data || defaults.data
-            };
-        } catch (e) {
-            console.warn('Failed to parse saved profile data, using defaults');
-            profileData = defaults;
-        }
+if (savedData) {
+    try {
+        const parsed = JSON.parse(savedData);
+        // Merge with defaults to ensure all fields exist
+        profileData = {
+            html: parsed.html || defaults.html,
+            css: parsed.css || defaults.css,
+            js: parsed.js || defaults.js,
+            configs: parsed.configs || defaults.configs,
+            data: parsed.data || defaults.data
+        };
+    } catch (e) {
+        console.warn('Failed to parse saved profile data, using defaults');
+        profileData = defaults;
     }
+}
 
-    function loadEditors(data) {
-        ['html', 'css', 'js', 'configs', 'data'].forEach(type => {
-            const el = document.querySelector(`#editor-${type} textarea`);
-            if (el) el.value = data[type] || '';
-        });
-        syncDataToRegular();
-        compileProfile();
-    }
-    loadEditors(profileData);
+function loadEditors(data) {
+    ['html', 'css', 'js', 'configs', 'data'].forEach(type => {
+        const el = document.querySelector(`#editor-${type} textarea`);
+        if (el) el.value = data[type] || '';
+    });
+    syncDataToRegular();
+    compileProfile();
+}
+loadEditors(profileData);
 
-    // --- NEW TAB LOGIC ---
-    // 1. Main Mode Switching (Visual vs Code)
-    function switchMode(mode) {
-        if (mode === 'visual') {
-            modeVisual.classList.add('active');
-            modeCode.classList.remove('active');
-            panelVisual.classList.add('active');
-            panelCode.classList.remove('active');
-        } else {
-            modeVisual.classList.remove('active');
-            modeCode.classList.add('active');
-            panelVisual.classList.remove('active');
-            panelCode.classList.add('active');
-        }
-        sfx.hover(); // reuse hover sound for switch
-    }
-
-    if (modeVisual && modeCode) {
-        modeVisual.addEventListener('click', () => switchMode('visual'));
-        modeCode.addEventListener('click', () => switchMode('code'));
-    }
-
-    // 2. Code Sub-tab Switching
-    if (codeTabs && codeBoxes) {
-        codeTabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                // Deactivate all
-                codeTabs.forEach(t => t.classList.remove('active'));
-                codeBoxes.forEach(b => b.classList.remove('active'));
-
-                // Activate clicked
-                this.classList.add('active');
-                const targetId = this.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
-                sfx.hover();
-            });
-        });
-    }
-
-    // Compile Button Listener
-    if (compileBtn) {
-        compileBtn.addEventListener('click', () => {
-            compileProfile();
-            sfx.success();
-        });
-    }
-
-    // Reset Button Listener
-    console.log('Checking for reset button:', document.getElementById('reset-template-btn'));
-    if (resetBtn) {
-        console.log('✓ Reset button found, attaching listener');
-        const modalOverlay = document.getElementById('reset-modal-overlay');
-        const modalConfirm = document.getElementById('reset-modal-confirm');
-        const modalCancel = document.getElementById('reset-modal-cancel');
-
-        resetBtn.addEventListener('click', (e) => {
-            console.log('🔴 RESET BUTTON CLICKED!');
-            e.preventDefault();
-            e.stopPropagation();
-            if (modalOverlay) {
-                modalOverlay.classList.add('active');
-                if (window.sfx) sfx.click();
-            }
-        });
-
-        if (modalConfirm) {
-            console.log('✓ Modal confirm button found, attaching listener');
-            modalConfirm.addEventListener('click', () => {
-                console.log('🟢 CONFIRM BUTTON CLICKED!');
-
-                // Get ALL editor elements
-                const htmlEditor = document.querySelector('#editor-html textarea');
-                const cssEditor = document.querySelector('#editor-css textarea');
-                const jsEditor = document.querySelector('#editor-js textarea');
-                const configsEditor = document.querySelector('#editor-configs textarea');
-                const dataEditor = document.querySelector('#editor-data textarea');
-
-                console.log('Editors found:', {
-                    htmlEditor: htmlEditor ? 'YES' : 'NO',
-                    cssEditor: cssEditor ? 'YES' : 'NO',
-                    jsEditor: jsEditor ? 'YES' : 'NO',
-                    configsEditor: configsEditor ? 'YES' : 'NO',
-                    dataEditor: dataEditor ? 'YES' : 'NO'
-                });
-
-                // Reset ALL editors to defaults
-                if (htmlEditor) {
-                    console.log('Resetting HTML editor');
-                    htmlEditor.value = defaults.html;
-                }
-                if (cssEditor) {
-                    console.log('Resetting CSS editor');
-                    cssEditor.value = defaults.css;
-                }
-                if (jsEditor) {
-                    console.log('Resetting JS editor');
-                    jsEditor.value = defaults.js;
-                }
-                if (configsEditor) {
-                    console.log('Resetting CONFIGS editor');
-                    configsEditor.value = defaults.configs;
-                }
-                if (dataEditor) {
-                    console.log('Resetting DATA editor (username, bio, etc.)');
-                    dataEditor.value = defaults.data;
-                }
-
-                // Sync data back to visual inputs
-                syncDataToRegular();
-
-                // Recompile
-                console.log('Calling compileProfile()');
-                compileProfile();
-                if (window.sfx) sfx.success();
-
-                // Hide modal
-                console.log('Hiding modal');
-                modalOverlay.classList.remove('active');
-
-                // Show success message
-                setTimeout(() => {
-                    alert('✓ Profile reset to default template');
-                }, 100);
-            });
-        } else {
-            console.error('❌ Modal confirm button NOT FOUND');
-        }
-
-        if (modalCancel) {
-            modalCancel.addEventListener('click', () => {
-                modalOverlay.classList.remove('active');
-                if (window.sfx) sfx.click();
-            });
-        }
+// --- NEW TAB LOGIC ---
+// 1. Main Mode Switching (Visual vs Code)
+function switchMode(mode) {
+    if (mode === 'visual') {
+        modeVisual.classList.add('active');
+        modeCode.classList.remove('active');
+        panelVisual.classList.add('active');
+        panelCode.classList.remove('active');
     } else {
-        console.error('❌ Reset button NOT FOUND in DOM');
+        modeVisual.classList.remove('active');
+        modeCode.classList.add('active');
+        panelVisual.classList.remove('active');
+        panelCode.classList.add('active');
     }
+    sfx.hover(); // reuse hover sound for switch
+}
 
-    if (fileUpload) {
-        fileUpload.addEventListener('change', function () {
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    regAvatar.value = e.target.result;
-                    syncRegularToData();
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
+if (modeVisual && modeCode) {
+    modeVisual.addEventListener('click', () => switchMode('visual'));
+    modeCode.addEventListener('click', () => switchMode('code'));
+}
+
+// 2. Code Sub-tab Switching
+if (codeTabs && codeBoxes) {
+    codeTabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            // Deactivate all
+            codeTabs.forEach(t => t.classList.remove('active'));
+            codeBoxes.forEach(b => b.classList.remove('active'));
+
+            // Activate clicked
+            this.classList.add('active');
+            const targetId = this.getAttribute('data-target');
+            document.getElementById(targetId).classList.add('active');
+            sfx.hover();
         });
-    }
+    });
+}
 
-    function syncDataToRegular() {
-        const dataRaw = document.querySelector('#editor-data textarea').value;
-        try {
-            const data = JSON.parse(dataRaw);
-            if (regUsername) regUsername.value = data.username || "";
-            if (regLevel) regLevel.value = data.level || "";
-            if (regColor) {
-                regColor.value = data.themeColor || "#00ffff";
-                if (colorHexDisplay) colorHexDisplay.textContent = data.themeColor || "#00ffff";
-            }
-            if (regAvatar) regAvatar.value = data.avatar || "";
-            if (regBio) regBio.value = data.bio || "";
-            if (regSocX) regSocX.value = data.soc_x || "";
-            if (regSocInsta) regSocInsta.value = data.soc_insta || "";
-            if (regSocTikTok) regSocTikTok.value = data.soc_tiktok || "";
-            if (regSocSnap) regSocSnap.value = data.soc_snap || "";
-            if (regSocYt) regSocYt.value = data.soc_yt || "";
-            if (regSocDiscord) regSocDiscord.value = data.soc_discord || "";
-            if (regCustom1) regCustom1.value = data.cust_1 || "";
-            if (regCustom2) regCustom2.value = data.cust_2 || "";
-            if (regCustom3) regCustom3.value = data.cust_3 || "";
-        } catch (e) { }
-    }
+// Compile Button Listener
+if (compileBtn) {
+    compileBtn.addEventListener('click', () => {
+        compileProfile();
+        sfx.success();
+    });
+}
 
-    function syncRegularToData() {
-        let currentData = {};
-        try { currentData = JSON.parse(document.querySelector('#editor-data textarea').value); } catch (e) { currentData = {}; }
+// Reset Button Listener
+console.log('Checking for reset button:', document.getElementById('reset-template-btn'));
+if (resetBtn) {
+    console.log('✓ Reset button found, attaching listener');
+    const modalOverlay = document.getElementById('reset-modal-overlay');
+    const modalConfirm = document.getElementById('reset-modal-confirm');
+    const modalCancel = document.getElementById('reset-modal-cancel');
 
-        currentData.username = regUsername.value;
-        currentData.level = regLevel.value;
-        currentData.themeColor = regColor.value;
-        currentData.avatar = regAvatar.value;
-        currentData.bio = regBio.value;
-        currentData.soc_x = regSocX.value;
-        currentData.soc_insta = regSocInsta.value;
-        currentData.soc_tiktok = regSocTikTok.value;
-        currentData.soc_snap = regSocSnap.value;
-        currentData.soc_yt = regSocYt.value;
-        currentData.soc_discord = regSocDiscord.value;
-        currentData.cust_1 = regCustom1.value;
-        currentData.cust_2 = regCustom2.value;
-        currentData.cust_3 = regCustom3.value;
-
-        document.querySelector('#editor-data textarea').value = JSON.stringify(currentData, null, 4);
-
-        // Check which mode is active and update preview accordingly
-        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
-        if (isVisualMode) {
-            generateProfilePreview();  // Show simple card in VISUAL_EDITOR mode
-        } else {
-            compileProfile();  // Show custom code in SOURCE_CODE mode
-        }
-    }
-
-    const colorValDisplay = document.getElementById('color-val-display');
-
-    const regularInputs = [regUsername, regLevel, regColor, regAvatar, regBio, regSocX, regSocInsta, regSocTikTok, regSocSnap, regSocYt, regSocDiscord, regCustom1, regCustom2, regCustom3];
-    regularInputs.forEach(input => {
-        if (input) {
-            input.addEventListener('input', () => {
-                if (input === regColor && colorValDisplay) colorValDisplay.textContent = input.value.toUpperCase();
-                syncRegularToData();
-            });
-            // Add change event specifically for color picker
-            if (input === regColor) {
-                input.addEventListener('change', () => {
-                    if (colorValDisplay) colorValDisplay.textContent = input.value.toUpperCase();
-                    syncRegularToData();
-                });
-            }
+    resetBtn.addEventListener('click', (e) => {
+        console.log('🔴 RESET BUTTON CLICKED!');
+        e.preventDefault();
+        e.stopPropagation();
+        if (modalOverlay) {
+            modalOverlay.classList.add('active');
+            if (window.sfx) sfx.click();
         }
     });
 
-    // DUPLICATE RESET HANDLER REMOVED - Using the one above with better logging
+    if (modalConfirm) {
+        console.log('✓ Modal confirm button found, attaching listener');
+        modalConfirm.addEventListener('click', () => {
+            console.log('🟢 CONFIRM BUTTON CLICKED!');
 
-    // CHATTER METRIC - Updates as user types in bio
-    const chatterFill = document.getElementById('chatter-fill');
-    if (regBio && chatterFill) {
-        const MAX_CHATTER_CHARS = 160;
+            // Get ALL editor elements
+            const htmlEditor = document.querySelector('#editor-html textarea');
+            const cssEditor = document.querySelector('#editor-css textarea');
+            const jsEditor = document.querySelector('#editor-js textarea');
+            const configsEditor = document.querySelector('#editor-configs textarea');
+            const dataEditor = document.querySelector('#editor-data textarea');
 
-        function updateChatterLevel() {
-            const bioLength = regBio.value.length;
-            const percent = Math.min(100, (bioLength / MAX_CHATTER_CHARS) * 100);
-            chatterFill.style.width = percent + '%';
-        }
+            console.log('Editors found:', {
+                htmlEditor: htmlEditor ? 'YES' : 'NO',
+                cssEditor: cssEditor ? 'YES' : 'NO',
+                jsEditor: jsEditor ? 'YES' : 'NO',
+                configsEditor: configsEditor ? 'YES' : 'NO',
+                dataEditor: dataEditor ? 'YES' : 'NO'
+            });
 
-        regBio.addEventListener('input', updateChatterLevel);
-        regBio.addEventListener('keyup', updateChatterLevel);
-        regBio.addEventListener('paste', () => setTimeout(updateChatterLevel, 10));
+            // Reset ALL editors to defaults
+            if (htmlEditor) {
+                console.log('Resetting HTML editor');
+                htmlEditor.value = defaults.html;
+            }
+            if (cssEditor) {
+                console.log('Resetting CSS editor');
+                cssEditor.value = defaults.css;
+            }
+            if (jsEditor) {
+                console.log('Resetting JS editor');
+                jsEditor.value = defaults.js;
+            }
+            if (configsEditor) {
+                console.log('Resetting CONFIGS editor');
+                configsEditor.value = defaults.configs;
+            }
+            if (dataEditor) {
+                console.log('Resetting DATA editor (username, bio, etc.)');
+                dataEditor.value = defaults.data;
+            }
 
-        // Initialize
-        updateChatterLevel();
+            // Sync data back to visual inputs
+            syncDataToRegular();
+
+            // Recompile
+            console.log('Calling compileProfile()');
+            compileProfile();
+            if (window.sfx) sfx.success();
+
+            // Hide modal
+            console.log('Hiding modal');
+            modalOverlay.classList.remove('active');
+
+            // Show success message
+            setTimeout(() => {
+                alert('✓ Profile reset to default template');
+            }, 100);
+        });
+    } else {
+        console.error('❌ Modal confirm button NOT FOUND');
     }
 
-    // =============================================
-    // ACHIEVEMENT TRACKER SYSTEM
-    // =============================================
-    const achievementTracker = document.getElementById('achievement-tracker');
-    const achievementDropdown = document.getElementById('achievement-dropdown');
-    const achievementContent = document.getElementById('achievement-content');
+    if (modalCancel) {
+        modalCancel.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+            if (window.sfx) sfx.click();
+        });
+    }
+} else {
+    console.error('❌ Reset button NOT FOUND in DOM');
+}
 
-    if (achievementTracker && achievementDropdown && achievementContent) {
-        // Tier Data
-        const tiers = {
-            affiliate: {
-                name: 'AFFILIATE',
-                subtitle: 'Entry-Level Monetized',
-                icon: '⭐',
-                color: '#0ff',
-                requirements: [
-                    '≥ 50 followers',
-                    '≥ 8 hours streamed in the last 30 days',
-                    '≥ 3 different stream days',
-                    'Average 2+ viewers'
-                ],
-                benefits: [
-                    'Can receive subscriptions, tips, gifts',
-                    'Access to basic emotes & custom badges'
-                ],
-                split: { creator: 80, platform: 20 }
-            },
-            verified: {
-                name: 'VERIFIED',
-                subtitle: 'Mid-tier / Serious Creators',
-                icon: '⭐',
-                color: '#ff0055',
-                requirements: [
-                    '≥ 250 followers',
-                    '≥ 25 active paid subscribers, OR',
-                    '≥ 15 average concurrent viewers (30-day window)',
-                    'Consistent activity: ≥ 20 streaming hours in last 30 days'
-                ],
-                benefits: [
-                    'More emotes, channel customization',
-                    'Verified badge',
-                    'Priority in support queue',
-                    'Early access to new features'
-                ],
-                split: { creator: 85, platform: 15 }
-            },
-            partner: {
-                name: 'PARTNER',
-                subtitle: 'Professional / High-performing Creators',
-                icon: '⭐',
-                color: '#00ff88',
-                requirements: [
-                    '≥ 1,000 followers',
-                    '≥ 100 active paid subscribers, OR',
-                    '≥ 75 average concurrent viewers (30-day window)',
-                    'Must maintain requirements for 2 out of 3 months'
-                ],
-                benefits: [
-                    'Partner badge',
-                    'Revenue bonuses (ads, sponsored placements)',
-                    'Priority discovery (homepage rotation)',
-                    'Faster payouts',
-                    'Access to advanced analytics',
-                    'Larger upload/VOD limits'
-                ],
-                split: { creator: 90, platform: 10 }
-            }
-        };
-
-        // Load state from localStorage or default to demo mode
-        let achievementState = JSON.parse(localStorage.getItem('flow_achievement_state')) || {
-            currentTier: 'affiliate',
-            progress: { affiliate: 45, verified: 0, partner: 0 },
-            completed: { affiliate: false, verified: false, partner: false }
-        };
-
-        function saveAchievementState() {
-            localStorage.setItem('flow_achievement_state', JSON.stringify(achievementState));
+if (fileUpload) {
+    fileUpload.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                regAvatar.value = e.target.result;
+                syncRegularToData();
+            };
+            reader.readAsDataURL(this.files[0]);
         }
+    });
+}
 
-        function renderTierContent(tierKey) {
-            const tier = tiers[tierKey];
-            const isCompleted = achievementState.completed[tierKey];
+function syncDataToRegular() {
+    const dataRaw = document.querySelector('#editor-data textarea').value;
+    try {
+        const data = JSON.parse(dataRaw);
+        if (regUsername) regUsername.value = data.username || "";
+        if (regLevel) regLevel.value = data.level || "";
+        if (regColor) {
+            regColor.value = data.themeColor || "#00ffff";
+            if (colorHexDisplay) colorHexDisplay.textContent = data.themeColor || "#00ffff";
+        }
+        if (regAvatar) regAvatar.value = data.avatar || "";
+        if (regBio) regBio.value = data.bio || "";
+        if (regSocX) regSocX.value = data.soc_x || "";
+        if (regSocInsta) regSocInsta.value = data.soc_insta || "";
+        if (regSocTikTok) regSocTikTok.value = data.soc_tiktok || "";
+        if (regSocSnap) regSocSnap.value = data.soc_snap || "";
+        if (regSocYt) regSocYt.value = data.soc_yt || "";
+        if (regSocDiscord) regSocDiscord.value = data.soc_discord || "";
+        if (regCustom1) regCustom1.value = data.cust_1 || "";
+        if (regCustom2) regCustom2.value = data.cust_2 || "";
+        if (regCustom3) regCustom3.value = data.cust_3 || "";
+    } catch (e) { }
+}
 
-            achievementContent.innerHTML = `
+function syncRegularToData() {
+    let currentData = {};
+    try { currentData = JSON.parse(document.querySelector('#editor-data textarea').value); } catch (e) { currentData = {}; }
+
+    currentData.username = regUsername.value;
+    currentData.level = regLevel.value;
+    currentData.themeColor = regColor.value;
+    currentData.avatar = regAvatar.value;
+    currentData.bio = regBio.value;
+    currentData.soc_x = regSocX.value;
+    currentData.soc_insta = regSocInsta.value;
+    currentData.soc_tiktok = regSocTikTok.value;
+    currentData.soc_snap = regSocSnap.value;
+    currentData.soc_yt = regSocYt.value;
+    currentData.soc_discord = regSocDiscord.value;
+    currentData.cust_1 = regCustom1.value;
+    currentData.cust_2 = regCustom2.value;
+    currentData.cust_3 = regCustom3.value;
+
+    document.querySelector('#editor-data textarea').value = JSON.stringify(currentData, null, 4);
+
+    // Check which mode is active and update preview accordingly
+    const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+    if (isVisualMode) {
+        generateProfilePreview();  // Show simple card in VISUAL_EDITOR mode
+    } else {
+        compileProfile();  // Show custom code in SOURCE_CODE mode
+    }
+}
+
+const colorValDisplay = document.getElementById('color-val-display');
+
+const regularInputs = [regUsername, regLevel, regColor, regAvatar, regBio, regSocX, regSocInsta, regSocTikTok, regSocSnap, regSocYt, regSocDiscord, regCustom1, regCustom2, regCustom3];
+regularInputs.forEach(input => {
+    if (input) {
+        input.addEventListener('input', () => {
+            if (input === regColor && colorValDisplay) colorValDisplay.textContent = input.value.toUpperCase();
+            syncRegularToData();
+        });
+        // Add change event specifically for color picker
+        if (input === regColor) {
+            input.addEventListener('change', () => {
+                if (colorValDisplay) colorValDisplay.textContent = input.value.toUpperCase();
+                syncRegularToData();
+            });
+        }
+    }
+});
+
+// DUPLICATE RESET HANDLER REMOVED - Using the one above with better logging
+
+// CHATTER METRIC - Updates as user types in bio
+const chatterFill = document.getElementById('chatter-fill');
+if (regBio && chatterFill) {
+    const MAX_CHATTER_CHARS = 160;
+
+    function updateChatterLevel() {
+        const bioLength = regBio.value.length;
+        const percent = Math.min(100, (bioLength / MAX_CHATTER_CHARS) * 100);
+        chatterFill.style.width = percent + '%';
+    }
+
+    regBio.addEventListener('input', updateChatterLevel);
+    regBio.addEventListener('keyup', updateChatterLevel);
+    regBio.addEventListener('paste', () => setTimeout(updateChatterLevel, 10));
+
+    // Initialize
+    updateChatterLevel();
+}
+
+// =============================================
+// ACHIEVEMENT TRACKER SYSTEM
+// =============================================
+const achievementTracker = document.getElementById('achievement-tracker');
+const achievementDropdown = document.getElementById('achievement-dropdown');
+const achievementContent = document.getElementById('achievement-content');
+
+if (achievementTracker && achievementDropdown && achievementContent) {
+    // Tier Data
+    const tiers = {
+        affiliate: {
+            name: 'AFFILIATE',
+            subtitle: 'Entry-Level Monetized',
+            icon: '⭐',
+            color: '#0ff',
+            requirements: [
+                '≥ 50 followers',
+                '≥ 8 hours streamed in the last 30 days',
+                '≥ 3 different stream days',
+                'Average 2+ viewers'
+            ],
+            benefits: [
+                'Can receive subscriptions, tips, gifts',
+                'Access to basic emotes & custom badges'
+            ],
+            split: { creator: 80, platform: 20 }
+        },
+        verified: {
+            name: 'VERIFIED',
+            subtitle: 'Mid-tier / Serious Creators',
+            icon: '⭐',
+            color: '#ff0055',
+            requirements: [
+                '≥ 250 followers',
+                '≥ 25 active paid subscribers, OR',
+                '≥ 15 average concurrent viewers (30-day window)',
+                'Consistent activity: ≥ 20 streaming hours in last 30 days'
+            ],
+            benefits: [
+                'More emotes, channel customization',
+                'Verified badge',
+                'Priority in support queue',
+                'Early access to new features'
+            ],
+            split: { creator: 85, platform: 15 }
+        },
+        partner: {
+            name: 'PARTNER',
+            subtitle: 'Professional / High-performing Creators',
+            icon: '⭐',
+            color: '#00ff88',
+            requirements: [
+                '≥ 1,000 followers',
+                '≥ 100 active paid subscribers, OR',
+                '≥ 75 average concurrent viewers (30-day window)',
+                'Must maintain requirements for 2 out of 3 months'
+            ],
+            benefits: [
+                'Partner badge',
+                'Revenue bonuses (ads, sponsored placements)',
+                'Priority discovery (homepage rotation)',
+                'Faster payouts',
+                'Access to advanced analytics',
+                'Larger upload/VOD limits'
+            ],
+            split: { creator: 90, platform: 10 }
+        }
+    };
+
+    // Load state from localStorage or default to demo mode
+    let achievementState = JSON.parse(localStorage.getItem('flow_achievement_state')) || {
+        currentTier: 'affiliate',
+        progress: { affiliate: 45, verified: 0, partner: 0 },
+        completed: { affiliate: false, verified: false, partner: false }
+    };
+
+    function saveAchievementState() {
+        localStorage.setItem('flow_achievement_state', JSON.stringify(achievementState));
+    }
+
+    function renderTierContent(tierKey) {
+        const tier = tiers[tierKey];
+        const isCompleted = achievementState.completed[tierKey];
+
+        achievementContent.innerHTML = `
                 <div class="tier-title ${tierKey}">
                     <span class="tier-icon">${tier.icon}</span>
                     <span>${tier.name}</span>
@@ -2341,105 +2313,105 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
                     </span>
                 </div>
             `;
-        }
-
-        function updateBars() {
-            const affiliateBar = document.getElementById('affiliate-bar');
-            const verifiedBar = document.getElementById('verified-bar');
-            const partnerBar = document.getElementById('partner-bar');
-
-            const affiliateLabel = document.getElementById('affiliate-label');
-            const verifiedLabel = document.getElementById('verified-label');
-            const partnerLabel = document.getElementById('partner-label');
-
-            // Update progress bars
-            if (affiliateBar) affiliateBar.style.width = (achievementState.completed.affiliate ? 100 : achievementState.progress.affiliate) + '%';
-            if (verifiedBar) verifiedBar.style.width = (achievementState.completed.verified ? 100 : achievementState.progress.verified) + '%';
-            if (partnerBar) partnerBar.style.width = (achievementState.completed.partner ? 100 : achievementState.progress.partner) + '%';
-
-            // Add completed class for flashing animation
-            if (affiliateLabel && achievementState.completed.affiliate) affiliateLabel.classList.add('completed');
-            if (verifiedLabel && achievementState.completed.verified) verifiedLabel.classList.add('completed');
-            if (partnerLabel && achievementState.completed.partner) partnerLabel.classList.add('completed');
-
-            // Mark current tier as in-progress
-            document.querySelectorAll('.stat-line[data-tier]').forEach(line => {
-                line.classList.remove('in-progress');
-            });
-            const currentLine = document.querySelector(`.stat-line[data-tier="${achievementState.currentTier}"]`);
-            if (currentLine && !achievementState.completed[achievementState.currentTier]) {
-                currentLine.classList.add('in-progress');
-            }
-        }
-
-        // Toggle dropdown
-        achievementTracker.addEventListener('click', (e) => {
-            if (e.target.closest('.achievement-dropdown')) return; // Don't toggle if clicking inside dropdown
-
-            achievementTracker.classList.toggle('expanded');
-            sfx.click();
-
-            if (achievementTracker.classList.contains('expanded')) {
-                renderTierContent(achievementState.currentTier);
-            }
-        });
-
-        // Initialize
-        updateBars();
-        renderTierContent(achievementState.currentTier);
-
-        // Demo mode: Simulate progress (can be removed later for auto-detect)
-        // REMINDER: User wants to be asked about switching to auto-detect mode later
     }
 
-    const textareas = document.querySelectorAll('.code-editor textarea');
-    textareas.forEach(ta => {
-        ta.addEventListener('scroll', () => { ta.previousElementSibling.scrollTop = ta.scrollTop; });
-        ta.addEventListener('input', () => {
-            updateLineNumbers(ta);
+    function updateBars() {
+        const affiliateBar = document.getElementById('affiliate-bar');
+        const verifiedBar = document.getElementById('verified-bar');
+        const partnerBar = document.getElementById('partner-bar');
+
+        const affiliateLabel = document.getElementById('affiliate-label');
+        const verifiedLabel = document.getElementById('verified-label');
+        const partnerLabel = document.getElementById('partner-label');
+
+        // Update progress bars
+        if (affiliateBar) affiliateBar.style.width = (achievementState.completed.affiliate ? 100 : achievementState.progress.affiliate) + '%';
+        if (verifiedBar) verifiedBar.style.width = (achievementState.completed.verified ? 100 : achievementState.progress.verified) + '%';
+        if (partnerBar) partnerBar.style.width = (achievementState.completed.partner ? 100 : achievementState.progress.partner) + '%';
+
+        // Add completed class for flashing animation
+        if (affiliateLabel && achievementState.completed.affiliate) affiliateLabel.classList.add('completed');
+        if (verifiedLabel && achievementState.completed.verified) verifiedLabel.classList.add('completed');
+        if (partnerLabel && achievementState.completed.partner) partnerLabel.classList.add('completed');
+
+        // Mark current tier as in-progress
+        document.querySelectorAll('.stat-line[data-tier]').forEach(line => {
+            line.classList.remove('in-progress');
         });
-        ta.addEventListener('keyup', () => updateCursorPos(ta));
-        ta.addEventListener('click', () => updateCursorPos(ta));
+        const currentLine = document.querySelector(`.stat-line[data-tier="${achievementState.currentTier}"]`);
+        if (currentLine && !achievementState.completed[achievementState.currentTier]) {
+            currentLine.classList.add('in-progress');
+        }
+    }
+
+    // Toggle dropdown
+    achievementTracker.addEventListener('click', (e) => {
+        if (e.target.closest('.achievement-dropdown')) return; // Don't toggle if clicking inside dropdown
+
+        achievementTracker.classList.toggle('expanded');
+        sfx.click();
+
+        if (achievementTracker.classList.contains('expanded')) {
+            renderTierContent(achievementState.currentTier);
+        }
     });
 
-    function updateLineNumbers(textarea) {
-        const lines = textarea.value.split('\n').length;
-        const gutter = textarea.previousElementSibling;
-        gutter.innerHTML = Array(lines).fill('<span></span>').map((_, i) => `<div>${i + 1}</div>`).join('');
+    // Initialize
+    updateBars();
+    renderTierContent(achievementState.currentTier);
+
+    // Demo mode: Simulate progress (can be removed later for auto-detect)
+    // REMINDER: User wants to be asked about switching to auto-detect mode later
+}
+
+const textareas = document.querySelectorAll('.code-editor textarea');
+textareas.forEach(ta => {
+    ta.addEventListener('scroll', () => { ta.previousElementSibling.scrollTop = ta.scrollTop; });
+    ta.addEventListener('input', () => {
+        updateLineNumbers(ta);
+    });
+    ta.addEventListener('keyup', () => updateCursorPos(ta));
+    ta.addEventListener('click', () => updateCursorPos(ta));
+});
+
+function updateLineNumbers(textarea) {
+    const lines = textarea.value.split('\n').length;
+    const gutter = textarea.previousElementSibling;
+    gutter.innerHTML = Array(lines).fill('<span></span>').map((_, i) => `<div>${i + 1}</div>`).join('');
+}
+
+function updateCursorPos(textarea) {
+    // Simple cursor tracking
+}
+
+// Generate profile preview card from VISUAL_EDITOR form data
+function generateProfilePreview() {
+    // Get form values
+    const username = document.getElementById('reg-username')?.value || 'Operative';
+    const bio = document.getElementById('reg-bio')?.value || 'No bio provided';
+    const color = document.getElementById('reg-color')?.value || '#00FFFF';
+
+    // Get social links
+    const socialX = document.getElementById('reg-soc-x')?.value || '';
+    const socialInsta = document.getElementById('reg-soc-insta')?.value || '';
+    const socialTiktok = document.getElementById('reg-soc-tiktok')?.value || '';
+    const socialSnap = document.getElementById('reg-soc-snap')?.value || '';
+    const socialYT = document.getElementById('reg-soc-yt')?.value || '';
+    const socialDiscord = document.getElementById('reg-soc-discord')?.value || '';
+
+    // Extract initials based on capitals
+    let initials = 'CN';
+    const capitals = username.match(/[A-Z]/g);
+    if (capitals && capitals.length >= 2) {
+        // Use first 2 capital letters
+        initials = capitals[0] + capitals[1];
+    } else if (username.length >= 2) {
+        // Use first 2 letters of username
+        initials = username.substring(0, 2).toUpperCase();
     }
 
-    function updateCursorPos(textarea) {
-        // Simple cursor tracking
-    }
-
-    // Generate profile preview card from VISUAL_EDITOR form data
-    function generateProfilePreview() {
-        // Get form values
-        const username = document.getElementById('reg-username')?.value || 'Operative';
-        const bio = document.getElementById('reg-bio')?.value || 'No bio provided';
-        const color = document.getElementById('reg-color')?.value || '#00FFFF';
-
-        // Get social links
-        const socialX = document.getElementById('reg-soc-x')?.value || '';
-        const socialInsta = document.getElementById('reg-soc-insta')?.value || '';
-        const socialTiktok = document.getElementById('reg-soc-tiktok')?.value || '';
-        const socialSnap = document.getElementById('reg-soc-snap')?.value || '';
-        const socialYT = document.getElementById('reg-soc-yt')?.value || '';
-        const socialDiscord = document.getElementById('reg-soc-discord')?.value || '';
-
-        // Extract initials based on capitals
-        let initials = 'CN';
-        const capitals = username.match(/[A-Z]/g);
-        if (capitals && capitals.length >= 2) {
-            // Use first 2 capital letters
-            initials = capitals[0] + capitals[1];
-        } else if (username.length >= 2) {
-            // Use first 2 letters of username
-            initials = username.substring(0, 2).toUpperCase();
-        }
-
-        // Create profile card HTML matching channel.html design
-        const profileHTML = `
+    // Create profile card HTML matching channel.html design
+    const profileHTML = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -2532,88 +2504,88 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
 </html>
         `;
 
-        const blob = new Blob([profileCardHTML], { type: 'text/html;charset=utf-8' });
-        dossierFrame.src = URL.createObjectURL(blob);
+    const blob = new Blob([profileCardHTML], { type: 'text/html;charset=utf-8' });
+    dossierFrame.src = URL.createObjectURL(blob);
+}
+
+// OLD compileProfile function (for SOURCE_CODE mode)
+function compileProfile() {
+    let html = document.querySelector('#editor-html textarea').value;
+    let css = document.querySelector('#editor-css textarea').value;
+    let js = document.querySelector('#editor-js textarea').value;
+    let dataRaw = document.querySelector('#editor-data textarea').value;
+
+    let dataObj = {};
+    try { dataObj = JSON.parse(dataRaw); } catch (e) { return; }
+
+    function injectVariables(content) {
+        return content.replace(/\{\{(.*?)\}\}/g, (match, key) => dataObj[key.trim()] || match);
     }
+    html = injectVariables(html);
+    css = injectVariables(css);
 
-    // OLD compileProfile function (for SOURCE_CODE mode)
-    function compileProfile() {
-        let html = document.querySelector('#editor-html textarea').value;
-        let css = document.querySelector('#editor-css textarea').value;
-        let js = document.querySelector('#editor-js textarea').value;
-        let dataRaw = document.querySelector('#editor-data textarea').value;
-
-        let dataObj = {};
-        try { dataObj = JSON.parse(dataRaw); } catch (e) { return; }
-
-        function injectVariables(content) {
-            return content.replace(/\{\{(.*?)\}\}/g, (match, key) => dataObj[key.trim()] || match);
-        }
-        html = injectVariables(html);
-        css = injectVariables(css);
-
-        const masterCSS = `html, body { height: 100%; margin: 0; padding: 0; width: 100%; overflow-x: hidden; overflow-y: auto; background: transparent; } 
+    const masterCSS = `html, body { height: 100%; margin: 0; padding: 0; width: 100%; overflow-x: hidden; overflow-y: auto; background: transparent; } 
         ::-webkit-scrollbar { width: 8px; } 
         ::-webkit-scrollbar-track { background: transparent; } 
         ::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.3); border-radius: 4px; } 
         ::-webkit-scrollbar-thumb:hover { background: #0ff; }`;
-        const docContent = `<!DOCTYPE html><html><head><meta charset="UTF-8"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet"><style>${masterCSS} ${css}</style></head><body>${html}<script>try { ${js} } catch(err) { window.parent.postMessage({ type: 'error', msg: err.message }, '*'); }</script></body></html>`;
+    const docContent = `<!DOCTYPE html><html><head><meta charset="UTF-8"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet"><style>${masterCSS} ${css}</style></head><body>${html}<script>try { ${js} } catch(err) { window.parent.postMessage({ type: 'error', msg: err.message }, '*'); }</script></body></html>`;
 
-        const blob = new Blob([docContent], { type: 'text/html;charset=utf-8' });
-        dossierFrame.src = URL.createObjectURL(blob);
+    const blob = new Blob([docContent], { type: 'text/html;charset=utf-8' });
+    dossierFrame.src = URL.createObjectURL(blob);
+}
+
+saveBtn.addEventListener('click', () => {
+    const saveData = {
+        html: document.querySelector('#editor-html textarea').value,
+        css: document.querySelector('#editor-css textarea').value,
+        js: document.querySelector('#editor-js textarea').value,
+        configs: document.querySelector('#editor-configs textarea').value,
+        data: document.querySelector('#editor-data textarea').value
+    };
+    localStorage.setItem('flow_profile_data_v2', JSON.stringify(saveData));
+
+    // Save RPM avatar ID if present
+    const rpmIdInput = document.getElementById('rpm-id-input');
+    if (rpmIdInput && rpmIdInput.value) {
+        localStorage.setItem('flow_rpm_avatar_id', rpmIdInput.value);
     }
 
-    saveBtn.addEventListener('click', () => {
-        const saveData = {
-            html: document.querySelector('#editor-html textarea').value,
-            css: document.querySelector('#editor-css textarea').value,
-            js: document.querySelector('#editor-js textarea').value,
-            configs: document.querySelector('#editor-configs textarea').value,
-            data: document.querySelector('#editor-data textarea').value
-        };
-        localStorage.setItem('flow_profile_data_v2', JSON.stringify(saveData));
+    alert("DOSSIER SAVED TO LOCAL STORAGE");
+    sfx.success();
+});
 
-        // Save RPM avatar ID if present
-        const rpmIdInput = document.getElementById('rpm-id-input');
-        if (rpmIdInput && rpmIdInput.value) {
-            localStorage.setItem('flow_rpm_avatar_id', rpmIdInput.value);
-        }
-
-        alert("DOSSIER SAVED TO LOCAL STORAGE");
-        sfx.success();
-    });
-
-    // Fix for the missing tabBtns definition
-    const tabBtns = document.querySelectorAll('.term-tab');
-    if (tabBtns) {
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // This logic is handled by switchMode above, but if you have extra tabs in the future:
-                sfx.click();
-            });
+// Fix for the missing tabBtns definition
+const tabBtns = document.querySelectorAll('.term-tab');
+if (tabBtns) {
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // This logic is handled by switchMode above, but if you have extra tabs in the future:
+            sfx.click();
         });
-    }
-
-    setTimeout(() => {
-        // Default to VISUAL_EDITOR preview on load
-        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
-        if (isVisualMode) {
-            generateProfilePreview();
-        } else {
-            compileProfile();
-        }
-    }, 500);
-
-    compileBtn.addEventListener('click', () => {
-        // Compile based on current mode
-        const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
-        if (isVisualMode) {
-            generateProfilePreview();
-        } else {
-            compileProfile();
-        }
-        sfx.click();
     });
+}
+
+setTimeout(() => {
+    // Default to VISUAL_EDITOR preview on load
+    const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+    if (isVisualMode) {
+        generateProfilePreview();
+    } else {
+        compileProfile();
+    }
+}, 500);
+
+compileBtn.addEventListener('click', () => {
+    // Compile based on current mode
+    const isVisualMode = document.getElementById('panel-visual')?.classList.contains('active');
+    if (isVisualMode) {
+        generateProfilePreview();
+    } else {
+        compileProfile();
+    }
+    sfx.click();
+});
 }
 
 
