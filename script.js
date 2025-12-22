@@ -2447,6 +2447,7 @@ console.log("🚀 NETRUNNER PROFILE LOADED");`,
         <html>
         <head>
             <meta charset="UTF-8">
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
             <style>
                 body {
                     margin: 0;
