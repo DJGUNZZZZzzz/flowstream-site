@@ -138,14 +138,18 @@
 
         // Non-Gaming Categories (for IRL streaming)
         { name: "Just Chatting", year: "-", bio: "Talk with your audience about anything.", category: "IRL", icon: "fa-comments", igdbSlug: null },
-        { name: "Music & Performing Arts", year: "-", bio: "Live music, DJ sets, and performances.", category: "Creative", icon: "fa-music", igdbSlug: null },
-        { name: "Art", year: "-", bio: "Digital art, traditional art, and creative work.", category: "Creative", icon: "fa-palette", igdbSlug: null },
+        { name: "Live DJ", year: "-", bio: "Live DJ sets, music mixing, and electronic performances.", category: "Music", icon: "fa-headphones", igdbSlug: null },
+        { name: "Music & Performing Arts", year: "-", bio: "Live music, performances, and creative shows.", category: "Music", icon: "fa-music", igdbSlug: null },
+        { name: "The Workplace", year: "-", bio: "Work streams, productivity, and professional content.", category: "IRL", icon: "fa-briefcase", igdbSlug: null },
+        { name: "Art", year: "-", bio: "Digital art, traditional art, illustration, and creative work.", category: "Creative", icon: "fa-palette", igdbSlug: null },
+        { name: "News & Podcasts", year: "-", bio: "News coverage, commentary, interviews, and podcast content.", category: "IRL", icon: "fa-newspaper", igdbSlug: null },
         { name: "Software & Game Development", year: "-", bio: "Coding, game dev, and tech projects.", category: "Tech", icon: "fa-code", igdbSlug: null },
         { name: "ASMR", year: "-", bio: "Relaxing audio experiences.", category: "IRL", icon: "fa-ear-listen", igdbSlug: null },
         { name: "Cooking & Food", year: "-", bio: "Cooking streams and food content.", category: "IRL", icon: "fa-utensils", igdbSlug: null },
         { name: "Travel & Outdoors", year: "-", bio: "IRL exploration and outdoor adventures.", category: "IRL", icon: "fa-mountain", igdbSlug: null },
         { name: "Fitness & Health", year: "-", bio: "Workout streams and health content.", category: "IRL", icon: "fa-dumbbell", igdbSlug: null },
         { name: "Talk Shows & Podcasts", year: "-", bio: "Discussion, interviews, and podcasts.", category: "IRL", icon: "fa-microphone", igdbSlug: null },
+        { name: "Special Events", year: "-", bio: "Limited-time events, tournaments, and special broadcasts.", category: "Events", icon: "fa-star", igdbSlug: null },
     ];
 
     // CSS for game selector dropdown
